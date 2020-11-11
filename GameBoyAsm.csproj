@@ -41,7 +41,6 @@
      <Compile Include="Assets\Scripts\GameBoyCartridge.cs" />
      <Compile Include="Assets\Scripts\GameBoyMemory.cs" />
      <Compile Include="Assets\Scripts\GameBoyScreen.cs" />
-     <Compile Include="Assets\Scripts\TimerExample.cs" />
      <None Include="Assets\Scripts\GameBoyAsm.asmdef" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2019.4.6f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: Inspector
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 875, y: 392}
+  m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 0
 --- !u!114 &2
@@ -46,7 +46,7 @@ MonoBehaviour:
     y: 0
     width: 875
     height: 953
-  m_MinSize: {x: 875, y: 392}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -111,10 +111,10 @@ MonoBehaviour:
     y: 30
     width: 875
     height: 903
-  m_MinSize: {x: 579, y: 342}
-  m_MaxSize: {x: 12004, y: 8042}
+  m_MinSize: {x: 677, y: 321}
+  m_MaxSize: {x: 12002, y: 8021}
   vertical: 0
-  controlID: 114
+  controlID: 92
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -136,10 +136,10 @@ MonoBehaviour:
     y: 0
     width: 875
     height: 903
-  m_MinSize: {x: 579, y: 342}
-  m_MaxSize: {x: 12004, y: 8042}
+  m_MinSize: {x: 677, y: 321}
+  m_MaxSize: {x: 12002, y: 8021}
   vertical: 1
-  controlID: 115
+  controlID: 93
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -161,11 +161,11 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 875
-    height: 489
-  m_MinSize: {x: 579, y: 221}
-  m_MaxSize: {x: 12004, y: 4021}
+    height: 491
+  m_MinSize: {x: 677, y: 221}
+  m_MaxSize: {x: 12002, y: 4021}
   vertical: 0
-  controlID: 116
+  controlID: 88
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -184,9 +184,9 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 201
-    height: 489
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+    height: 491
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TestRunnerWindow
+  m_Name: SceneView
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -210,15 +210,15 @@ MonoBehaviour:
     x: 201
     y: 0
     width: 398
-    height: 489
-  m_MinSize: {x: 102, y: 121}
+    height: 491
+  m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 14}
   - {fileID: 16}
   - {fileID: 13}
-  m_Selected: 2
+  m_Selected: 1
   m_LastSelected: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -238,9 +238,9 @@ MonoBehaviour:
     x: 599
     y: 0
     width: 276
-    height: 489
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+    height: 491
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -264,11 +264,11 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 489
+    y: 491
     width: 875
-    height: 414
-  m_MinSize: {x: 100, y: 121}
-  m_MaxSize: {x: 4000, y: 4021}
+    height: 412
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 19}
@@ -276,7 +276,7 @@ MonoBehaviour:
   - {fileID: 21}
   - {fileID: 22}
   m_Selected: 1
-  m_LastSelected: 3
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Profiler
-    m_Image: {fileID: 248956144125838126, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -3113586994723608586, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
@@ -830,19 +830,19 @@ MonoBehaviour:
     x: 1006
     y: 75
     width: 396
-    height: 468
+    height: 470
   m_ViewDataDictionary: {fileID: 0}
   m_Spl:
-    ID: 135
+    ID: 168
     splitterInitialOffset: 228
     currentActiveSplitter: -1
-    realSizes: c6000000c8000000
+    realSizes: c7000000c9000000
     relativeSizes:
     - 0.4984227
     - 0.50157726
     minSizes: 2000000020000000
     maxSizes: 0000000000000000
-    lastTotalSize: 398
+    lastTotalSize: 400
     splitSize: 6
     xOffset: 0
   m_TestTypeToolbarIndex: 1
@@ -888,7 +888,7 @@ MonoBehaviour:
       name: Gameboy
       fullName: Gameboy
       resultStatus: 1
-      duration: 0.1176952
+      duration: 0.1479638
       messages: 
       output: 
       stacktrace: 
@@ -904,7 +904,7 @@ MonoBehaviour:
       name: Tests.dll
       fullName: /Users/sl/Gameboy/Library/ScriptAssemblies/Tests.dll
       resultStatus: 1
-      duration: 0.0808891
+      duration: 0.0760373
       messages: 
       output: 
       stacktrace: 
@@ -920,7 +920,7 @@ MonoBehaviour:
       name: Tests
       fullName: Tests
       resultStatus: 1
-      duration: 0.0659097
+      duration: 0.0701297
       messages: 
       output: 
       stacktrace: 
@@ -936,7 +936,7 @@ MonoBehaviour:
       name: GameBoyTest
       fullName: Tests.GameBoyTest
       resultStatus: 1
-      duration: 0.0534591
+      duration: 0.0630792
       messages: 
       output: 
       stacktrace: 
@@ -952,7 +952,7 @@ MonoBehaviour:
       name: GameBoyTestBitTest
       fullName: Tests.GameBoyTest.GameBoyTestBitTest
       resultStatus: 1
-      duration: 0.0060234
+      duration: 0.0235798
       messages: 
       output: 
       stacktrace: 
@@ -969,7 +969,24 @@ MonoBehaviour:
       name: GameBoyTestCallNN
       fullName: Tests.GameBoyTest.GameBoyTestCallNN
       resultStatus: 1
-      duration: 0.001825
+      duration: 0.0023785
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1016
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestCPN]
+      name: GameBoyTestCPN
+      fullName: Tests.GameBoyTest.GameBoyTestCPN
+      resultStatus: 1
+      duration: 0.0287672
       messages: 
       output: 
       stacktrace: 
@@ -986,7 +1003,7 @@ MonoBehaviour:
       name: GameBoyTestDEC
       fullName: Tests.GameBoyTest.GameBoyTestDEC
       resultStatus: 1
-      duration: 0.0006971
+      duration: 0.000816
       messages: 
       output: 
       stacktrace: 
@@ -1003,7 +1020,7 @@ MonoBehaviour:
       name: GameBoyTestDECFlag
       fullName: Tests.GameBoyTest.GameBoyTestDECFlag
       resultStatus: 1
-      duration: 0.0003401
+      duration: 0.0005623
       messages: 
       output: 
       stacktrace: 
@@ -1020,7 +1037,7 @@ MonoBehaviour:
       name: GameBoyTestINC
       fullName: Tests.GameBoyTest.GameBoyTestINC
       resultStatus: 1
-      duration: 0.0008231
+      duration: 0.0007189
       messages: 
       output: 
       stacktrace: 
@@ -1037,7 +1054,24 @@ MonoBehaviour:
       name: GameBoyTestINCFlags
       fullName: Tests.GameBoyTest.GameBoyTestINCFlags
       resultStatus: 1
-      duration: 0.0005473
+      duration: 0.0004343
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1015
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestINCHL]
+      name: GameBoyTestINCHL
+      fullName: Tests.GameBoyTest.GameBoyTestINCHL
+      resultStatus: 1
+      duration: 0.0005272
       messages: 
       output: 
       stacktrace: 
@@ -1054,7 +1088,7 @@ MonoBehaviour:
       name: GameBoyTestJRCCNZ
       fullName: Tests.GameBoyTest.GameBoyTestJRCCNZ
       resultStatus: 1
-      duration: 0.0008365
+      duration: 0.000766
       messages: 
       output: 
       stacktrace: 
@@ -1071,7 +1105,7 @@ MonoBehaviour:
       name: GameBoyTestJRCCNZManyOpsFlow
       fullName: Tests.GameBoyTest.GameBoyTestJRCCNZManyOpsFlow
       resultStatus: 1
-      duration: 0.0074408
+      duration: 0.0068952
       messages: 
       output: 
       stacktrace: 
@@ -1088,7 +1122,7 @@ MonoBehaviour:
       name: GameBoyTestLDCR
       fullName: Tests.GameBoyTest.GameBoyTestLDCR
       resultStatus: 1
-      duration: 0.0006179
+      duration: 0.0005559
       messages: 
       output: 
       stacktrace: 
@@ -1105,7 +1139,7 @@ MonoBehaviour:
       name: GameBoyTestLDDHLA
       fullName: Tests.GameBoyTest.GameBoyTestLDDHLA
       resultStatus: 1
-      duration: 0.0005252
+      duration: 0.0004446
       messages: 
       output: 
       stacktrace: 
@@ -1122,7 +1156,24 @@ MonoBehaviour:
       name: GameBoyTestLDDHLADEC
       fullName: Tests.GameBoyTest.GameBoyTestLDDHLADEC
       resultStatus: 1
-      duration: 0.0005261
+      duration: 0.0004763
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1007
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestLDDHLAINC]
+      name: GameBoyTestLDDHLAINC
+      fullName: Tests.GameBoyTest.GameBoyTestLDDHLAINC
+      resultStatus: 1
+      duration: 0.0005159
       messages: 
       output: 
       stacktrace: 
@@ -1139,7 +1190,7 @@ MonoBehaviour:
       name: GameBoyTestLDNN
       fullName: Tests.GameBoyTest.GameBoyTestLDNN
       resultStatus: 1
-      duration: 0.0010811
+      duration: 0.0009849
       messages: 
       output: 
       stacktrace: 
@@ -1156,7 +1207,7 @@ MonoBehaviour:
       name: GameBoyTestLDNRC
       fullName: Tests.GameBoyTest.GameBoyTestLDNRC
       resultStatus: 1
-      duration: 0.0006047
+      duration: 0.0005535
       messages: 
       output: 
       stacktrace: 
@@ -1173,7 +1224,7 @@ MonoBehaviour:
       name: GameBoyTestLDRR
       fullName: Tests.GameBoyTest.GameBoyTestLDRR
       resultStatus: 1
-      duration: 0.0005849
+      duration: 0.0005447
       messages: 
       output: 
       stacktrace: 
@@ -1190,7 +1241,7 @@ MonoBehaviour:
       name: GameBoyTestLoadIntoMemoryTest
       fullName: Tests.GameBoyTest.GameBoyTestLoadIntoMemoryTest
       resultStatus: 1
-      duration: 0.00049
+      duration: 0.0004557
       messages: 
       output: 
       stacktrace: 
@@ -1207,7 +1258,7 @@ MonoBehaviour:
       name: GameBoyTestLoadIntoSPTest
       fullName: Tests.GameBoyTest.GameBoyTestLoadIntoSPTest
       resultStatus: 1
-      duration: 0.0006373
+      duration: 0.0005411
       messages: 
       output: 
       stacktrace: 
@@ -1224,7 +1275,7 @@ MonoBehaviour:
       name: GameBoyTestLoadTestSeparateRegisters
       fullName: Tests.GameBoyTest.GameBoyTestLoadTestSeparateRegisters
       resultStatus: 1
-      duration: 0.0007172
+      duration: 0.0006481
       messages: 
       output: 
       stacktrace: 
@@ -1241,7 +1292,7 @@ MonoBehaviour:
       name: GameBoyTestPop
       fullName: Tests.GameBoyTest.GameBoyTestPop
       resultStatus: 1
-      duration: 0.0006994
+      duration: 0.00069
       messages: 
       output: 
       stacktrace: 
@@ -1258,7 +1309,24 @@ MonoBehaviour:
       name: GameBoyTestPush
       fullName: Tests.GameBoyTest.GameBoyTestPush
       resultStatus: 1
-      duration: 0.0007118
+      duration: 0.0007014
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1021
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRet]
+      name: GameBoyTestRet
+      fullName: Tests.GameBoyTest.GameBoyTestRet
+      resultStatus: 1
+      duration: 0.000958
       messages: 
       output: 
       stacktrace: 
@@ -1275,7 +1343,7 @@ MonoBehaviour:
       name: GameBoyTestRL
       fullName: Tests.GameBoyTest.GameBoyTestRL
       resultStatus: 1
-      duration: 0.0010725
+      duration: 0.0043807
       messages: 
       output: 
       stacktrace: 
@@ -1292,7 +1360,7 @@ MonoBehaviour:
       name: GameBoyTestRLA
       fullName: Tests.GameBoyTest.GameBoyTestRLA
       resultStatus: 1
-      duration: 0.0005617
+      duration: 0.0005966
       messages: 
       output: 
       stacktrace: 
@@ -1309,7 +1377,7 @@ MonoBehaviour:
       name: GameBoyTestXORa
       fullName: Tests.GameBoyTest.GameBoyTestXORa
       resultStatus: 1
-      duration: 0.0006822
+      duration: 0.0005713
       messages: 
       output: 
       stacktrace: 
@@ -1321,12 +1389,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
-    m_ResultText: GameBoyTestDECFlag (0.000s)
+    m_ResultText: GameBoyTestCPN (0.029s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 5f3c0043
-      m_LastClickedID: 1124088927
+      m_SelectedIDs: b6de7461
+      m_LastClickedID: 1635049142
       m_ExpandedIDs: e557abf78359db41a60483513693bc52ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1369,15 +1437,15 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Game
-    m_Image: {fileID: -2087823869225018852, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: 257045534191678443, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 386
+    x: 1006
     y: 75
-    width: 762
-    height: 468
+    width: 396
+    height: 470
   m_ViewDataDictionary: {fileID: 0}
   m_SerializedViewNames: []
   m_SerializedViewValues: []
@@ -1402,10 +1470,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -80
-    m_HBaseRangeMax: 80
-    m_VBaseRangeMin: -72
-    m_VBaseRangeMax: 72
+    m_HBaseRangeMin: -40
+    m_HBaseRangeMax: 40
+    m_VBaseRangeMin: -36
+    m_VBaseRangeMax: 36
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1414,7 +1482,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -1422,24 +1490,24 @@ MonoBehaviour:
     m_DrawArea:
       serializedVersion: 2
       x: 0
-      y: 0
-      width: 762
-      height: 468
+      y: 21
+      width: 396
+      height: 449
     m_Scale: {x: 4.488075, y: 4.4880743}
-    m_Translation: {x: 381, y: 234.00002}
+    m_Translation: {x: 198, y: 224.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -84.89163
-      y: -52.138176
-      width: 169.78326
-      height: 104.27635
+      x: -44.116913
+      y: -50.021454
+      width: 88.233826
+      height: 100.04291
     m_MinimalGUI: 1
-  m_defaultScale: 3
-  m_LastWindowPixelSize: {x: 762, y: 468}
+  m_defaultScale: 4
+  m_LastWindowPixelSize: {x: 792, y: 940}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000000000100000100
@@ -1461,7 +1529,7 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Hierarchy
-    m_Image: {fileID: -590624980919486359, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -9000905672528348964, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
@@ -1469,14 +1537,14 @@ MonoBehaviour:
     x: 805
     y: 75
     width: 200
-    height: 468
+    height: 470
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 7ed1ffff9ed1ffff54d2ffff
+      m_ExpandedIDs: c6efffffc4f0ffff7ef4ffff74f5ffffa2f5ffffa0f6ffffaaf9ffff60fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1516,15 +1584,15 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Scene
-    m_Image: {fileID: 2318424515335265636, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -131512000283675692, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 386
+    x: 1006
     y: 75
-    width: 762
-    height: 468
+    width: 396
+    height: 470
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: 05ea3f42e877c493c9a1847ecb13036c
@@ -1631,7 +1699,7 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Inspector
-    m_Image: {fileID: -6905738622615590433, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: 8356117983803934776, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
@@ -1639,7 +1707,7 @@ MonoBehaviour:
     x: 1404
     y: 75
     width: 275
-    height: 468
+    height: 470
   m_ViewDataDictionary: {fileID: 0}
   m_OpenAddComponentMenu: 0
   m_ObjectsLockedBeforeSerialization: []
@@ -1700,15 +1768,15 @@ MonoBehaviour:
   m_MaxSize: {x: 10000, y: 10000}
   m_TitleContent:
     m_Text: Project
-    m_Image: {fileID: -7501376956915960154, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -2032128904892744680, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 805
-    y: 533
-    width: 875
-    height: 425
+    x: 0
+    y: 564
+    width: 1680
+    height: 393
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -1729,14 +1797,14 @@ MonoBehaviour:
   m_LastFolders:
   - Assets/Scripts
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: /Users/sl/Gameboy
+  m_LastProjectPath: /Users/sl/gameboyunity
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 20390000
-    m_LastClickedID: 14624
-    m_ExpandedIDs: 00000000a24f0000
+    m_SelectedIDs: 22390000
+    m_LastClickedID: 14626
+    m_ExpandedIDs: 0000000014390000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1764,7 +1832,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a24f0000
+    m_ExpandedIDs: 0000000014390000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1789,8 +1857,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: b4380000
-    m_LastClickedInstanceID: 14516
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 123a000000000000543f0000fe690000
     m_RenameOverlay:
@@ -1836,15 +1904,15 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Console
-    m_Image: {fileID: 111653112392082826, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -3303252850963283158, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
     x: 805
-    y: 564
+    y: 566
     width: 875
-    height: 393
+    height: 391
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &21
 MonoBehaviour:
@@ -1862,7 +1930,7 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Animator
-    m_Image: {fileID: 663490763026382308, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -6973158847631862895, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
@@ -1926,7 +1994,7 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Animation
-    m_Image: {fileID: 1561878555887300916, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -8967370667835289719, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:

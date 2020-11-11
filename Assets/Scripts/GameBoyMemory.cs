@@ -5,7 +5,7 @@ using System.IO;
 
 public class GameBoyMemory
 {
-    private uint memorySize = 0xFFFF;
+    private uint memorySize = 0x10000;
     private ushort biosSize;
     private List<byte> memory {get; set;}
     private GameBoyCartiridge gbCart;

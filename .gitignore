@@ -3,6 +3,14 @@
 # Learn more about .gitignore:
 #     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
 
+
+# Unity
+Logs/
+Packages/
+Library/
+ProjectSettings/
+Temp/
+
 # Node artifact files
 node_modules/
 dist/
