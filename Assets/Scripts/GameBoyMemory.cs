@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System.IO;
 
 public class GameBoyMemory
@@ -40,7 +38,7 @@ public class GameBoyMemory
 
     public byte ReadFromMemory(ushort pc) {
         if (pc >= 0x0000 && pc <= 0x7FFF) {
-            // 0xFF50 (bios/bootstrap) is enabled if 0xA0
+            // 0xFF50 (bios/bootstrap) is disabled if 0xA0
 		    if (memory[0xFF50] == 0 && pc < 0x100) {
 			    return memory[pc];
 		    }
@@ -50,7 +48,16 @@ public class GameBoyMemory
     }
     
     public bool WriteToMemory(ushort pos, byte data) {
-        memory[pos] = data;
+        if(pos == GameBoyTimer.DIV) {
+            memory[pos] = 0;
+        } else {
+            memory[pos] = data;
+        }
+        return true;
+    }
+
+    public bool IncrementReg(ushort pos) {
+        memory[pos]++;
         return true;
     }
 }

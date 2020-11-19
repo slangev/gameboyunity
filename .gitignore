@@ -7,7 +7,8 @@
 # Unity
 Logs/
 Packages/
-Library/
+Library
+Library/*
 ProjectSettings/
 Temp/
 

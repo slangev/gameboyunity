@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameBoy : MonoBehaviour
 {
-    // Start is called before the first frame update
     GameBoyScreen gbScreen;
     GameBoyMemory gbMemory;
+    GameBoyTimer gbTimer;
+    GameBoyInterrupts gbInterrupts;
     GameBoyCartiridge gbCart;
     GameBoyCPU gbCPU;
     Texture2D texture;
@@ -17,9 +16,12 @@ public class GameBoy : MonoBehaviour
     public string pathToRom;
     public string pathToBios;
 
+
+    bool halt = false; 
+    uint instructCount = 0;
+ 
     void InitalizeComponent() {
         Application.targetFrameRate = 60;
-        //Time.fixedDeltaTime = 0.01666667f;
         //Create display
         texture = new Texture2D(width,height);
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, Screen.width, Screen.height), Vector2.zero,1);
@@ -41,23 +43,34 @@ public class GameBoy : MonoBehaviour
         gbMemory = new GameBoyMemory(gbCart);
         gbMemory.LoadBios(pathToBios);
 
+        //Create Interrupts
+        gbInterrupts = new GameBoyInterrupts(gbMemory);
+
+        //Create Timer
+        gbTimer = new GameBoyTimer(gbMemory, gbInterrupts);
+
         //Create CPU
-        gbCPU = new GameBoyCPU(gbMemory);
+        gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);
     }
         
-    
+
+
+    private void UpdateGraphics(uint cycle) {
+        
+    }
+
     void Start() {
         InitalizeComponent();
     }
 
     void Update() {
-        while (GameBoyCPU.ClockCycle < MAXCYCLES) {
-            gbCPU.Tick();
-            //UpdateTimers(cycles) ;
+        uint cyclesThisUpdate = 0 ; 
+        while (cyclesThisUpdate < MAXCYCLES) {
+            uint cycles = gbCPU.Tick();
+            cyclesThisUpdate+=cycles ;
+            gbTimer.UpdateTimers(cycles);
             //UpdateGraphics(cycles) ;
-            //DoInterupts( ) ;
         }
-       GameBoyCPU.ClockCycle = 0;
-        //Debug.Log("Done : " + cyclesThisUpdate);
+        GameBoyCPU.ClockCycle = 0;
     }
 }

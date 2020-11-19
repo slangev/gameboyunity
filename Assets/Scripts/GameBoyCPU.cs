@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //http://index-of.es/Varios-2/Game%20Boy%20Programming%20Manual.pdf
+
 public class GameBoyCPU {
     public byte A {get;set;}
     public byte F {get;set;}
@@ -16,119 +15,183 @@ public class GameBoyCPU {
     public ushort PC {get;set;}
     public static uint ClockCycle {get;set;}
     private GameBoyMemory m;
+    private GameBoyInterrupts interrupts;
+
+private static readonly uint[] cycleCount = new uint[] {
+	4,12,8,8,4,4,8,4,20,8,8,8,4,4,8,4,
+	4,12,8,8,4,4,8,4,12,8,8,8,4,4,8,4,
+	8,12,8,8,4,4,8,4,8,8,8,8,4,4,8,4,
+	8,12,8,8,12,12,12,4,8,8,8,8,4,4,8,4,
+	4,4,4,4,4,4,8,4,4,4,4,4,4,4,8,4,
+	4,4,4,4,4,4,8,4,4,4,4,4,4,4,8,4,
+	4,4,4,4,4,4,8,4,4,4,4,4,4,4,8,4,
+	8,8,8,8,8,8,4,8,4,4,4,4,4,4,8,4,
+	4,4,4,4,4,4,8,4,4,4,4,4,4,4,8,4,
+	4,4,4,4,4,4,8,4,4,4,4,4,4,4,8,4,
+	4,4,4,4,4,4,8,4,4,4,4,4,4,4,8,4,
+	4,4,4,4,4,4,8,4,4,4,4,4,4,4,8,4,
+	8,12,12,16,12,16,8,16,8,16,12,4,12,24,8,16,
+	8,12,12,0,12,16,8,16,8,16,12,0,12,0,8,16,
+	12,12,8,0,0,16,8,16,16,4,16,0,0,0,8,16,
+	12,12,8,4,0,16,8,16,12,8,16,4,0,0,8,16,
+};
+
+private static readonly uint[] cycleCount_CB = new uint[] {
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,12,8,8,8,8,8,8,8,12,8,
+	8,8,8,8,8,8,12,8,8,8,8,8,8,8,12,8,
+	8,8,8,8,8,8,12,8,8,8,8,8,8,8,12,8,
+	8,8,8,8,8,8,12,8,8,8,8,8,8,8,12,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
+};
 
     const int ZFlag = 7;
     const int NFlag = 6;
     const int HFlag = 5;
     const int CFlag = 4;
 
-    public GameBoyCPU(GameBoyMemory m) {
+    public GameBoyCPU(GameBoyMemory m, GameBoyInterrupts i) {
+        interrupts = i;
         this.m = m;
     }
 
-    public void Tick() {
+    private void handleInterrupts() {
+        
+    }
+
+
+    public uint Tick() {
         handleInterrupts();
         //TODO: protect the fetch.
         byte instruction = m.ReadFromMemory(PC++);
-        HandleInstructions(instruction);
+        return handleInstructions(instruction);
     }
 
-    public void HandleInstructions(byte opcode) {
+    private uint handleInstructions(byte opcode) {
+        uint lastCycleCount = cycleCount[opcode];
         if(opcode == 0x00) {
-            NOP(4);
+            NOP();
         } else if(opcode == 0x31) {
-            SP = LDnNN(12);
+            SP = LDnNN();
         } else if(opcode == 0x0E) {
-            C = LDRN(8);
+            C = LDRN();
         } else if(opcode == 0xE0) {
-            m.WriteToMemory((ushort)(0xFF00 + LDRN(12)),A);
+            m.WriteToMemory((ushort)(0xFF00 + LDRN()),A);
+        } else if(opcode == 0xF0) {
+            byte b = LDRN();
+            A = m.ReadFromMemory((ushort)(0xFF00 + b));
         } else if(opcode == 0xAF) {
-            A = XORn(A,A,4);
+            A = XORn(A,A);
         } else if(opcode == 0x3E) {
-            A = LDRN(8);
+            A = LDRN();
         } else if(opcode == 0x06) {
-            B = LDRN(8);
+            B = LDRN();
+        } else if(opcode == 0x1E) {
+            E = LDRN();
         } else if(opcode == 0xE2) {
-            LDCR(C,A,8);
+            LDCR(C,A);
+        } else if(opcode == 0x2E) {
+            L = LDRN();
+        } else if(opcode == 0x04) {
+            B = INC(B);
         } else if(opcode == 0x0C) {
-            C = INC(4,C);
+            C = INC(C);
         } else if(opcode == 0x7B) {
-            A = LDRR(4,E);
+            A = LDRR(E);
+        } else if(opcode == 0x57) {
+            D = LDRR(A);
+        } else if(opcode == 0x67) {
+            H = LDRR(A);
         } else if(opcode == 0x13) {
             ushort DE = combineBytesToWord(D,E);
-            ushort word = INC(8,DE);
+            ushort word = INC(DE);
             var separatedBytes = separateWordToBytes(word);
             D = separatedBytes.Item1;
             E = separatedBytes.Item2;
         } else if(opcode == 0x23) {
             ushort HL = combineBytesToWord(H,L);
-            ushort word = INC(8,HL);
+            ushort word = INC(HL);
             var separatedBytes = separateWordToBytes(word);
             H = separatedBytes.Item1;
             L = separatedBytes.Item2;
+        } else if(opcode == 0x3D) {
+            A = DEC(A);
         } else if(opcode == 0x05) {
-            B = DEC(4,B);
+            B = DEC(B);
+        } else if(opcode == 0x0D) {
+            C = DEC(C);
         } else if(opcode == 0x35) {
             ushort HL = combineBytesToWord(H,L);
-            m.WriteToMemory(HL,DEC(12,m.ReadFromMemory(HL)));
-        } else if(opcode == 0x20) {
-            JRCC(opcode,12);
+            m.WriteToMemory(HL,DEC(m.ReadFromMemory(HL)));
+        } else if(opcode == 0x20 || opcode == 0x28 || opcode == 0x18) {
+            JRCC(opcode);
         } else if(opcode == 0x4F) {
-            C = LDRR(4,A);
+            C = LDRR(A);
         } else if(opcode == 0x11) {
-            ushort word = LDnNN(12);
+            ushort word = LDnNN();
             var separatedBytes = separateWordToBytes(word);
             D = separatedBytes.Item1;
             E = separatedBytes.Item2;
         } else if(opcode == 0x17) {
-            A = RL(4,A);
+            A = RL(A);
             resetBit(ZFlag,F);
         } else if (opcode == 0x1A) {
             ushort pair = combineBytesToWord(D,E);
-            A = LDNN(pair,8);
+            A = LDNN(pair);
         } else if(opcode == 0x21) {
-            ushort word = LDnNN(12);
+            ushort word = LDnNN();
             var separatedBytes = separateWordToBytes(word);
             H = separatedBytes.Item1;
             L = separatedBytes.Item2;
         } else if(opcode == 0x22) {
-            LDDHLA(8,1);
+            LDDHLA(1);
         } else if(opcode == 0x77) {
-            LDDHLA(8,0);
+            LDDHLA(0);
         } else if(opcode == 0x32) {
-            LDDHLA(8,-1);
+            LDDHLA(-1);
         } else if(opcode == 0xCD) {
-            Call(24);
+            Call();
         } else if(opcode == 0xC9) {
-            PC = Ret(16);
+            PC = Ret();
         } else if(opcode == 0xC5) {
             ushort pair = combineBytesToWord(B,C);
-            Push(16, pair);
+            Push(pair);
         } else if(opcode == 0xC1) {
-            ushort BC = Pop(12);
+            ushort BC = Pop();
             var separatedBytes = separateWordToBytes(BC);
             B = separatedBytes.Item1;
             C = separatedBytes.Item2;
         } else if(opcode == 0xFE) {
             byte n = m.ReadFromMemory(PC++);
-            CP(8,n);
+            CP(n);
         } else if(opcode == 0xEA) {
-            ushort word = LDNNA(16);
+            ushort word = LDNNA();
             m.WriteToMemory(word,A);
         }
         
         //Extended opcodes
         else if(opcode == 0xCB) {
             byte opcodetwo = m.ReadFromMemory(PC++);
+            lastCycleCount += cycleCount_CB[opcodetwo];
             if(opcodetwo == 0x7C) {
-                TestBit(7,H,8);
+                TestBit(7,H);
             } else if(opcodetwo == 0x11) {
-                C = RL(8,C);
+                C = RL(C);
             } else if(opcodetwo == 0x15) {
-                L = RL(8,L);
+                L = RL(L);
             } else if(opcodetwo == 0x16) {
                 ushort HL = combineBytesToWord(H,L);
-                m.WriteToMemory(HL,RL(16,m.ReadFromMemory(HL)));
+                m.WriteToMemory(HL,RL(m.ReadFromMemory(HL)));
             } else {
                 Debug.Log("Unknown opcode while using extended opcodes: " + opcodetwo.ToString("X2") + " PC: " + (PC-1).ToString("X2"));
             }
@@ -136,11 +199,11 @@ public class GameBoyCPU {
         else {
             Debug.Log("Unknown opcode: " + opcode.ToString("X2") + " PC: " + (PC-1).ToString("X2"));
         }
+        ClockCycle+=lastCycleCount;
+        return lastCycleCount;
     } 
 
-    private void handleInterrupts() {
 
-    }
 
     private (byte,byte) separateWordToBytes(ushort word) {
         return ((byte)((word & 0xFF00) >> 8),(byte)(word & 0x00FF));
@@ -153,17 +216,17 @@ public class GameBoyCPU {
         return word;
     }
 
-    private byte setBit(byte pos, byte r) {
+    public static byte setBit(byte pos, byte r) {
         byte result = (byte)(r | (1 << pos));
         return result;
     }
 
-    private byte resetBit(byte pos, byte r) {
+    public static byte resetBit(byte pos, byte r) {
         byte result = (byte)((r  & ~(1 << pos)));
         return result;
     }
 
-    private byte getBit(byte pos, byte reg) {
+    public static byte getBit(byte pos, byte reg) {
         byte result = (byte)((reg & (1 << pos)));
         result = (byte)(result >> pos); 
         return result;
@@ -190,7 +253,7 @@ public class GameBoyCPU {
     }
 
     // page 103
-    private byte TestBit(byte b, ushort r, ushort time) {
+    private byte TestBit(byte b, ushort r) {
         byte result = (byte)((r & (1 << b)));
 		result = (byte)(result >> b);
         result = (byte)(~result & 0x1);
@@ -202,14 +265,13 @@ public class GameBoyCPU {
         F = resetBit(NFlag,F);
         F = setBit(HFlag,F);
         clearLowerBitOfF();
-        ClockCycle += time;
         return result;
     }
 
     // 8-bit load
     // Logical exclusive OR n with register r, result in r
     // page 94
-    private byte XORn(byte r, byte n, ushort time) {
+    private byte XORn(byte r, byte n) {
         byte result = (byte)(A ^ n);
         if(result == 0) {
             F = setBit(ZFlag,F);
@@ -220,112 +282,104 @@ public class GameBoyCPU {
         F = resetBit(HFlag,F);
         F = resetBit(CFlag,F);
         clearLowerBitOfF();
-        ClockCycle += time;
         return result;
     }
 
     //page 95
-    private byte INC(uint time, byte r) {
+    private byte INC(byte r) {
         byte result = (byte)(r+1);
         F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
         F = resetBit(NFlag,F);
         F = (isHalfCarryAdd(r,1)) ? setBit(HFlag,F) : resetBit(HFlag,F);
         clearLowerBitOfF();
-        ClockCycle += time;
         return result;
     }
 
     //page 97
-    private ushort INC(uint time, ushort r) {
+    private ushort INC( ushort r) {
         ushort result = (ushort)(r+1);
-        ClockCycle += time;
         return result;
     }
 
     //page 95
-    private byte DEC(uint time, byte r) {
+    private byte DEC( byte r) {
         byte result = (byte)(r-1);
         F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
         F = setBit(NFlag,F);
         F = (isHalfCarrySub(r,1)) ? setBit(HFlag,F) : resetBit(HFlag,F);
         clearLowerBitOfF();
-        ClockCycle += time;
         return result;
     }
 
-    private ushort DECWord(uint time, ushort r) {
+    private ushort DECWord( ushort r) {
         r = (ushort)(r - 1);
-        ClockCycle += time;
         return r;
     }
 
     //page 85
-    private byte LDRN(uint time) {
+    private byte LDRN() {
         byte result = m.ReadFromMemory(PC++);
-        ClockCycle += time;
         return result;
     }
 
     //page 86
-    private byte LDRNN(uint time, ushort pos) {
+    private byte LDRNN(ushort pos) {
         byte result = m.ReadFromMemory(pos);
-        ClockCycle += time;
         return result;
     }
 
     //page 89
-    private void LDDHLA(uint time, int op) {
+    private void LDDHLA(int op) {
         ushort HL = combineBytesToWord(H,L);
         m.WriteToMemory(HL,A);
         HL += (ushort)(op);
         var separatedBytes = separateWordToBytes(HL);
         H = separatedBytes.Item1;
         L = separatedBytes.Item2;
-        ClockCycle += time;
     }
 
-    private byte LDRR(uint time, byte reg) {
-        ClockCycle += time;
+    private byte LDRR(byte reg) {
         return reg;
     }
 
     //16-bit Loads
     //Put value nn into n
-    private ushort LDnNN(uint time) {
+    private ushort LDnNN() {
         byte lowByte = m.ReadFromMemory(PC++);
         byte highByte = m.ReadFromMemory(PC++);
         ushort word = combineBytesToWord(highByte,lowByte);
-        ClockCycle += time;
         return word;
     }
 
     // page 105
-    private void JRCC(byte cc, uint time) {
+    private void JRCC(byte cc)  {
         byte b = m.ReadFromMemory(PC++);
 		sbyte sb = unchecked((sbyte)(b));
-        if(cc == 0x20 && getBit(7,F) == 0) {
+        if(cc == 0x20 && getBit(ZFlag,F) == 0) {
             PC = (ushort)(PC + sb);
-            ClockCycle += time;
+        } else if(cc == 0x28 && getBit(ZFlag,F) == 1) {
+            PC = (ushort)(PC + sb);
+        } else if(cc == 0x18) {
+            //No conditional JR
+            PC = (ushort)(PC + sb);
         } else {
             //Not jump increase cycle by 8.
             ClockCycle += 8;
         }
     }
 
-    private void LDCR(byte c, byte reg, uint time) {
+    private void LDCR(byte c, byte reg)  {
         m.WriteToMemory((ushort)(0xFF00+C), reg);
-        ClockCycle += time;
     }
 
     // page 86
-    private byte LDNN(ushort index, uint time) {
+    private byte LDNN(ushort index)  {
         byte b = m.ReadFromMemory(index);
-        ClockCycle += time;
         return b;
     }
 
     // page 107
-    private void Call(uint time) {
+    private void Call() {
         byte lowByte = m.ReadFromMemory(PC++);
         byte highByte = m.ReadFromMemory(PC++);
         ushort word = combineBytesToWord(highByte,lowByte);
@@ -336,42 +390,38 @@ public class GameBoyCPU {
         m.WriteToMemory((ushort)(SP - 2),lowByte);
         PC = word;
         SP = (ushort)(SP - 2);
-        ClockCycle += time;
     }
 
     // page 90
-    private void Push(uint time, ushort pair) {
+    private void Push(ushort pair) {
         var separatedBytes = separateWordToBytes(pair);
         byte highByte = separatedBytes.Item1;
         byte lowByte = separatedBytes.Item2;
         m.WriteToMemory((ushort)(SP - 1),highByte);
         m.WriteToMemory((ushort)(SP - 2),lowByte);
         SP = (ushort)(SP - 2);
-        ClockCycle += time;
     }
 
     // page 91
-    private ushort Pop(uint time) {
+    private ushort Pop() {
         byte lowByte = m.ReadFromMemory((ushort)(SP));
         byte highByte = m.ReadFromMemory((ushort)(SP+1));
         SP = (ushort)(SP+2);
         ushort word = combineBytesToWord(highByte,lowByte);
-        ClockCycle += time;
         return word;
     }
 
     // page 108
-    private ushort Ret(uint time) {
+    private ushort Ret() {
         byte lowByte = m.ReadFromMemory((ushort)(SP));
         byte highByte = m.ReadFromMemory((ushort)(SP+1));
         SP = (ushort)(SP+2);
         ushort word = combineBytesToWord(highByte,lowByte);
-        ClockCycle += time;
         return word;
     }
 
     // page 98-99
-    private byte RL(uint time, byte reg) {
+    private byte RL( byte reg) {
         byte bit = getBit(7,reg);
         byte result = (byte)((reg << 1) | (byte)(getBit(CFlag,F)));
         F = (result == 0x00) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
@@ -379,31 +429,28 @@ public class GameBoyCPU {
         F = resetBit(HFlag,F);
         F = (bit == 0x00) ? resetBit(CFlag,F) : setBit(CFlag,F);
         clearLowerBitOfF();
-        ClockCycle += time;
         return result;
     }
 
     //NO OP
-    private void NOP(uint time) {
-        ClockCycle += time;
+    private void NOP() {
+
     }
 
     // page 95
-    private void CP(uint time, byte n) {
+    private void CP(byte n) {
         F = (A == n) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
         F = setBit(NFlag,F);
         F = (isHalfCarrySub(A,n)) ? setBit(HFlag,F) : resetBit(HFlag,F);
         F = (carrySub(A,n)) ? setBit(CFlag,F) : resetBit(CFlag,F);
         clearLowerBitOfF();
-        ClockCycle += time;
     }
 
     // page 88
-    private ushort LDNNA(uint time) {
+    private ushort LDNNA() {
         byte lowByte = m.ReadFromMemory((ushort)(PC++));
         byte highByte = m.ReadFromMemory((ushort)(PC++));
         ushort word = combineBytesToWord(highByte,lowByte);
-        ClockCycle += time;
         return word;
     }
 }
