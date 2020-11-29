@@ -50,7 +50,10 @@ public class GameBoyMemory
     public bool WriteToMemory(ushort pos, byte data) {
         if(pos == GameBoyTimer.DIV) {
             memory[pos] = 0;
-        } else {
+        } else if(pos == GameBoyGraphic.LYAddr) {
+            memory[pos] = 0;
+        }
+        else {
             memory[pos] = data;
         }
         return true;

@@ -9,6 +9,13 @@ namespace Tests
         GameBoyTimer gbTimer;
         GameBoyInterrupts gbInterrupts;
         GameBoyCartiridge gbCart;
+        GameBoyGraphic gbGraphics;
+
+        /* TODO 
+            CP (HL)
+            LD A,L
+            LD A,B
+        */
 
         [SetUp] 
         public void Init() {
@@ -16,7 +23,11 @@ namespace Tests
             gbInterrupts = new GameBoyInterrupts(gbMemory);
             gbTimer = new GameBoyTimer(gbMemory,gbInterrupts);
             gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);
+            gbGraphics = new GameBoyGraphic(160,144,null,gbInterrupts,gbMemory);
             GameBoyCPU.ClockCycle = 0;
+            GameBoyInterrupts.IMEHold = false;
+            GameBoyInterrupts.IMEFlag = false;
+            gbCPU.SP = 0xFFFE;
         }
 
         [Test]
@@ -121,6 +132,39 @@ namespace Tests
         }
 
         [Test]
+        public void GameBoyTestADDHL()
+        {
+            gbMemory.WriteToMemory(0,0x86);
+            gbMemory.WriteToMemory(1,0x12);
+            gbCPU.A = 0x3C;
+            gbCPU.H = 0x00;
+            gbCPU.L = 0x01;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x4E, gbCPU.A);
+            Assert.AreEqual(0x00, gbCPU.H);
+            Assert.AreEqual(0x01, gbCPU.L);
+            Assert.AreEqual(0x00, gbCPU.F);
+            Assert.AreEqual(8, cycle);
+        }
+
+        //Implement OPCODE
+        /*[Test]
+        public void GameBoyTestADDR()
+        {
+            gbMemory.WriteToMemory(0,0x86);
+            gbMemory.WriteToMemory(1,0x12);
+            gbCPU.A = 0x3C;
+            gbCPU.H = 0x00;
+            gbCPU.L = 0x01;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x4E, gbCPU.A);
+            Assert.AreEqual(0x00, gbCPU.H);
+            Assert.AreEqual(0x01, gbCPU.L);
+            Assert.AreEqual(0x00, gbCPU.F);
+            Assert.AreEqual(8, cycle);
+        }*/
+
+        [Test]
         public void GameBoyTestLDDHLA()
         {
             gbMemory.WriteToMemory(0,0x77);
@@ -190,6 +234,23 @@ namespace Tests
         }
 
         [Test]
+        public void GameBoyTestInterruptsRST()
+        {
+            gbMemory.WriteToMemory(0x40,0x00);
+            gbMemory.WriteToMemory(GameBoyInterrupts.IE,0x01);
+            gbMemory.WriteToMemory(GameBoyInterrupts.IF,0x01);
+            Assert.AreEqual(gbMemory.ReadFromMemory(GameBoyInterrupts.IE), 0x01);
+            Assert.AreEqual(gbMemory.ReadFromMemory(GameBoyInterrupts.IF), 0x01);
+            GameBoyInterrupts.IMEHold = true;
+            gbCPU.Tick();
+            Assert.AreEqual(0x41, gbCPU.PC);
+            Assert.AreEqual(false, GameBoyInterrupts.IMEHold);
+            Assert.AreEqual(false, GameBoyInterrupts.IMEFlag);
+            Assert.AreEqual(0x01,gbMemory.ReadFromMemory(GameBoyInterrupts.IE));
+            Assert.AreEqual(0x00,gbMemory.ReadFromMemory(GameBoyInterrupts.IF));
+        }
+
+        [Test]
         public void GameBoyTestJR()
         {
             // JR would always jump if opcode is 0x18 regardless of F value
@@ -217,6 +278,18 @@ namespace Tests
             gbCPU.C = 0x00;
             gbCPU.Tick();
             Assert.AreEqual(gbMemory.ReadFromMemory(1), gbCPU.C);
+            Assert.AreEqual(8, GameBoyCPU.ClockCycle);
+        }
+
+                [Test]
+        public void GameBoyTestLDRND()
+        {
+            //Load 0x11 into C
+            gbMemory.WriteToMemory(0, 0x16);
+            gbMemory.WriteToMemory(1, 0x20);
+            gbCPU.D = 0x00;
+            gbCPU.Tick();
+            Assert.AreEqual(gbMemory.ReadFromMemory(1), gbCPU.D);
             Assert.AreEqual(8, GameBoyCPU.ClockCycle);
         }
 
@@ -290,7 +363,7 @@ namespace Tests
             gbMemory.WriteToMemory(2,0x7C);
             gbMemory.WriteToMemory(3,0x20);
             gbMemory.WriteToMemory(4,0xFB); // -5 jump back memory[0]
-            gbMemory.WriteToMemory(GameBoyTimer.TAC, 0x04);
+            gbMemory.WriteToMemory(GameBoyTimer.TAC, 0x07); // Turn on Tac and set clock rate to 256
             gbMemory.WriteToMemory(GameBoyTimer.TMA, 0x20);
             gbCPU.A = 0x00;
             gbCPU.H = 0x9F;
@@ -301,19 +374,63 @@ namespace Tests
             for(int i = 0; i < 0x9fff-0x8000; i++) {
                 cycles += gbCPU.Tick();
                 gbTimer.UpdateTimers(cycles);
+                cycles = 0;
                 cycles += gbCPU.Tick();
                 gbTimer.UpdateTimers(cycles);
+                cycles = 0;
                 cycles += gbCPU.Tick();
                 gbTimer.UpdateTimers(cycles);
+                cycles = 0;
             }
             Assert.AreEqual(0x80, gbCPU.H);
             Assert.AreEqual(0x00, gbCPU.L);
-            Assert.AreEqual(229348, cycles);
+            Assert.AreEqual(229348, GameBoyCPU.ClockCycle);
 
+            Assert.AreEqual(0x04, gbMemory.ReadFromMemory(GameBoyInterrupts.IF)); //timer interrupts are requesting (If this test case was testing graphics, this would be 0x7)
+            Assert.AreEqual(0xDF, gbMemory.ReadFromMemory(GameBoyTimer.TIMA)); // Was set to TMA and some increments later
+            Assert.AreEqual(0x7F, gbMemory.ReadFromMemory(GameBoyTimer.DIV));
+            Assert.AreEqual(gbMemory.ReadFromMemory(GameBoyTimer.TMA), 0x20);
+        }
 
-            Assert.AreEqual(0x04, gbMemory.ReadFromMemory(GameBoyInterrupts.IF));
-            Assert.AreEqual(0x70, gbMemory.ReadFromMemory(GameBoyTimer.TIMA));
-            Assert.AreEqual(0xEF, gbMemory.ReadFromMemory(GameBoyTimer.DIV));
+        [Test]
+        public void GameBoyTestJRCCNZManyOpsGraphicsInterrupts()
+        {
+            gbMemory.WriteToMemory(0,0x32);
+            gbMemory.WriteToMemory(1,0xCB);
+            gbMemory.WriteToMemory(2,0x7C);
+            gbMemory.WriteToMemory(3,0x20);
+            gbMemory.WriteToMemory(4,0xFB); // -5 jump back memory[0]
+            gbMemory.WriteToMemory(GameBoyTimer.TAC, 0x07); // Turn on Tac and set clock rate to 256
+            gbMemory.WriteToMemory(GameBoyTimer.TMA, 0x20);
+            gbMemory.WriteToMemory(GameBoyGraphic.LCDCAddr, 0x91); // Turn on the LCDC
+            gbMemory.WriteToMemory(GameBoyGraphic.STATAddr, 0xFC); // Turn on the STAT Interrupts
+            gbCPU.A = 0x00;
+            gbCPU.H = 0x9F;
+            gbCPU.L = 0xFF;
+            gbCPU.PC = 0x00;
+            uint cycles = 0;
+            //8191
+            for(int i = 0; i < 0x9fff-0x8000; i++) {
+                cycles += gbCPU.Tick();
+                gbTimer.UpdateTimers(cycles);
+                gbGraphics.UpdateGraphics(cycles);
+                cycles = 0;
+                cycles += gbCPU.Tick();
+                gbTimer.UpdateTimers(cycles);
+                gbGraphics.UpdateGraphics(cycles);
+                cycles = 0;
+                cycles += gbCPU.Tick();
+                gbTimer.UpdateTimers(cycles);
+                gbGraphics.UpdateGraphics(cycles);
+                cycles = 0;
+            }
+            Assert.AreEqual(0x80, gbCPU.H);
+            Assert.AreEqual(0x00, gbCPU.L);
+            Assert.AreEqual(229348, GameBoyCPU.ClockCycle);
+
+            Assert.AreEqual(0x07, gbMemory.ReadFromMemory(GameBoyInterrupts.IF)); //v-blank, LCD stat, and timer interrupts are requesting
+            Assert.AreEqual(0xDF, gbMemory.ReadFromMemory(GameBoyTimer.TIMA)); // Was set to TMA and some increments later
+            Assert.AreEqual(0x7F, gbMemory.ReadFromMemory(GameBoyTimer.DIV));
             Assert.AreEqual(gbMemory.ReadFromMemory(GameBoyTimer.TMA), 0x20);
         }
 
@@ -356,6 +473,20 @@ namespace Tests
         }
 
         [Test]
+        public void GameBoyTestINCH()
+        {
+            //INC H
+            gbMemory.WriteToMemory(0, 0x24);
+            gbCPU.H = 0x00;
+            gbCPU.F = 0x00;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x01, gbCPU.H);
+            Assert.AreEqual(4, GameBoyCPU.ClockCycle); // Total tick cycles
+            Assert.AreEqual(4, cycle); // Tick Cycle
+            Assert.AreEqual(0x00, gbCPU.F);
+        }
+
+        [Test]
         public void GameBoyTestINCHL()
         {
             //INC HL - page 97
@@ -378,7 +509,7 @@ namespace Tests
         [Test]
         public void GameBoyTestCPN()
         {
-            //CP - page 95
+            //CP - page 95 compare
             gbMemory = new GameBoyMemory(null);
             gbTimer = new GameBoyTimer(gbMemory,gbInterrupts);
             gbInterrupts = new GameBoyInterrupts(gbMemory);
@@ -391,6 +522,21 @@ namespace Tests
             gbCPU.Tick();
             Assert.AreEqual(0x02, gbCPU.PC);
             Assert.AreEqual(8, GameBoyCPU.ClockCycle);
+            Assert.AreEqual(0xC0, gbCPU.F);
+        }
+
+        [Test]
+        public void GameBoyTestSUBs()
+        {
+            //SUB - page 93 Subtract from A
+            Assert.True(gbMemory.WriteToMemory(0, 0x90));
+            gbCPU.A = 0x3E;
+            gbCPU.B = 0x3E;
+            gbCPU.F = 0x00;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x00, gbCPU.A);
+            Assert.AreEqual(4, GameBoyCPU.ClockCycle);
+            Assert.AreEqual(4, cycle);
             Assert.AreEqual(0xC0, gbCPU.F);
         }
 
@@ -416,11 +562,6 @@ namespace Tests
         public void GameBoyTestDECC()
         {
             //DEC C
-            gbMemory = new GameBoyMemory(null);
-            gbTimer = new GameBoyTimer(gbMemory,gbInterrupts);
-            gbInterrupts = new GameBoyInterrupts(gbMemory);
-            gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);
-            GameBoyCPU.ClockCycle = 0;
             gbMemory.WriteToMemory(0, 0x0D);
             gbCPU.C = 0x01;
             gbCPU.F = 0x00;
@@ -431,14 +572,35 @@ namespace Tests
         }
 
         [Test]
+        public void GameBoyTestDECD()
+        {
+            //DEC D
+            gbMemory.WriteToMemory(0, 0x15);
+            gbCPU.D = 0x00;
+            gbCPU.F = 0x00;
+            gbCPU.Tick();
+            Assert.AreEqual(0xFF, gbCPU.D);
+            Assert.AreEqual(4, GameBoyCPU.ClockCycle);
+            Assert.AreEqual(0x60, gbCPU.F);
+        }
+
+        [Test]
+        public void GameBoyTestDECE()
+        {
+            //DEC E
+            gbMemory.WriteToMemory(0, 0x1D);
+            gbCPU.E = 0x00;
+            gbCPU.F = 0x00;
+            gbCPU.Tick();
+            Assert.AreEqual(0xFF, gbCPU.E);
+            Assert.AreEqual(4, GameBoyCPU.ClockCycle);
+            Assert.AreEqual(0x60, gbCPU.F);
+        }
+
+        [Test]
         public void GameBoyTestDECB()
         {
             //DEC B
-            gbMemory = new GameBoyMemory(null);
-            gbTimer = new GameBoyTimer(gbMemory,gbInterrupts);
-            gbInterrupts = new GameBoyInterrupts(gbMemory);
-            gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);
-            GameBoyCPU.ClockCycle = 0;
             gbMemory.WriteToMemory(0, 0x05);
             gbCPU.B = 0x01;
             gbCPU.F = 0x00;
@@ -649,11 +811,6 @@ namespace Tests
         public void GameBoyTestLDRRDA()
         {
             // Load A into D
-            gbMemory = new GameBoyMemory(null);
-            gbTimer = new GameBoyTimer(gbMemory,gbInterrupts);
-            gbInterrupts = new GameBoyInterrupts(gbMemory);
-            gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);
-            GameBoyCPU.ClockCycle = 0;
             gbCPU.PC = 0x0;
             gbCPU.D = 0xF0;
             gbCPU.A = 0xFF;
@@ -661,6 +818,19 @@ namespace Tests
             gbCPU.Tick();
             Assert.AreEqual(4, GameBoyCPU.ClockCycle);
             Assert.AreEqual(gbCPU.D, gbCPU.A);
+        }
+
+        [Test]
+        public void GameBoyTestLDRRAH()
+        {
+            // Load H into A
+            gbCPU.PC = 0x0;
+            gbCPU.A = 0x00;
+            gbCPU.H = 0xFF;
+            Assert.True(gbMemory.WriteToMemory(0x0, 0x7C));
+            gbCPU.Tick();
+            Assert.AreEqual(4, GameBoyCPU.ClockCycle);
+            Assert.AreEqual(gbCPU.H, gbCPU.A);
         }
 
         [Test]

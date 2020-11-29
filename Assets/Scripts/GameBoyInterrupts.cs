@@ -3,11 +3,14 @@
 public class GameBoyInterrupts
 {
     // Interrupt flags
-    bool IME = false; // Interrupt Master Enabled (flag)
-    bool EI = false; // enable interrupt
-    bool DI = false; // disable interrupt
+    public static bool IMEFlag = false; // Interrupt Master Enabled (flag)
+    public static bool IMEHold = false; // Interrupt Master Enabled (flag) Hold
+    public static bool EIDIFlag = false; // enable/disable interrupt flag
     public static readonly ushort IF = 0xFF0F;
     public static readonly ushort IE = 0xFFFF; 
+
+    public static readonly byte VBlankBit = 0;
+    public static readonly byte LDDCBit = 1;
     public static readonly byte TimerOverflowBit = 2;
 
     private GameBoyMemory memory;

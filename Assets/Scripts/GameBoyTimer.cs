@@ -4,8 +4,8 @@ public class GameBoyTimer
 {
     GameBoyMemory gbMemory;
     GameBoyInterrupts gbInterrupts;
-    uint DIVCycleCount = 0;
-    uint TIMACycleCount = 0;
+    private uint DIVCycleCount = 0;
+    private uint TIMACycleCount = 0;
 
     // Divide/Timer Register address
     public static readonly ushort DIV = 0xFF04;

@@ -11,11 +11,12 @@ public class GameBoyCPU {
     public byte E {get;set;}
     public byte H {get;set;}
     public byte L {get;set;}
-    public ushort SP {get;set;}
+    public ushort SP {get;set;} = 0xFFFE;
     public ushort PC {get;set;}
     public static uint ClockCycle {get;set;}
     private GameBoyMemory m;
     private GameBoyInterrupts interrupts;
+    bool halt = false; 
 
 private static readonly uint[] cycleCount = new uint[] {
 	4,12,8,8,4,4,8,4,20,8,8,8,4,4,8,4,
@@ -55,10 +56,10 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 	8,8,8,8,8,8,16,8,8,8,8,8,8,8,16,8,
 };
 
-    const int ZFlag = 7;
-    const int NFlag = 6;
-    const int HFlag = 5;
-    const int CFlag = 4;
+    const byte ZFlag = 7;
+    const byte NFlag = 6;
+    const byte HFlag = 5;
+    const byte CFlag = 4;
 
     public GameBoyCPU(GameBoyMemory m, GameBoyInterrupts i) {
         interrupts = i;
@@ -66,15 +67,59 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     }
 
     private void handleInterrupts() {
+        if (GameBoyInterrupts.EIDIFlag) {
+            GameBoyInterrupts.EIDIFlag = false;
+        } else {
+            GameBoyInterrupts.IMEFlag = GameBoyInterrupts.IMEHold;
+        }
         
+        byte req = m.ReadFromMemory(GameBoyInterrupts.IF);
+        byte enabled = m.ReadFromMemory(GameBoyInterrupts.IE); 
+        if(req > 0) {
+            //Only care about bit 0-4
+            for(byte i = 0; i < 5; i++)  {
+                if(getBit(i,req) != 0 && getBit(i,enabled) != 0) {
+                    halt = false;
+                    if(GameBoyInterrupts.IMEFlag) {
+                        serviceInterrupts(i);
+                    }
+                }
+            }
+        }
+    }
+
+    private void serviceInterrupts(byte id) {
+        GameBoyInterrupts.IMEFlag = false;
+        GameBoyInterrupts.IMEHold = false;
+        m.WriteToMemory(GameBoyInterrupts.IF, resetBit(id, m.ReadFromMemory(GameBoyInterrupts.IF)));
+        byte n = getNFromID(id);
+        RST(n);
+    }
+
+    private byte getNFromID(byte id) {
+        if(id == 0) {
+            return 0x40;
+        } else if(id == 1) {
+            return 0x48;
+        } else if(id == 2) {
+            return 0x50;
+        } else if(id == 3) {
+            return 0x58;
+        } else if(id == 4) {
+            return 0x60;
+        } 
+        return 0;
     }
 
 
     public uint Tick() {
         handleInterrupts();
-        //TODO: protect the fetch.
-        byte instruction = m.ReadFromMemory(PC++);
-        return handleInstructions(instruction);
+        if(!halt) {
+            byte instruction = m.ReadFromMemory(PC++);
+            return handleInstructions(instruction);
+        } 
+        ClockCycle += 4;
+        return 4;
     }
 
     private uint handleInstructions(byte opcode) {
@@ -83,8 +128,6 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             NOP();
         } else if(opcode == 0x31) {
             SP = LDnNN();
-        } else if(opcode == 0x0E) {
-            C = LDRN();
         } else if(opcode == 0xE0) {
             m.WriteToMemory((ushort)(0xFF00 + LDRN()),A);
         } else if(opcode == 0xF0) {
@@ -96,7 +139,11 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             A = LDRN();
         } else if(opcode == 0x06) {
             B = LDRN();
-        } else if(opcode == 0x1E) {
+        } else if(opcode == 0x0E) {
+            C = LDRN();
+        } else if(opcode == 0x16) {
+            D = LDRN();
+        }else if(opcode == 0x1E) {
             E = LDRN();
         } else if(opcode == 0xE2) {
             LDCR(C,A);
@@ -106,8 +153,19 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             B = INC(B);
         } else if(opcode == 0x0C) {
             C = INC(C);
+        } else if(opcode == 0x24) {
+            H = INC(H);
+        } else if(opcode == 0x86) { 
+            ushort HL = combineBytesToWord(H,L);
+            A = ADD(m.ReadFromMemory(HL));
+        } else if(opcode == 0x78) {
+            A = LDRR(B);
         } else if(opcode == 0x7B) {
             A = LDRR(E);
+        } else if(opcode == 0x7C) {
+            A = LDRR(H);
+        } else if(opcode == 0x7D) {
+            A = LDRR(L);
         } else if(opcode == 0x57) {
             D = LDRR(A);
         } else if(opcode == 0x67) {
@@ -130,6 +188,10 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             B = DEC(B);
         } else if(opcode == 0x0D) {
             C = DEC(C);
+        } else if(opcode == 0x15) {
+            D = DEC(D);
+        } else if(opcode == 0x1D) {
+            E = DEC(E);
         } else if(opcode == 0x35) {
             ushort HL = combineBytesToWord(H,L);
             m.WriteToMemory(HL,DEC(m.ReadFromMemory(HL)));
@@ -171,9 +233,15 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             var separatedBytes = separateWordToBytes(BC);
             B = separatedBytes.Item1;
             C = separatedBytes.Item2;
+        } else if(opcode == 0xBE) {
+            ushort HL = combineBytesToWord(H,L);
+            byte n = m.ReadFromMemory(HL);
+            CP(n);
         } else if(opcode == 0xFE) {
             byte n = m.ReadFromMemory(PC++);
             CP(n);
+        } else if(opcode == 0x90) {
+            A = SUB(B);
         } else if(opcode == 0xEA) {
             ushort word = LDNNA();
             m.WriteToMemory(word,A);
@@ -240,16 +308,18 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         return (r & 0xf) < (n & 0xf);
     }
 
-    private bool carrySub(byte r, byte n) {
+    private bool isCarrySub(byte r, byte n) {
         return r < n;
+    }
+
+    private bool isCarryAdd(byte r, byte n) {
+        ushort result = (ushort)(r + n);
+        return result > 0xFF;
     }
 
     private void clearLowerBitOfF() {
         //bit 0-3 ALWAYS ZERO
-        F = resetBit(3,F);
-        F = resetBit(2,F);
-        F = resetBit(1,F);
-        F = resetBit(0,F);
+        F = (byte)(F & 0xF0);
     }
 
     // page 103
@@ -301,8 +371,19 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         return result;
     }
 
+    //page 92
+    private byte ADD(byte n) {
+        byte result = (byte)(A + n);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = resetBit(NFlag,F);
+        F = (isHalfCarryAdd(A,n)) ? setBit(HFlag,F) : resetBit(HFlag,F);
+        F = (isCarryAdd(A,n)) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        clearLowerBitOfF();
+        return result;
+    }
+
     //page 95
-    private byte DEC( byte r) {
+    private byte DEC(byte r) {
         byte result = (byte)(r-1);
         F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
         F = setBit(NFlag,F);
@@ -314,6 +395,17 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     private ushort DECWord( ushort r) {
         r = (ushort)(r - 1);
         return r;
+    }
+
+    // page 93
+    private byte SUB(byte n) {
+        byte result = (byte)(A-n);
+        F = (A == n) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = setBit(NFlag,F);
+        F = (isHalfCarrySub(A,n)) ? setBit(HFlag,F) : resetBit(HFlag,F);
+        F = (isCarrySub(A,n)) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        clearLowerBitOfF();
+        return result;
     }
 
     //page 85
@@ -442,7 +534,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         F = (A == n) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
         F = setBit(NFlag,F);
         F = (isHalfCarrySub(A,n)) ? setBit(HFlag,F) : resetBit(HFlag,F);
-        F = (carrySub(A,n)) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        F = (isCarrySub(A,n)) ? setBit(CFlag,F) : resetBit(CFlag,F);
         clearLowerBitOfF();
     }
 
@@ -452,5 +544,11 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         byte highByte = m.ReadFromMemory((ushort)(PC++));
         ushort word = combineBytesToWord(highByte,lowByte);
         return word;
+    }
+
+    // page 109
+    private void RST(byte n) {
+        Push(PC);
+        PC = n;
     }
 }

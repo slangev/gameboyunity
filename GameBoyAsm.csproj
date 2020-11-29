@@ -39,9 +39,9 @@
      <Compile Include="Assets\Scripts\GameBoy.cs" />
      <Compile Include="Assets\Scripts\GameBoyCPU.cs" />
      <Compile Include="Assets\Scripts\GameBoyCartridge.cs" />
+     <Compile Include="Assets\Scripts\GameBoyGraphics.cs" />
      <Compile Include="Assets\Scripts\GameBoyInterrupts.cs" />
      <Compile Include="Assets\Scripts\GameBoyMemory.cs" />
-     <Compile Include="Assets\Scripts\GameBoyScreen.cs" />
      <Compile Include="Assets\Scripts\GameBoyTimer.cs" />
      <None Include="Assets\Scripts\GameBoyAsm.asmdef" />
     <Reference Include="UnityEngine">
