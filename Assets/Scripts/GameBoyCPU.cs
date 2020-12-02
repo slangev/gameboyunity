@@ -111,6 +111,23 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         return 0;
     }
 
+    public void ResetNoBios() {
+        A = 0x01;
+        F = 0xB0;
+        B = 0x00;
+        C = 0x13;
+        D = 0x00;
+        E = 0xD8;
+        H = 0x01;
+        L = 0x4D;
+        PC = 0x100;
+        SP = 0xFFFE;
+        m.WriteToMemory(0xFF40,0x91);
+        m.WriteToMemory(0xFF47,0xFC);
+        m.WriteToMemory(0xFF48,0xFF);
+        m.WriteToMemory(0xFF49,0xFF);
+    }
+
 
     public uint Tick() {
         handleInterrupts();
@@ -155,6 +172,8 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             C = INC(C);
         } else if(opcode == 0x24) {
             H = INC(H);
+        } else if(opcode == 0x80) {
+            A = ADD(B);
         } else if(opcode == 0x86) { 
             ushort HL = combineBytesToWord(H,L);
             A = ADD(m.ReadFromMemory(HL));
@@ -267,11 +286,19 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         else {
             Debug.Log("Unknown opcode: " + opcode.ToString("X2") + " PC: " + (PC-1).ToString("X2"));
         }
+        //readFromSerialPort();
         ClockCycle+=lastCycleCount;
         return lastCycleCount;
     } 
 
-
+    private void readFromSerialPort() {
+        byte r = m.ReadFromMemory(0xFF02);
+        if(r == 0x81) {
+            char c = (char)(m.ReadFromMemory(0xFF01));
+            Debug.Log(c);
+            m.WriteToMemory(0xFF02,0x0);
+        }
+    }
 
     private (byte,byte) separateWordToBytes(ushort word) {
         return ((byte)((word & 0xFF00) >> 8),(byte)(word & 0x00FF));
@@ -301,7 +328,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     }
 
     private bool isHalfCarryAdd(byte r, byte n) {
-        return (((r & 0xf) + (1 & 0xf)) & 0x10) == 0x10;
+        return (((r & 0xf) + (n & 0xf)) & 0x10) == 0x10;
     }
 
     private bool isHalfCarrySub(byte r, byte n) {

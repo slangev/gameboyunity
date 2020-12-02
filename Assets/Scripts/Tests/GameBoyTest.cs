@@ -134,6 +134,7 @@ namespace Tests
         [Test]
         public void GameBoyTestADDHL()
         {
+            //Add (HL) to A
             gbMemory.WriteToMemory(0,0x86);
             gbMemory.WriteToMemory(1,0x12);
             gbCPU.A = 0x3C;
@@ -147,22 +148,18 @@ namespace Tests
             Assert.AreEqual(8, cycle);
         }
 
-        //Implement OPCODE
-        /*[Test]
-        public void GameBoyTestADDR()
+        [Test]
+        public void GameBoyTestADDB()
         {
-            gbMemory.WriteToMemory(0,0x86);
-            gbMemory.WriteToMemory(1,0x12);
-            gbCPU.A = 0x3C;
-            gbCPU.H = 0x00;
-            gbCPU.L = 0x01;
+            //Add B to A
+            gbMemory.WriteToMemory(0,0x80);
+            gbCPU.A = 0x3A;
+            gbCPU.B = 0xC6;
             uint cycle = gbCPU.Tick();
-            Assert.AreEqual(0x4E, gbCPU.A);
-            Assert.AreEqual(0x00, gbCPU.H);
-            Assert.AreEqual(0x01, gbCPU.L);
-            Assert.AreEqual(0x00, gbCPU.F);
-            Assert.AreEqual(8, cycle);
-        }*/
+            Assert.AreEqual(0x00, gbCPU.A);
+            Assert.AreEqual(0xB0, gbCPU.F);
+            Assert.AreEqual(4, cycle);
+        }
 
         [Test]
         public void GameBoyTestLDDHLA()

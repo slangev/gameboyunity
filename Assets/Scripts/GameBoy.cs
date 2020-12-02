@@ -37,7 +37,12 @@ public class GameBoy : MonoBehaviour
 
         //Create memory
         gbMemory = new GameBoyMemory(gbCart);
-        gbMemory.LoadBios(pathToBios);
+        bool reset = false;
+        try {
+            gbMemory.LoadBios(pathToBios);
+        } catch {
+            reset = true;
+        }
 
         //Create Interrupts
         gbInterrupts = new GameBoyInterrupts(gbMemory);
@@ -47,7 +52,9 @@ public class GameBoy : MonoBehaviour
 
         //Create CPU
         gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);
-
+        if(reset) {
+            gbCPU.ResetNoBios();
+        }
         //Create GPU
         gbGraphic = new GameBoyGraphic(width, height, texture, gbInterrupts, gbMemory);
     }
