@@ -126,6 +126,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         m.WriteToMemory(0xFF47,0xFC);
         m.WriteToMemory(0xFF48,0xFF);
         m.WriteToMemory(0xFF49,0xFF);
+        m.WriteToMemory(0xFF50,0x01); // Disable bootstrap
     }
 
 
@@ -143,6 +144,15 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         uint lastCycleCount = cycleCount[opcode];
         if(opcode == 0x00) {
             NOP();
+        } else if(opcode == 0x01) {
+            ushort word = LDnNN();
+            ushort BC = combineBytesToWord(B,C);
+            var separatedBytes = separateWordToBytes(word);
+            B = separatedBytes.Item1;
+            C = separatedBytes.Item2;
+        } else if(opcode == 0xFA) {
+            ushort word = LDnNN();
+            A = m.ReadFromMemory(word);
         } else if(opcode == 0x31) {
             SP = LDnNN();
         } else if(opcode == 0xE0) {
@@ -152,6 +162,18 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             A = m.ReadFromMemory((ushort)(0xFF00 + b));
         } else if(opcode == 0xAF) {
             A = XORn(A,A);
+        } else if(opcode == 0xB7) {
+            A = OR(A,A);
+        } else if(opcode == 0xB0) {
+            A = OR(A,B);
+        } else if(opcode == 0xB1) {
+            A = OR(A,C);
+        } else if(opcode == 0xF6) {
+            byte r = m.ReadFromMemory(PC++);
+            A = OR(A,r);
+        } else if(opcode == 0xB6) {
+            ushort HL = combineBytesToWord(H,L);
+            A = OR(A,m.ReadFromMemory(HL));
         } else if(opcode == 0x3E) {
             A = LDRN();
         } else if(opcode == 0x06) {
@@ -170,6 +192,10 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             B = INC(B);
         } else if(opcode == 0x0C) {
             C = INC(C);
+        } else if(opcode == 0x14) {
+            D = INC(D);
+        } else if(opcode == 0x1C) {
+            E = INC(E);
         } else if(opcode == 0x24) {
             H = INC(H);
         } else if(opcode == 0x80) {
@@ -177,6 +203,8 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         } else if(opcode == 0x86) { 
             ushort HL = combineBytesToWord(H,L);
             A = ADD(m.ReadFromMemory(HL));
+        } else if(opcode == 0xA7) {
+            A = AND(A,A);
         } else if(opcode == 0x78) {
             A = LDRR(B);
         } else if(opcode == 0x7B) {
@@ -185,10 +213,18 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             A = LDRR(H);
         } else if(opcode == 0x7D) {
             A = LDRR(L);
+        } else if(opcode == 0x47) {
+            B = LDRR(A);
         } else if(opcode == 0x57) {
             D = LDRR(A);
         } else if(opcode == 0x67) {
             H = LDRR(A);
+        } else if(opcode == 0x03) {
+            ushort BC = combineBytesToWord(B,C);
+            ushort word = INC(BC);
+            var separatedBytes = separateWordToBytes(word);
+            B = separatedBytes.Item1;
+            C = separatedBytes.Item2;
         } else if(opcode == 0x13) {
             ushort DE = combineBytesToWord(D,E);
             ushort word = INC(DE);
@@ -211,6 +247,12 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             D = DEC(D);
         } else if(opcode == 0x1D) {
             E = DEC(E);
+        } else if(opcode == 0x0B) {
+            ushort BC = combineBytesToWord(B,C);
+            ushort word = DECWord(BC);
+            var separatedBytes = separateWordToBytes(word);
+            B = separatedBytes.Item1;
+            C = separatedBytes.Item2;
         } else if(opcode == 0x35) {
             ushort HL = combineBytesToWord(H,L);
             m.WriteToMemory(HL,DEC(m.ReadFromMemory(HL)));
@@ -229,29 +271,74 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         } else if (opcode == 0x1A) {
             ushort pair = combineBytesToWord(D,E);
             A = LDNN(pair);
+        } else if (opcode == 0x2A) {
+            ushort word = combineBytesToWord(H,L);
+            A = LDNN(word++);
+            var separatedBytes = separateWordToBytes(word);
+            H = separatedBytes.Item1;
+            L = separatedBytes.Item2;
         } else if(opcode == 0x21) {
             ushort word = LDnNN();
             var separatedBytes = separateWordToBytes(word);
             H = separatedBytes.Item1;
             L = separatedBytes.Item2;
+        } else if(opcode == 0x12) {
+            ushort DE = combineBytesToWord(D,E);
+            m.WriteToMemory(DE,A);
         } else if(opcode == 0x22) {
-            LDDHLA(1);
+            LDDHL(1,A);
         } else if(opcode == 0x77) {
-            LDDHLA(0);
+            LDDHL(0,A);
         } else if(opcode == 0x32) {
-            LDDHLA(-1);
+            LDDHL(-1,A);
+        } else if(opcode == 0x36) {
+            byte n = m.ReadFromMemory(PC++);
+            LDDHL(0,n);
         } else if(opcode == 0xCD) {
             Call();
+        } else if(opcode == 0xC0) {
+            bool cc = getBit(ZFlag,F) == 0;
+            if(cc) {
+                lastCycleCount = 20;
+            }
+            Ret(cc);
+        } else if(opcode == 0xC8) {
+            bool cc = getBit(ZFlag,F) == 1;
+            if(cc) {
+                lastCycleCount = 20;
+            }
+            Ret(cc);
         } else if(opcode == 0xC9) {
-            PC = Ret();
+            Ret(true);
         } else if(opcode == 0xC5) {
             ushort pair = combineBytesToWord(B,C);
+            Push(pair);
+        } else if(opcode == 0xD5) {
+            ushort pair = combineBytesToWord(D,E);
+            Push(pair);
+        } else if(opcode == 0xE5) {
+            ushort pair = combineBytesToWord(H,L);
+            Push(pair);
+        } else if(opcode == 0xF5) {
+            ushort pair = combineBytesToWord(A,F);
             Push(pair);
         } else if(opcode == 0xC1) {
             ushort BC = Pop();
             var separatedBytes = separateWordToBytes(BC);
             B = separatedBytes.Item1;
             C = separatedBytes.Item2;
+        } else if(opcode == 0xE1) {
+            ushort HL = Pop();
+            var separatedBytes = separateWordToBytes(HL);
+            H = separatedBytes.Item1;
+            L = separatedBytes.Item2;
+        } else if(opcode == 0xF1) {
+            ushort AF = Pop();
+            var separatedBytes = separateWordToBytes(AF);
+            A = separatedBytes.Item1;
+            F = separatedBytes.Item2;
+        } else if(opcode == 0xC3) {
+            JP();
         } else if(opcode == 0xBE) {
             ushort HL = combineBytesToWord(H,L);
             byte n = m.ReadFromMemory(HL);
@@ -264,6 +351,10 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         } else if(opcode == 0xEA) {
             ushort word = LDNNA();
             m.WriteToMemory(word,A);
+        } else if(opcode == 0xF3) {
+            DI();
+        } else if(opcode == 0xFB) {
+            EI();
         }
         
         //Extended opcodes
@@ -286,7 +377,6 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         else {
             Debug.Log("Unknown opcode: " + opcode.ToString("X2") + " PC: " + (PC-1).ToString("X2"));
         }
-        //readFromSerialPort();
         ClockCycle+=lastCycleCount;
         return lastCycleCount;
     } 
@@ -366,20 +456,27 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     }
 
     // 8-bit load
-    // Logical exclusive OR n with register r, result in r
+    // Logical exclusive xOR n with register r, result in r
     // page 94
     private byte XORn(byte r, byte n) {
-        byte result = (byte)(A ^ n);
-        if(result == 0) {
-            F = setBit(ZFlag,F);
-        } else {
-            F = resetBit(ZFlag,F);
-        }
+        byte result = (byte)(r ^ n);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
         F = resetBit(NFlag,F);
         F = resetBit(HFlag,F);
         F = resetBit(CFlag,F);
         clearLowerBitOfF();
         return result;
+    }
+
+    // page 94
+    private byte OR(byte r, byte n) {
+        byte result = (byte)(r | n);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = resetBit(NFlag,F);
+        F = resetBit(HFlag,F);
+        F = resetBit(CFlag,F);
+        clearLowerBitOfF();
+        return result; 
     }
 
     //page 95
@@ -448,9 +545,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     }
 
     //page 89
-    private void LDDHLA(int op) {
+    private void LDDHL(int op, byte r) {
         ushort HL = combineBytesToWord(H,L);
-        m.WriteToMemory(HL,A);
+        m.WriteToMemory(HL,r);
         HL += (ushort)(op);
         var separatedBytes = separateWordToBytes(HL);
         H = separatedBytes.Item1;
@@ -459,6 +556,16 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     private byte LDRR(byte reg) {
         return reg;
+    }
+
+    private void DI() {
+         GameBoyInterrupts.IMEFlag = true;
+         GameBoyInterrupts.IMEHold = false;
+    }
+
+    private void EI() {
+         GameBoyInterrupts.IMEFlag = true;
+         GameBoyInterrupts.IMEHold = true;
     }
 
     //16-bit Loads
@@ -486,6 +593,14 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             ClockCycle += 8;
         }
     }
+
+    // page 105
+    private void JP() {
+        byte lowByte = m.ReadFromMemory((ushort)(PC++));
+        byte highByte = m.ReadFromMemory((ushort)(PC++));
+        ushort word = combineBytesToWord(highByte,lowByte);
+        PC = word;
+    } 
 
     private void LDCR(byte c, byte reg)  {
         m.WriteToMemory((ushort)(0xFF00+C), reg);
@@ -531,22 +646,35 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     }
 
     // page 108
-    private ushort Ret() {
-        byte lowByte = m.ReadFromMemory((ushort)(SP));
-        byte highByte = m.ReadFromMemory((ushort)(SP+1));
-        SP = (ushort)(SP+2);
-        ushort word = combineBytesToWord(highByte,lowByte);
-        return word;
+    private void Ret(bool cc) {
+        if(cc) {
+            byte lowByte = m.ReadFromMemory((ushort)(SP));
+            byte highByte = m.ReadFromMemory((ushort)(SP+1));
+            SP = (ushort)(SP+2);
+            ushort word = combineBytesToWord(highByte,lowByte);
+            PC = word;
+        }
     }
 
     // page 98-99
-    private byte RL( byte reg) {
+    private byte RL(byte reg) {
         byte bit = getBit(7,reg);
         byte result = (byte)((reg << 1) | (byte)(getBit(CFlag,F)));
         F = (result == 0x00) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
         F = resetBit(NFlag,F);
         F = resetBit(HFlag,F);
         F = (bit == 0x00) ? resetBit(CFlag,F) : setBit(CFlag,F);
+        clearLowerBitOfF();
+        return result;
+    }
+
+    // page 93-94
+    private byte AND(byte r, byte n) {
+        byte result = (byte)(r & n);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = resetBit(NFlag,F);
+        F = setBit(HFlag,F);
+        F = resetBit(CFlag,F);
         clearLowerBitOfF();
         return result;
     }

@@ -31,9 +31,14 @@ public class GameBoy : MonoBehaviour
 
         //Load Cartiridge
         gbCart = new GameBoyCartiridge(0);
-        gbCart.LoadRom(pathToRom);
-        Debug.Log(gbCart.Title);
-        Debug.Log("CartiridgeType: " + gbCart.CartiridgeType);
+        try {
+            gbCart.LoadRom(pathToRom);
+            Debug.Log(gbCart.Title);
+            Debug.Log("CartiridgeType: " + gbCart.CartiridgeType);
+        } catch {
+            Debug.Log("NO ROM LOADED");
+        }
+        
 
         //Create memory
         gbMemory = new GameBoyMemory(gbCart);
