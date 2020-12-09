@@ -12,9 +12,18 @@ namespace Tests
         GameBoyGraphic gbGraphics;
 
         /* TODO
-            AND A
+            AND (HL)
+            LD A, C
+            RETI
             PUSH *
             POPS *
+            JP (HL)
+            LD L,E
+            LD L,B
+            LD A,(HL)
+            DEC DE
+            CALL NZ,a16
+            INC L
         */
 
         [SetUp] 
@@ -176,6 +185,19 @@ namespace Tests
         }
 
         [Test]
+        public void GameBoyTestLDRRAC()
+        {
+            //Load C into A
+            gbCPU.PC = 0x0;
+            gbCPU.A = 0xF0;
+            gbCPU.C = 0xFF;
+            Assert.True(gbMemory.WriteToMemory(0x0, 0x4F));
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(4, cycle);
+            Assert.AreEqual(gbCPU.C, gbCPU.A);
+        }
+
+        [Test]
         public void GameBoyTestLDRRHA()
         {
             // Load A into H
@@ -186,6 +208,36 @@ namespace Tests
             gbCPU.Tick();
             Assert.AreEqual(4, GameBoyCPU.ClockCycle);
             Assert.AreEqual(gbCPU.H, gbCPU.A);
+        }
+
+        [Test]
+        public void GameBoyTestLDRREHL()
+        {
+            // Load (HL) into E
+            gbCPU.PC = 0x0;
+            gbCPU.H = 0x00;
+            gbCPU.L = 0x01;
+            gbCPU.E = 0xFF;
+            Assert.True(gbMemory.WriteToMemory(0x0, 0x5E));
+            Assert.True(gbMemory.WriteToMemory(0x1, 0xAA));
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(8, cycle);
+            Assert.AreEqual(gbMemory.ReadFromMemory(0x1), gbCPU.E);
+        }
+
+        [Test]
+        public void GameBoyTestLDRRDHL()
+        {
+            // Load (HL) into D
+            gbCPU.PC = 0x0;
+            gbCPU.H = 0x00;
+            gbCPU.L = 0x01;
+            gbCPU.D = 0xFF;
+            Assert.True(gbMemory.WriteToMemory(0x0, 0x56));
+            Assert.True(gbMemory.WriteToMemory(0x1, 0xAA));
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(8, cycle);
+            Assert.AreEqual(gbMemory.ReadFromMemory(0x1), gbCPU.D);
         }
 
         [Test]
@@ -225,6 +277,18 @@ namespace Tests
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(4, cycle);
             Assert.AreEqual(gbCPU.L, gbCPU.A);
+        }
+
+        [Test]
+        public void GameBoyTestLDRREA()
+        {
+            // Load A into E
+            gbCPU.A = 0xFF;
+            gbCPU.E = 0xF0;
+            Assert.True(gbMemory.WriteToMemory(0x0, 0x5F));
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(4, cycle);
+            Assert.AreEqual(gbCPU.E, gbCPU.A);
         }
 
         [Test]
@@ -283,15 +347,130 @@ namespace Tests
         }
 
         [Test]
+        public void GameBoyTestANDC()
+        {
+            // AND C
+            gbMemory.WriteToMemory(0,0xA1);
+            gbCPU.A = 0x5A;
+            gbCPU.C = 0x3F;
+            gbCPU.F = 0x00;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x1A, gbCPU.A);
+            Assert.AreEqual(0x20, gbCPU.F);
+            Assert.AreEqual(4, cycle);
+        }
+
+        [Test]
+        public void GameBoyTestANDd8()
+        {
+            // AND d8
+            gbMemory.WriteToMemory(0,0xE6);
+            gbMemory.WriteToMemory(1,0x38);
+            gbCPU.A = 0x5A;
+            gbCPU.F = 0x00;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x18, gbCPU.A);
+            Assert.AreEqual(0x20, gbCPU.F);
+            Assert.AreEqual(8, cycle);
+        }
+
+        [Test]
+        public void GameBoyTestCPLA()
+        {
+            // CPL A
+            gbMemory.WriteToMemory(0,0x2F);
+            gbCPU.A = 0x35;
+            gbCPU.F = 0x00;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0xCA, gbCPU.A);
+            Assert.AreEqual(0x60, gbCPU.F);
+            Assert.AreEqual(4, cycle);
+        }
+
+        [Test]
+        public void GameBoyTestRES0A()
+        {
+            // RES 0, A
+            gbCPU.A = 0x0F;
+            Assert.True(gbMemory.WriteToMemory(0x0, 0xCB));
+            Assert.True(gbMemory.WriteToMemory(0x1, 0x87));
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(12, cycle);
+            Assert.AreEqual(0x0E, gbCPU.A);
+        }
+        
+        [Test]
+        public void GameBoyTestSWAPA()
+        {
+            // SWAP A
+            gbMemory.WriteToMemory(0,0xCB);
+            gbMemory.WriteToMemory(1,0x37);
+            gbCPU.A = 0x00;
+            gbCPU.F = 0xF0;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x00, gbCPU.A);
+            Assert.AreEqual(0x80, gbCPU.F);
+            Assert.AreEqual(12, cycle);
+        }
+
+        [Test]
+        public void GameBoyTestSWAPHL()
+        {
+            // SWAP HL
+            gbMemory.WriteToMemory(0,0xCB);
+            gbMemory.WriteToMemory(1,0x36);
+            gbMemory.WriteToMemory(2,0xF0);
+            gbCPU.H = 0x00;
+            gbCPU.L = 0x02;
+            gbCPU.F = 0x80;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x0F, gbMemory.ReadFromMemory(0x0002));
+            Assert.AreEqual(0x00, gbCPU.F);
+            Assert.AreEqual(20, cycle);
+        }
+
+        [Test]
         public void GameBoyTestJP()
         {
-            //Load FFFE into Memory.
+            //Jump to 0x8000
             gbMemory.WriteToMemory(0,0xC3);
             gbMemory.WriteToMemory(1,0x00);
             gbMemory.WriteToMemory(2,0x80);
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(0x8000, gbCPU.PC);
             Assert.AreEqual(16, cycle);
+        }
+
+        [Test]
+        public void GameBoyTestJPHL()
+        {
+            //Jump to 0x8000 via (HL)
+            gbMemory.WriteToMemory(0,0xE9);
+            gbCPU.H = 0x80;
+            gbCPU.L = 0x00;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x8000, gbCPU.PC);
+            Assert.AreEqual(4, cycle);
+        }
+
+        [Test]
+        public void GameBoyTestJPZZ()
+        {
+            //Jump to 0x8000 when cc = Z and Z = 1
+            gbMemory.WriteToMemory(0,0xCA);
+            gbMemory.WriteToMemory(1,0x00);
+            gbMemory.WriteToMemory(2,0x80);
+            gbCPU.F = 0x80;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x8000, gbCPU.PC);
+            Assert.AreEqual(16, cycle);
+
+            //Skip CC = Z and Z != 1
+            gbCPU.PC = 0x00;
+            gbCPU.F = 0x00;
+            cycle = gbCPU.Tick();
+            Assert.AreEqual(0x03, gbCPU.PC);
+            Assert.AreEqual(12, cycle);
         }
 
         [Test]
@@ -322,13 +501,26 @@ namespace Tests
         [Test]
         public void GameBoyTestXORa()
         {
-            //XOR A=0x00 with A
+            //XOR A=0xFF with A
             gbMemory.WriteToMemory(0,0xAF);
-            gbCPU.A = 0x0;
+            gbCPU.A = 0xFF;
             gbCPU.F = 0x0;
             gbCPU.Tick();
             Assert.AreEqual(0x0, gbCPU.A);
             Assert.AreEqual(0x80, gbCPU.F);
+        }
+
+        [Test]
+        public void GameBoyTestXORc()
+        {
+            //XOR A=0xFF with C
+            gbMemory.WriteToMemory(0,0xA9);
+            gbCPU.A = 0xFF;
+            gbCPU.C = 0x0F;
+            gbCPU.F = 0x0;
+            gbCPU.Tick();
+            Assert.AreEqual(0xF0, gbCPU.A);
+            Assert.AreEqual(0x00, gbCPU.F);
         }
 
         [Test]
@@ -457,6 +649,35 @@ namespace Tests
         }
 
         [Test]
+        public void GameBoyTestADDA()
+        {
+            //Add A to A
+            gbMemory.WriteToMemory(0,0x87);
+            gbCPU.A = 0x3A;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x74, gbCPU.A);
+            Assert.AreEqual(0x20, gbCPU.F);
+            Assert.AreEqual(4, cycle);
+        }
+
+        [Test]
+        public void GameBoyTestADDHLDE()
+        {
+            //Add DE to HL
+            gbMemory.WriteToMemory(0,0x19);
+            gbCPU.D = 0x06;
+            gbCPU.E = 0x05;
+            gbCPU.H = 0x8A;
+            gbCPU.L = 0x23;
+            gbCPU.F = 0x00;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x90, gbCPU.H);
+            Assert.AreEqual(0x28, gbCPU.L);
+            Assert.AreEqual(0x20, gbCPU.F);
+            Assert.AreEqual(8, cycle);
+        }
+
+        [Test]
         public void GameBoyTestLDDHLA()
         {
             gbMemory.WriteToMemory(0,0x77);
@@ -540,6 +761,20 @@ namespace Tests
             Assert.AreEqual(false, GameBoyInterrupts.IMEFlag);
             Assert.AreEqual(0x01,gbMemory.ReadFromMemory(GameBoyInterrupts.IE));
             Assert.AreEqual(0x00,gbMemory.ReadFromMemory(GameBoyInterrupts.IF));
+        }
+
+        [Test]
+        public void GameBoyTestRST0x28()
+        {
+            gbMemory.WriteToMemory(0x8000,0xEF);
+            gbCPU.PC = 0x8000;
+            gbCPU.SP = 0xFFFE;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x28, gbCPU.PC);
+            Assert.AreEqual(0xFFFC, gbCPU.SP);
+            Assert.AreEqual(0x01,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
+            Assert.AreEqual(16,cycle);
         }
 
         [Test]
@@ -701,6 +936,19 @@ namespace Tests
         }
 
         [Test]
+        public void GameBoyTestINCA()
+        {
+            //INC A
+            gbMemory.WriteToMemory(0, 0x3C);
+            gbCPU.A = 0x0F;
+            gbCPU.F = 0x00;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x10, gbCPU.A);
+            Assert.AreEqual(4, cycle);
+            Assert.AreEqual(0x20, gbCPU.F);
+        }
+
+        [Test]
         public void GameBoyTestINCC()
         {
             //INC C
@@ -723,6 +971,21 @@ namespace Tests
             gbCPU.Tick();
             Assert.AreEqual(0xFF, gbCPU.B);
             Assert.AreEqual(4, GameBoyCPU.ClockCycle);
+            Assert.AreEqual(0x00, gbCPU.F);
+        }
+
+        [Test]
+        public void GameBoyTestINCHLMemory()
+        {
+            //INC (HL)
+            gbMemory.WriteToMemory(0, 0x34);
+            gbMemory.WriteToMemory(1, 0x50);
+            gbCPU.H = 0x00;
+            gbCPU.L = 0x01;
+            gbCPU.F = 0xE0;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x51, gbMemory.ReadFromMemory(1));
+            Assert.AreEqual(12, cycle);
             Assert.AreEqual(0x00, gbCPU.F);
         }
 
@@ -988,6 +1251,38 @@ namespace Tests
             Assert.AreEqual(0x80, gbMemory.ReadFromMemory(0xFFFD));
             Assert.AreEqual(0x03, gbMemory.ReadFromMemory(0xFFFC));
             Assert.AreEqual(24, GameBoyCPU.ClockCycle);
+        }
+
+        [Test]
+        public void GameBoyTestCallNZ()
+        {
+            gbCPU.PC = 0x8000;
+            gbCPU.F = 0x80;
+            Assert.True(gbMemory.WriteToMemory(0x8000, 0xC4));
+            Assert.True(gbMemory.WriteToMemory(0x8001, 0x34));
+            Assert.True(gbMemory.WriteToMemory(0x8002, 0x12));
+            gbCPU.SP = 0xFFFE;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x8003, gbCPU.PC);
+            Assert.AreEqual(0xFFFE, gbCPU.SP);
+            Assert.AreEqual(12, cycle);
+        }
+
+        [Test]
+        public void GameBoyTestCallZ()
+        {
+            gbCPU.PC = 0x8000;
+            gbCPU.F = 0x80;
+            Assert.True(gbMemory.WriteToMemory(0x8000, 0xCC));
+            Assert.True(gbMemory.WriteToMemory(0x8001, 0x34));
+            Assert.True(gbMemory.WriteToMemory(0x8002, 0x12));
+            gbCPU.SP = 0xFFFE;
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x1234, gbCPU.PC);
+            Assert.AreEqual(0xFFFC, gbCPU.SP);
+            Assert.AreEqual(0x80, gbMemory.ReadFromMemory(0xFFFD));
+            Assert.AreEqual(0x03, gbMemory.ReadFromMemory(0xFFFC));
+            Assert.AreEqual(24, cycle);
         }
 
         [Test]

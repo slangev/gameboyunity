@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 public class GameBoyMemory
 {
     private uint memorySize = 0x10000;
+
+    private uint DMA = 0xFF46;
     private ushort biosSize;
     private List<byte> memory {get; set;}
     private GameBoyCartiridge gbCart;
@@ -52,11 +55,21 @@ public class GameBoyMemory
             memory[pos] = 0;
         } else if(pos == GameBoyGraphic.LYAddr) {
             memory[pos] = 0;
+        } else if(pos == DMA){
+            Debug.Log("Starting DMA transfer...");
+            DMATransfer(data);
         }
         else {
             memory[pos] = data;
         }
         return true;
+    }
+
+    private void DMATransfer(byte data) {
+        ushort address = (ushort)(data * 0x100);
+        for(int i = 0; i < 0xA0; i++) {
+            WriteToMemory((ushort)(0xFE00+i), ReadFromMemory((ushort)(address+i)));
+        }
     }
 
     public bool IncrementReg(ushort pos) {

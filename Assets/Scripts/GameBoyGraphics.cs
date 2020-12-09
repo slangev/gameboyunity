@@ -135,7 +135,7 @@ public class GameBoyGraphic
             byte scrollY = memory.ReadFromMemory(SCYAddr);
 		    byte scrollX = memory.ReadFromMemory(SCXAddr);
             byte LY = memory.ReadFromMemory(LYAddr);
-            ushort tileData = (ushort)(((memory.ReadFromMemory(LCDCAddr) & 0x10) != 0) ? 0x8000 : 0x8800); // Bit 4 - BG & Window Tile Data Select   (0=8800-97FF, 1=8000-8FFF)
+            ushort tileData = (ushort)(((memory.ReadFromMemory(LCDCAddr) & 0x10) != 0) ? 0x8000 : 0x8800); // Bit 4 - BG & Window Tile Data Select (0=8800-97FF, 1=8000-8FFF)
             bool signed = (tileData == 0x8800) ? true : false; // 0x8800 uses signed data
             ushort backgroundMemory = 0;
             if(windowEnabled) {
@@ -186,16 +186,49 @@ public class GameBoyGraphic
                 if(bitFromData2 == 1) {
                     colorNum = GameBoyCPU.setBit(0,colorNum);
                 }
-                Color c;
-                if(colorNum == 0) {
-                    c = new Color(1, 1, 1, 1);
-                } else {
-                    c = new Color(0, 0, 0, 1);
-                }
 
+                // Go through color template
+                byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(BGPAddr));
+                Color c = getColor(colorNum,colorTemplate);
                 videoMemory[LY][pixel]=c;
             }
         }
+    }
+
+    private Color getColor(byte colorNum, byte colorTemplate) {
+        Color resultColor = new Color();
+        byte result = 0;
+        switch(colorNum) {
+            case 0:
+                result = (byte)((colorTemplate & 0x3));
+                break;
+            case 1:
+                result = (byte)((colorTemplate & 0xC) >> 2);
+                break;
+            case 2:
+                result = (byte)((colorTemplate & 0x30) >> 4);
+                break;
+            case 3:
+                result = (byte)((colorTemplate & 0xC0) >> 6);
+                break;
+        }
+
+        switch(result) {
+            case 0:
+                resultColor = new Color(155/255.0f, 188/255.0f, 15/255.0f,1);
+                break;
+            case 1:
+                resultColor = new Color(139/255.0f, 172/255.0f, 15/255.0f,1);
+                break;
+            case 2:
+                resultColor = new Color(48/255.0f, 98/255.0f, 48/255.0f,1);
+                break;
+            case 3:
+                resultColor = new Color(15/255.0f, 56/255.0f, 15/255.0f,1);
+                break;
+        }
+
+        return resultColor;
     }
 
     private void renderSprites() {
