@@ -239,6 +239,10 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x80:
                 A = ADD(B);
                 break;
+            case 0xC6:
+                byte n = m.ReadFromMemory(PC++);
+                A = ADD(n);
+                break;
             case 0x86:
                 HL = combineBytesToWord(H,L);
                 A = ADD(m.ReadFromMemory(HL));
@@ -261,7 +265,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 A = AND(A,C);
                 break;
             case 0xE6:
-                byte n = m.ReadFromMemory(PC++);
+                n = m.ReadFromMemory(PC++);
                 A = AND(A,n);
                 break;
             case 0x78:
@@ -284,6 +288,10 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 break;
             case 0x4F:
                 C = LDRR(A);
+                break;
+            case 0x4E:
+                HL = combineBytesToWord(H,L);
+                C = LDRR(m.ReadFromMemory(HL));
                 break;
             case 0x56:
                 HL = combineBytesToWord(H,L);
@@ -311,6 +319,10 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x7E:
                 HL = combineBytesToWord(H,L);
                 A = LDRR(m.ReadFromMemory(HL));
+                break;
+            case 0x46:
+                HL = combineBytesToWord(H,L);
+                B = LDRR(m.ReadFromMemory(HL));
                 break;
             case 0x03:
                 BC = combineBytesToWord(B,C);
@@ -347,6 +359,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 break;
             case 0x1D:
                 E = DEC(E);
+                break;
+            case 0x2D:
+                L = DEC(L);
                 break;
             case 0x0B:
                 BC = combineBytesToWord(B,C);
@@ -467,6 +482,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 Push(pair);
                 break;
             case 0xF5:
+                clearLowerBitOfF();
                 pair = combineBytesToWord(A,F);
                 Push(pair);
                 break;
@@ -493,6 +509,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 separatedBytes = separateWordToBytes(AF);
                 A = separatedBytes.Item1;
                 F = separatedBytes.Item2;
+                clearLowerBitOfF();
                 break;
             case 0xC3:
                 JP(true);
@@ -519,6 +536,10 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 break;
             case 0x90:
                 A = SUB(B);
+                break;
+            case 0xD6:
+                n = m.ReadFromMemory(PC++);
+                A = SUB(n);
                 break;
             case 0xEA:
                 word = LDNNA();
