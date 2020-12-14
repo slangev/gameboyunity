@@ -167,11 +167,22 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 byte b = LDRN();
                 A = m.ReadFromMemory((ushort)(0xFF00 + b));
                 break;
+            case 0xA9:
+                A = XORn(A,C);
+                break;
+            case 0xAD:
+                A = XORn(A,D);
+                break;
+            case 0xAE:
+                ushort HL = combineBytesToWord(H,L);
+                A = XORn(A,m.ReadFromMemory(HL));
+                break;
             case 0xAF:
                 A = XORn(A,A);
                 break;
-            case 0xA9:
-                A = XORn(A,C);
+            case 0xEE:
+                b = LDRN();
+                A = XORn(A,b);
                 break;
             case 0xB7:
                 A = OR(A,A);
@@ -187,7 +198,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 A = OR(A,r);
                 break;
             case 0xB6:
-                ushort HL = combineBytesToWord(H,L);
+                HL = combineBytesToWord(H,L);
                 A = OR(A,m.ReadFromMemory(HL));
                 break;
             case 0x3E:
@@ -207,6 +218,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 break;
             case 0xE2:
                 LDCR(C,A);
+                break;
+            case 0x26:
+                H = LDRN();
                 break;
             case 0x2E:
                 L = LDRN();
@@ -239,13 +253,24 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x80:
                 A = ADD(B);
                 break;
+            case 0x8B:
+                A = ADC(A,E);
+                break;
             case 0xC6:
                 byte n = m.ReadFromMemory(PC++);
                 A = ADD(n);
                 break;
+            case 0xCE:
+                n = m.ReadFromMemory(PC++);
+                A = ADC(A,n);
+                break;
             case 0x86:
                 HL = combineBytesToWord(H,L);
                 A = ADD(m.ReadFromMemory(HL));
+                break;
+            case 0x8E:
+                HL = combineBytesToWord(H,L);
+                A = ADC(A,m.ReadFromMemory(HL));
                 break;
             case 0x87:
                 A = ADD(A);
@@ -257,6 +282,17 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 separatedBytes = separateWordToBytes(HL);
                 H = separatedBytes.Item1;
                 L = separatedBytes.Item2;
+                break;
+            case 0x29:
+                HL = combineBytesToWord(H,L);
+                HL = ADDWord(HL,HL);
+                separatedBytes = separateWordToBytes(HL);
+                H = separatedBytes.Item1;
+                L = separatedBytes.Item2;
+                break;
+            case 0xA6:
+                HL = combineBytesToWord(H,L);
+                A = AND(A,m.ReadFromMemory(HL));
                 break;
             case 0xA7:
                 A = AND(A,A);
@@ -274,6 +310,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x79:
                 A = LDRR(C);
                 break;
+            case 0x7A:
+                A = LDRR(D);
+                break;
             case 0x7B:
                 A = LDRR(E);
                 break;
@@ -283,29 +322,141 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x7D:
                 A = LDRR(L);
                 break;
-            case 0x47:
-                B = LDRR(A);
+            case 0x7E:
+                HL = combineBytesToWord(H,L);
+                A = LDRR(m.ReadFromMemory(HL));
+                break;
+            case 0x7F:
+                A = LDRR(A);
                 break;
             case 0x4F:
                 C = LDRR(A);
+                break;
+            case 0x48:
+                C = LDRR(B);
+                break;
+            case 0x49:
+                C = LDRR(C);
+                break;
+            case 0x4A:
+                C = LDRR(D);
+                break;
+            case 0x4B:
+                C = LDRR(E);
+                break;
+            case 0x4C:
+                C = LDRR(H);
+                break;
+            case 0x4D:
+                C = LDRR(L);
                 break;
             case 0x4E:
                 HL = combineBytesToWord(H,L);
                 C = LDRR(m.ReadFromMemory(HL));
                 break;
+            case 0x50:
+                D = LDRR(B);
+                break;
+            case 0x51:
+                D = LDRR(C);
+                break;
+            case 0x52:
+                D = LDRR(D);
+                break;
+            case 0x53:
+                D = LDRR(E);
+                break;
+            case 0x54:
+                D = LDRR(H);
+                break;
+            case 0x55:
+                D = LDRR(L);
+                break;
             case 0x56:
                 HL = combineBytesToWord(H,L);
                 D = LDRR(m.ReadFromMemory(HL));
                 break;
+            case 0x40:
+                B = LDRR(B);
+                break;
+            case 0x41:
+                B = LDRR(C);
+                break;
+            case 0x42:
+                B = LDRR(D);
+                break;
+            case 0x43:
+                B = LDRR(E);
+                break;
+            case 0x44:
+                B = LDRR(H);
+                break;
+            case 0x45:
+                B = LDRR(L);
+                break;
+            case 0x46:
+                HL = combineBytesToWord(H,L);
+                B = LDRR(m.ReadFromMemory(HL));
+                break;
+            case 0x47:
+                B = LDRR(A);
+                break;
             case 0x57:
                 D = LDRR(A);
                 break;
-            case 0x5F:
-                E = LDRR(A);
+            case 0x58:
+                E = LDRR(B);
+                break;
+            case 0x59:
+                E = LDRR(C);
+                break;
+            case 0x5A:
+                E = LDRR(D);
+                break;
+            case 0x5B:
+                E = LDRR(E);
+                break;
+            case 0x5C:
+                E = LDRR(H);
+                break;
+            case 0x5D:
+                E = LDRR(L);
                 break;
             case 0x5E:
                 HL = combineBytesToWord(H,L);
                 E = LDRR(m.ReadFromMemory(HL));
+                break;
+            case 0x5F:
+                E = LDRR(A);
+                break;
+            case 0x6E:
+                HL = combineBytesToWord(H,L);
+                L = LDRR(m.ReadFromMemory(HL));
+                break;
+            case 0x6F:
+                L = LDRR(A);
+                break;
+            case 0x60:
+                H = LDRR(B);
+                break;
+            case 0x61:
+                H = LDRR(C);
+                break;
+            case 0x62:
+                H = LDRR(D);
+                break;
+            case 0x63:
+                H = LDRR(E);
+                break;
+            case 0x64:
+                H = LDRR(H);
+                break;
+            case 0x65:
+                H = LDRR(L);
+                break;
+            case 0x66:
+                HL = combineBytesToWord(H,L);
+                H = LDRR(m.ReadFromMemory(HL));
                 break;
             case 0x67:
                 H = LDRR(A);
@@ -313,16 +464,20 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x68:
                 L = LDRR(B);
                 break;
+            case 0x69:
+                L = LDRR(C);
+                break;
+            case 0x6A:
+                L = LDRR(D);
+                break;
             case 0x6B:
                 L = LDRR(E);
                 break;
-            case 0x7E:
-                HL = combineBytesToWord(H,L);
-                A = LDRR(m.ReadFromMemory(HL));
+            case 0x6C:
+                L = LDRR(H);
                 break;
-            case 0x46:
-                HL = combineBytesToWord(H,L);
-                B = LDRR(m.ReadFromMemory(HL));
+            case 0x6D:
+                L = LDRR(L);
                 break;
             case 0x03:
                 BC = combineBytesToWord(B,C);
@@ -360,6 +515,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x1D:
                 E = DEC(E);
                 break;
+            case 0x25:
+                H = DEC(H);
+                break;
             case 0x2D:
                 L = DEC(L);
                 break;
@@ -384,7 +542,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x20:
             case 0x28:
             case 0x18:
-                JRCC(opcode);
+            case 0x30:
+            case 0x38:
+                lastCycleCount = JRCC(opcode);
                 break;
             case 0x11:
                 word = LDnNN();
@@ -399,6 +559,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x1A:
                 ushort pair = combineBytesToWord(D,E);
                 A = LDNN(pair);
+                break;
+            case 0x1F:
+                A = RRA(A);
                 break;
             case 0x2A:
                 word = combineBytesToWord(H,L);
@@ -416,6 +579,30 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x12:
                 DE = combineBytesToWord(D,E);
                 m.WriteToMemory(DE,A);
+                break;
+            case 0x70:
+                HL = combineBytesToWord(H,L);
+                m.WriteToMemory(HL,B);
+                break;
+            case 0x71:
+                HL = combineBytesToWord(H,L);
+                m.WriteToMemory(HL,C);
+                break;
+            case 0x72:
+                HL = combineBytesToWord(H,L);
+                m.WriteToMemory(HL,D);
+                break;
+            case 0x73:
+                HL = combineBytesToWord(H,L);
+                m.WriteToMemory(HL,E);
+                break;
+            case 0x74:
+                HL = combineBytesToWord(H,L);
+                m.WriteToMemory(HL,H);
+                break;
+            case 0x75:
+                HL = combineBytesToWord(H,L);
+                m.WriteToMemory(HL,L);
                 break;
             case 0x22:
                 LDDHL(1,A);
@@ -456,6 +643,20 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 break;
             case 0xC8:
                 cc = getBit(ZFlag,F) == 1;
+                if(cc) {
+                    lastCycleCount = 20;
+                }
+                Ret(cc);
+                break;
+            case 0xD0:
+                cc = getBit(CFlag,F) == 0;
+                if(cc) {
+                    lastCycleCount = 20;
+                }
+                Ret(cc);
+                break;
+            case 0xD8:
+                cc = getBit(CFlag,F) == 1;
                 if(cc) {
                     lastCycleCount = 20;
                 }
@@ -582,6 +783,27 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                     case 0x37:
                         A = SWAP(A);
                         break;
+                    case 0x1F:
+                        A = RR(A);
+                        break;
+                    case 0x18:
+                        B = RR(B);
+                        break;
+                    case 0x19:
+                        C = RR(C);
+                        break;
+                    case 0x1A:
+                        D = RR(D);
+                        break;
+                    case 0x1B:
+                        E = RR(E);
+                        break;
+                    case 0xEF:
+                        A = SRL(A);
+                        break;
+                    case 0x38:
+                        B = SRL(B);
+                        break;
                     case 0x87:
                         A = resetBit(0,A);
                         break;
@@ -594,6 +816,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 Debug.Log("Unknown opcode: " + opcode.ToString("X2") + " PC: " + (PC-1).ToString("X2"));
                 break;
         } 
+        //Debug.LogError("FIX ECHO ROM/RAM");
         ClockCycle+=lastCycleCount;
         return lastCycleCount;
     } 
@@ -635,10 +858,15 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     }
 
     private bool isHalfCarryAdd(byte r, byte n) {
-        return (((r & 0xf) + (n & 0xf)) & 0x10) == 0x10;
+        uint result = (uint)((r & 0xf) + (n & 0xf));
+        return result > 0xF;
     }
 
-    //Maybe??? TODO
+    private bool isHalfCarryAddWithCarry(byte r, byte n, byte carry) {
+        uint result = (uint)((r & 0xf) + (n & 0xf) + carry);
+        return result > 0xF;
+    }
+
     private bool isHalfCarryAddWord(ushort r, ushort n) {
         uint result = (uint)(((r & 0x0fff) + (n & 0x0fff)));
         return result > 0xfff;
@@ -654,6 +882,11 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     private bool isCarryAdd(byte r, byte n) {
         ushort result = (ushort)(r + n);
+        return result > 0xFF;
+    }
+
+    private bool isCarryAddWithCarry(byte r, byte n, byte carry) {
+        ushort result = (ushort)(r + n + carry);
         return result > 0xFF;
     }
 
@@ -816,19 +1049,28 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     }
 
     // page 105
-    private void JRCC(byte cc)  {
+    private uint JRCC(byte cc)  {
         byte b = m.ReadFromMemory(PC++);
 		sbyte sb = unchecked((sbyte)(b));
         if(cc == 0x20 && getBit(ZFlag,F) == 0) {
             PC = (ushort)(PC + sb);
+            return 12;
         } else if(cc == 0x28 && getBit(ZFlag,F) == 1) {
             PC = (ushort)(PC + sb);
+            return 12;
+        } else if(cc == 0x30 && getBit(CFlag,F) == 0) {
+            PC = (ushort)(PC + sb);
+            return 12;
+        } else if(cc == 0x38 && getBit(CFlag,F) == 1) {
+            PC = (ushort)(PC + sb);
+            return 12;
         } else if(cc == 0x18) {
             //No conditional JR
             PC = (ushort)(PC + sb);
+            return 12;
         } else {
             //Not jump increase cycle by 8.
-            ClockCycle += 8;
+            return 8;
         }
     }
 
@@ -973,5 +1215,48 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     private void RST(byte n) {
         Push(PC);
         PC = n;
+    }
+
+    // page 102
+    private byte SRL(byte n) {
+        byte bitZero = getBit(0,n);
+        byte result = (byte)(n >> 1);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = resetBit(NFlag,F);
+        F = resetBit(HFlag,F);
+        F = (bitZero == 1) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        clearLowerBitOfF();
+        return result;
+    }
+
+    //page 100
+    private byte RR(byte n) {
+        byte bit = getBit(0,n);
+        byte result = (byte)((n >> 1) | (byte)(getBit(CFlag,F)) << 7);
+        F = (result == 0x00) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = resetBit(NFlag,F);
+        F = resetBit(HFlag,F);
+        F = (bit == 0x00) ? resetBit(CFlag,F) : setBit(CFlag,F);
+        clearLowerBitOfF();
+        return result;
+    }
+
+    //page 98
+    private byte RRA(byte n) {
+        byte result = RR(n);
+        F = resetBit(ZFlag,F);
+        return result;
+    }
+
+    //page 92
+    private byte ADC(byte r, byte n) {
+        byte cy = getBit(CFlag,F);
+        byte result = (byte)(r+n+cy);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = resetBit(NFlag,F);
+        F = (isHalfCarryAddWithCarry(r,n,cy)) ? setBit(HFlag,F) : resetBit(HFlag,F);
+        F = (isCarryAddWithCarry(r,n,cy)) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        clearLowerBitOfF();
+        return result;
     }
 }

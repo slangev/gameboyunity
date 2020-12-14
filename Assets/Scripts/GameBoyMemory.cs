@@ -39,15 +39,17 @@ public class GameBoyMemory
         return result.Substring(0, result.Length-1);
     }
 
-    public byte ReadFromMemory(ushort pc) {
-        if (pc >= 0x0000 && pc <= 0x7FFF) {
+    public byte ReadFromMemory(ushort pos) {
+        if (pos >= 0x0000 && pos <= 0x7FFF) {
             // 0xFF50 (bios/bootstrap) is disabled if 0xA0
-		    if (memory[0xFF50] == 0 && pc < 0x100) {
-			    return memory[pc];
+		    if (memory[0xFF50] == 0 && pos < 0x100) {
+			    return memory[pos];
 		    }
-			return gbCart.Read(pc);
-		}
-        return memory[pc];
+			return gbCart.Read(pos);
+		} else if(pos >= 0xE000 && pos <= 0xFDFF ){
+            Debug.Log("Read from internal ram/ echo ram");
+        }
+        return memory[pos];
     }
     
     public bool WriteToMemory(ushort pos, byte data) {
@@ -58,6 +60,8 @@ public class GameBoyMemory
         } else if(pos == DMA){
             Debug.Log("Starting DMA transfer...");
             DMATransfer(data);
+        } else if(pos >= 0xE000 && pos <= 0xFDFF) {
+            Debug.Log("Writing to internal ram/ echo ram");
         }
         else {
             memory[pos] = data;
