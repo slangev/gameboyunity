@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 
 //http://index-of.es/Varios-2/Game%20Boy%20Programming%20Manual.pdf
 
@@ -132,6 +133,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     public uint Tick() {
         handleInterrupts();
+        //printDebugLine();
         if(!halt) {
             byte instruction = m.ReadFromMemory(PC++);
             return handleInstructions(instruction);
@@ -153,6 +155,12 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 B = separatedBytes.Item1;
                 C = separatedBytes.Item2;
                 break;
+            case 0x08:
+                word = LDnNN();
+                separatedBytes = separateWordToBytes(SP);
+                m.WriteToMemory((ushort)(word),separatedBytes.Item2); //Low byte
+                m.WriteToMemory((ushort)(word+1),separatedBytes.Item1); //High byte
+                break;
             case 0xFA:
                 word = LDnNN();
                 A = m.ReadFromMemory(word);
@@ -171,7 +179,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 A = XORn(A,C);
                 break;
             case 0xAD:
-                A = XORn(A,D);
+                A = XORn(A,L);
                 break;
             case 0xAE:
                 ushort HL = combineBytesToWord(H,L);
@@ -655,12 +663,26 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 }
                 Ret(cc);
                 break;
+            case 0xD4:
+                cc = getBit(CFlag,F) == 0;
+                if(cc) {
+                    lastCycleCount = 24;
+                }
+                Call(cc);
+                break;
             case 0xD8:
                 cc = getBit(CFlag,F) == 1;
                 if(cc) {
                     lastCycleCount = 20;
                 }
                 Ret(cc);
+                break;
+            case 0xDC:
+                cc = getBit(CFlag,F) == 1;
+                if(cc) {
+                    lastCycleCount = 24;
+                }
+                Call(cc);
                 break;
             case 0xC9:
                 Ret(true);
@@ -712,11 +734,32 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 F = separatedBytes.Item2;
                 clearLowerBitOfF();
                 break;
+            case 0xC2:
+                cc = getBit(ZFlag,F) == 0;
+                if(cc) {
+                    lastCycleCount = 16;
+                }
+                JP(cc);
+                break;
             case 0xC3:
                 JP(true);
                 break;
             case 0xCA:
                 cc = getBit(ZFlag,F) == 1;
+                if(cc) {
+                    lastCycleCount = 16;
+                }
+                JP(cc);
+                break;
+            case 0xD2:
+                cc = getBit(CFlag,F) == 0;
+                if(cc) {
+                    lastCycleCount = 16;
+                }
+                JP(cc);
+                break;
+            case 0xDA:
+                cc = getBit(CFlag,F) == 1;
                 if(cc) {
                     lastCycleCount = 16;
                 }
@@ -749,11 +792,36 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x2F:
                 A = CPL(A);
                 break;
+            case 0xC7:
+                RST(0x00);
+                break;
+            case 0xCF:
+                RST(0x08);
+                break;
+            case 0xD7:
+                RST(0x10);
+                break;
+            case 0xDF:
+                RST(0x18);
+                break;
+            case 0xE7:
+                RST(0x20);
+                break;
             case 0xEF:
                 RST(0x28);
                 break;
+            case 0xF7:
+                RST(0x30);
+                break;
+            case 0xFF:
+                RST(0x38);
+                break;
             case 0xF3:
                 DI();
+                break;
+            case 0xF9:
+                HL = combineBytesToWord(H,L);
+                SP = HL;
                 break;
             case 0xFB:
                 EI();
@@ -816,7 +884,6 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 Debug.Log("Unknown opcode: " + opcode.ToString("X2") + " PC: " + (PC-1).ToString("X2"));
                 break;
         } 
-        //Debug.LogError("FIX ECHO ROM/RAM");
         ClockCycle+=lastCycleCount;
         return lastCycleCount;
     } 
@@ -828,6 +895,16 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             Debug.Log(c);
             m.WriteToMemory(0xFF02,0x0);
         }
+    }
+
+    private void printDebugLine() {
+        string line = "";
+        line = "A: " +A.ToString("X2")+ " F: " +F.ToString("X2")+ " B: "+B.ToString("X2")+" C: "+C.ToString("X2")+" D: "+D.ToString("X2")+" E: "+E.ToString("X2")+" H: "+H.ToString("X2")+" L: "+L.ToString("X2")+" SP: "+SP.ToString("X4")+" PC: 00:" +PC.ToString("X4")+" ("+m.ReadFromMemory(PC).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+1)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+2)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+3)).ToString("X2") + ")\n";
+        using(StreamWriter writetext = new StreamWriter("Assets/write.txt"))
+        {
+            writetext.WriteLine(line);
+        }
+        //Debug.Log(line);
     }
 
     private (byte,byte) separateWordToBytes(ushort word) {
@@ -1245,6 +1322,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     private byte RRA(byte n) {
         byte result = RR(n);
         F = resetBit(ZFlag,F);
+        clearLowerBitOfF();
         return result;
     }
 

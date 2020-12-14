@@ -47,7 +47,8 @@ public class GameBoyMemory
 		    }
 			return gbCart.Read(pos);
 		} else if(pos >= 0xE000 && pos <= 0xFDFF ){
-            Debug.Log("Read from internal ram/ echo ram");
+            //Debug.Log("Read from internal ram/ echo ram");
+            return memory[pos];
         }
         return memory[pos];
     }
@@ -61,7 +62,8 @@ public class GameBoyMemory
             Debug.Log("Starting DMA transfer...");
             DMATransfer(data);
         } else if(pos >= 0xE000 && pos <= 0xFDFF) {
-            Debug.Log("Writing to internal ram/ echo ram");
+            //Debug.Log("Writing to internal ram/ echo ram");
+            memory[pos] = data;
         }
         else {
             memory[pos] = data;
