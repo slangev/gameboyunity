@@ -201,6 +201,18 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0xB1:
                 A = OR(A,C);
                 break;
+            case 0xB2:
+                A = OR(A,D);
+                break;
+            case 0xB3:
+                A = OR(A,E);
+                break;
+            case 0xB4:
+                A = OR(A,H);
+                break;
+            case 0xB5:
+                A = OR(A,L);
+                break;
             case 0xF6:
                 byte r = m.ReadFromMemory(PC++);
                 A = OR(A,r);
@@ -261,8 +273,89 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x80:
                 A = ADD(B);
                 break;
+            case 0x81:
+                A = ADD(C);
+                break;
+            case 0x82:
+                A = ADD(D);
+                break;
+            case 0x83:
+                A = ADD(E);
+                break;
+            case 0x84:
+                A = ADD(H);
+                break;
+            case 0x85:
+                A = ADD(L);
+                break;
+            case 0x86:
+                HL = combineBytesToWord(H,L);
+                A = ADD(m.ReadFromMemory(HL));
+                break;
+            case 0x87:
+                A = ADD(A);
+                break;
+            case 0x88:
+                A = ADC(A,B);
+                break;
+            case 0x89:
+                A = ADC(A,C);
+                break;
+            case 0x8A:
+                A = ADC(A,D);
+                break;
             case 0x8B:
                 A = ADC(A,E);
+                break;
+            case 0x8C:
+                A = ADC(A,H);
+                break;
+            case 0x8D:
+                A = ADC(A,L);
+                break;
+            case 0x8E:
+                HL = combineBytesToWord(H,L);
+                A = ADC(A,m.ReadFromMemory(HL));
+                break;
+            case 0x8F:
+                A = ADC(A,A);
+                break;
+            case 0x90:
+                A = SUB(B);
+                break;
+            case 0x91:
+                A = SUB(C);
+                break;
+            case 0x92:
+                A = SUB(D);
+                break;
+            case 0x93:
+                A = SUB(E);
+                break;
+            case 0x94:
+                A = SUB(H);
+                break;
+            case 0x95:
+                A = SUB(L);
+                break;
+            case 0x96:
+                HL = combineBytesToWord(H,L);
+                A = SUB(m.ReadFromMemory(HL));
+                break;
+            case 0x97:
+                A = SUB(A);
+                break;
+            case 0x98:
+                A = SBC(A,B);
+                break;
+            case 0x99:
+                A = SBC(A,C);
+                break;
+            case 0x9A:
+                A = SBC(A,D);
+                break;
+            case 0x9B:
+                A = SBC(A,E);
                 break;
             case 0xC6:
                 byte n = m.ReadFromMemory(PC++);
@@ -272,17 +365,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 n = m.ReadFromMemory(PC++);
                 A = ADC(A,n);
                 break;
-            case 0x86:
-                HL = combineBytesToWord(H,L);
-                A = ADD(m.ReadFromMemory(HL));
-                break;
-            case 0x8E:
-                HL = combineBytesToWord(H,L);
-                A = ADC(A,m.ReadFromMemory(HL));
-                break;
-            case 0x87:
-                A = ADD(A);
-                break;
+
             case 0x19:
                 HL = combineBytesToWord(H,L);
                 ushort DE = combineBytesToWord(D,E);
@@ -297,6 +380,12 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 separatedBytes = separateWordToBytes(HL);
                 H = separatedBytes.Item1;
                 L = separatedBytes.Item2;
+                break;
+            case 0x37:
+                SCF();
+                break;
+            case 0x3F:
+                CCF();
                 break;
             case 0xA6:
                 HL = combineBytesToWord(H,L);
@@ -562,7 +651,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 break;
             case 0x17:
                 A = RL(A);
-                resetBit(ZFlag,F);
+                F = resetBit(ZFlag,F);
                 break;
             case 0x1A:
                 ushort pair = combineBytesToWord(D,E);
@@ -769,17 +858,35 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 HL = combineBytesToWord(H,L);
                 PC = HL;
                 break;
+            case 0xB8:
+                CP(B);
+                break;
+            case 0xB9:
+                CP(C);
+                break;
+            case 0xBA:
+                CP(D);
+                break;
+            case 0xBB:
+                CP(E);
+                break;
+            case 0xBC:
+                CP(H);
+                break;
+            case 0xBD:
+                CP(L);
+                break;
             case 0xBE:
                 HL = combineBytesToWord(H,L);
                 n = m.ReadFromMemory(HL);
                 CP(n);
                 break;
+            case 0xBF:
+                CP(A);
+                break;
             case 0xFE:
                 n = m.ReadFromMemory(PC++);
                 CP(n);
-                break;
-            case 0x90:
-                A = SUB(B);
                 break;
             case 0xD6:
                 n = m.ReadFromMemory(PC++);
@@ -866,7 +973,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                     case 0x1B:
                         E = RR(E);
                         break;
-                    case 0xEF:
+                    case 0x3F:
                         A = SRL(A);
                         break;
                     case 0x38:
@@ -944,6 +1051,11 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         return result > 0xF;
     }
 
+    private bool isHalfCarrySubWithCarry(byte r, byte n, byte carry) {
+        bool result = ((r & 0xf) < ((n & 0xf) + carry));
+        return result;
+    }
+
     private bool isHalfCarryAddWord(ushort r, ushort n) {
         uint result = (uint)(((r & 0x0fff) + (n & 0x0fff)));
         return result > 0xfff;
@@ -965,6 +1077,10 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     private bool isCarryAddWithCarry(byte r, byte n, byte carry) {
         ushort result = (ushort)(r + n + carry);
         return result > 0xFF;
+    }
+
+     private bool isCarrySubWithCarry(byte r, byte n, byte carry) {
+        return r < (n + carry);
     }
 
     private bool isCarryAddWord(ushort r, ushort n) {
@@ -1336,5 +1452,34 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         F = (isCarryAddWithCarry(r,n,cy)) ? setBit(CFlag,F) : resetBit(CFlag,F);
         clearLowerBitOfF();
         return result;
+    }
+
+    //page 92
+    private byte SBC(byte r, byte n) {
+        byte cy = getBit(CFlag,F);
+        byte result = (byte)(r-n-cy);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = setBit(NFlag,F);
+        F = (isHalfCarrySubWithCarry(r,n,cy)) ? setBit(HFlag,F) : resetBit(HFlag,F);
+        F = (isCarrySubWithCarry(r,n,cy)) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        clearLowerBitOfF();
+        return result;
+    }
+
+    // http://www.devrs.com/gb/files/GBCPU_Instr.html#SCF
+    private void SCF() {
+        F = resetBit(NFlag,F);
+        F = resetBit(HFlag,F);
+        F = setBit(CFlag,F);
+        clearLowerBitOfF();
+    }
+
+    // http://www.devrs.com/gb/files/GBCPU_Instr.html#CCF
+    private void CCF() {
+        byte getC = getBit(CFlag,F);
+        F = resetBit(NFlag,F);
+        F = resetBit(HFlag,F);
+        F = (getC == 1) ? resetBit(CFlag,F) : setBit(CFlag,F);
+        clearLowerBitOfF();
     }
 }
