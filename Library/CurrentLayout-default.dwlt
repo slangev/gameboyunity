@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 805
+    x: 0
     y: 45
-    width: 875
-    height: 954
+    width: 1680
+    height: 953
   m_ShowMode: 4
   m_Title: Inspector
   m_RootView: {fileID: 2}
@@ -44,9 +44,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 875
-    height: 954
-  m_MinSize: {x: 875, y: 300}
+    width: 1680
+    height: 953
+  m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -65,7 +65,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 875
+    width: 1680
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -86,8 +86,8 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 934
-    width: 875
+    y: 933
+    width: 1680
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -109,12 +109,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 875
-    height: 904
+    width: 1680
+    height: 903
   m_MinSize: {x: 577, y: 300}
   m_MaxSize: {x: 12002, y: 8021}
   vertical: 0
-  controlID: 108
+  controlID: 24
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -134,12 +134,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 875
-    height: 904
+    width: 1680
+    height: 903
   m_MinSize: {x: 577, y: 300}
   m_MaxSize: {x: 12002, y: 8021}
   vertical: 1
-  controlID: 109
+  controlID: 25
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -160,12 +160,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 875
-    height: 520
+    width: 1680
+    height: 573
   m_MinSize: {x: 577, y: 200}
   m_MaxSize: {x: 12002, y: 4021}
   vertical: 0
-  controlID: 110
+  controlID: 26
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -183,8 +183,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 201
-    height: 520
+    width: 386
+    height: 573
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
@@ -207,12 +207,12 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 201
+    x: 386
     y: 0
-    width: 398
-    height: 520
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+    width: 764
+    height: 573
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 12}
@@ -235,10 +235,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 599
+    x: 1150
     y: 0
-    width: 276
-    height: 520
+    width: 530
+    height: 573
   m_MinSize: {x: 275, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
@@ -264,9 +264,9 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 520
-    width: 875
-    height: 384
+    y: 573
+    width: 1680
+    height: 330
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 20}
@@ -298,10 +298,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1006
+    x: 386
     y: 75
-    width: 396
-    height: 499
+    width: 762
+    height: 552
   m_ViewDataDictionary: {fileID: 0}
   m_SerializedViewNames: []
   m_SerializedViewValues: []
@@ -347,23 +347,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 396
-      height: 478
-    m_Scale: {x: 4, y: 4}
-    m_Translation: {x: 198, y: 239}
+      width: 762
+      height: 531
+    m_Scale: {x: 7, y: 7.0000005}
+    m_Translation: {x: 381, y: 265.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -49.5
-      y: -59.75
-      width: 99
-      height: 119.5
+      x: -54.42857
+      y: -37.92857
+      width: 108.85714
+      height: 75.85714
     m_MinimalGUI: 1
-  m_defaultScale: 4
-  m_LastWindowPixelSize: {x: 792, y: 998}
+  m_defaultScale: 7
+  m_LastWindowPixelSize: {x: 1524, y: 1104}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000000000100000100
@@ -390,17 +390,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 805
+    x: 0
     y: 75
-    width: 200
-    height: 499
+    width: 385
+    height: 552
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 2a77ffffbe77ffffd678ffff6a79ffff887affff1c7bffff387cffffcc7cffffcc81ffffe881ffff7c82ffff1083ffffa483ffff3884ffff2e89ffffbc8affff528bffff308fffff5090fffff290ffff8c91ffff5a95ffff8295ffff2c97fffffe9affffc89effff20a3ffffe8a6ffffacaafffff2aeffff86b0ffff1ab1ffffaeb1ffff64b5ffff84b6ffff36baffff56bbfffff0bbffff84bcffffa4bdffff4ec1ffff76c2ffff10c3ffffb6c6ffff44c8ffffe6cbffff00cdffff9ed0ffffb8d1ffff4cd2ffff6cd3ffff00d4ffff0ad7ffff9ed7ffffb8d8ffff4cd9ffffe0dcffff00deffff94deffff3ee0ffffd2e0ffff54e4ffffece5ffff80e6ffff9ee7ffff1cebffffaeebffffceebffffeeebffff0eecffff30ecffffaeefffffcef0ffff60f1ffff88f1ffff02f5ffff2af6ffffa0f9ffff64fbffff
+      m_SelectedIDs: 463a0000
+      m_LastClickedID: 14918
+      m_ExpandedIDs: 24f9ffff40f9ffffd2f9fffff2f9ffff12faffff32faffff64fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -448,7 +448,7 @@ MonoBehaviour:
     x: 386
     y: 75
     width: 762
-    height: 470
+    height: 552
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: 05ea3f42e877c493c9a1847ecb13036c
@@ -559,22 +559,22 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1006
+    x: 386
     y: 75
-    width: 396
-    height: 499
+    width: 762
+    height: 552
   m_ViewDataDictionary: {fileID: 0}
   m_Spl:
-    ID: 169
-    splitterInitialOffset: 228
+    ID: 135
+    splitterInitialOffset: 280
     currentActiveSplitter: -1
-    realSizes: d6000000d7000000
+    realSizes: f0000000f2000000
     relativeSizes:
-    - 0.4984227
-    - 0.50157726
+    - 0.49766356
+    - 0.50233644
     minSizes: 2000000020000000
     maxSizes: 0000000000000000
-    lastTotalSize: 429
+    lastTotalSize: 482
     splitSize: 6
     xOffset: 0
   m_TestTypeToolbarIndex: 1
@@ -638,7 +638,7 @@ MonoBehaviour:
       name: Gameboy
       fullName: Gameboy
       resultStatus: 1
-      duration: 0.1374922
+      duration: 0.1559388
       messages: 
       output: 
       stacktrace: 
@@ -654,7 +654,7 @@ MonoBehaviour:
       name: Tests.dll
       fullName: /Users/sl/gameboyunity/Library/ScriptAssemblies/Tests.dll
       resultStatus: 1
-      duration: 0.1013408
+      duration: 0.0999646
       messages: 
       output: 
       stacktrace: 
@@ -670,7 +670,7 @@ MonoBehaviour:
       name: Tests
       fullName: Tests
       resultStatus: 1
-      duration: 0.0822598
+      duration: 0.0942507
       messages: 
       output: 
       stacktrace: 
@@ -686,7 +686,7 @@ MonoBehaviour:
       name: GameBoyTest
       fullName: Tests.GameBoyTest
       resultStatus: 1
-      duration: 0.0756219
+      duration: 0.0866878
       messages: 
       output: 
       stacktrace: 
@@ -702,7 +702,7 @@ MonoBehaviour:
       name: GameBoyTesDECBC
       fullName: Tests.GameBoyTest.GameBoyTesDECBC
       resultStatus: 1
-      duration: 0.0420445
+      duration: 0.0012184
       messages: 
       output: 
       stacktrace: 
@@ -719,7 +719,41 @@ MonoBehaviour:
       name: GameBoyTesDECDE
       fullName: Tests.GameBoyTest.GameBoyTesDECDE
       resultStatus: 1
-      duration: 0.0064116
+      duration: 0.0007265
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1123
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTesDECHL]
+      name: GameBoyTesDECHL
+      fullName: Tests.GameBoyTest.GameBoyTesDECHL
+      resultStatus: 1
+      duration: 0.0007309
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1130
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTesDECSP]
+      name: GameBoyTesDECSP
+      fullName: Tests.GameBoyTest.GameBoyTesDECSP
+      resultStatus: 1
+      duration: 0.0010283
       messages: 
       output: 
       stacktrace: 
@@ -736,7 +770,7 @@ MonoBehaviour:
       name: GameBoyTestADCAA
       fullName: Tests.GameBoyTest.GameBoyTestADCAA
       resultStatus: 1
-      duration: 0.0022792
+      duration: 0.0080269
       messages: 
       output: 
       stacktrace: 
@@ -753,7 +787,7 @@ MonoBehaviour:
       name: GameBoyTestADCAB
       fullName: Tests.GameBoyTest.GameBoyTestADCAB
       resultStatus: 1
-      duration: 0.0012652
+      duration: 0.0006618
       messages: 
       output: 
       stacktrace: 
@@ -770,7 +804,7 @@ MonoBehaviour:
       name: GameBoyTestADCAC
       fullName: Tests.GameBoyTest.GameBoyTestADCAC
       resultStatus: 1
-      duration: 0.0016325
+      duration: 0.0007682
       messages: 
       output: 
       stacktrace: 
@@ -787,7 +821,7 @@ MonoBehaviour:
       name: GameBoyTestADCAD
       fullName: Tests.GameBoyTest.GameBoyTestADCAD
       resultStatus: 1
-      duration: 0.0061201
+      duration: 0.000657
       messages: 
       output: 
       stacktrace: 
@@ -804,7 +838,7 @@ MonoBehaviour:
       name: GameBoyTestADCAd8
       fullName: Tests.GameBoyTest.GameBoyTestADCAd8
       resultStatus: 1
-      duration: 0.000722
+      duration: 0.0006706
       messages: 
       output: 
       stacktrace: 
@@ -821,7 +855,7 @@ MonoBehaviour:
       name: GameBoyTestADCAE
       fullName: Tests.GameBoyTest.GameBoyTestADCAE
       resultStatus: 1
-      duration: 0.0007139
+      duration: 0.0011887
       messages: 
       output: 
       stacktrace: 
@@ -838,7 +872,7 @@ MonoBehaviour:
       name: GameBoyTestADCAH
       fullName: Tests.GameBoyTest.GameBoyTestADCAH
       resultStatus: 1
-      duration: 0.0009741
+      duration: 0.00629
       messages: 
       output: 
       stacktrace: 
@@ -855,7 +889,7 @@ MonoBehaviour:
       name: GameBoyTestADCAHL
       fullName: Tests.GameBoyTest.GameBoyTestADCAHL
       resultStatus: 1
-      duration: 0.0009122
+      duration: 0.0006535
       messages: 
       output: 
       stacktrace: 
@@ -872,7 +906,7 @@ MonoBehaviour:
       name: GameBoyTestADCAL
       fullName: Tests.GameBoyTest.GameBoyTestADCAL
       resultStatus: 1
-      duration: 0.0058131
+      duration: 0.0006277
       messages: 
       output: 
       stacktrace: 
@@ -889,7 +923,7 @@ MonoBehaviour:
       name: GameBoyTestADDA
       fullName: Tests.GameBoyTest.GameBoyTestADDA
       resultStatus: 1
-      duration: 0.0010624
+      duration: 0.000924
       messages: 
       output: 
       stacktrace: 
@@ -906,7 +940,7 @@ MonoBehaviour:
       name: GameBoyTestADDB
       fullName: Tests.GameBoyTest.GameBoyTestADDB
       resultStatus: 1
-      duration: 0.0007409
+      duration: 0.000736
       messages: 
       output: 
       stacktrace: 
@@ -923,7 +957,7 @@ MonoBehaviour:
       name: GameBoyTestADDC
       fullName: Tests.GameBoyTest.GameBoyTestADDC
       resultStatus: 1
-      duration: 0.000767
+      duration: 0.0008015
       messages: 
       output: 
       stacktrace: 
@@ -940,7 +974,7 @@ MonoBehaviour:
       name: GameBoyTestADDD
       fullName: Tests.GameBoyTest.GameBoyTestADDD
       resultStatus: 1
-      duration: 0.0056876
+      duration: 0.0068768
       messages: 
       output: 
       stacktrace: 
@@ -957,7 +991,7 @@ MonoBehaviour:
       name: GameBoyTestADDE
       fullName: Tests.GameBoyTest.GameBoyTestADDE
       resultStatus: 1
-      duration: 0.0007051
+      duration: 0.0009185
       messages: 
       output: 
       stacktrace: 
@@ -974,7 +1008,7 @@ MonoBehaviour:
       name: GameBoyTestADDH
       fullName: Tests.GameBoyTest.GameBoyTestADDH
       resultStatus: 1
-      duration: 0.0006833
+      duration: 0.0008825
       messages: 
       output: 
       stacktrace: 
@@ -991,7 +1025,24 @@ MonoBehaviour:
       name: GameBoyTestADDHL
       fullName: Tests.GameBoyTest.GameBoyTestADDHL
       resultStatus: 1
-      duration: 0.0007544
+      duration: 0.0009256
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1135
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestADDHLBC]
+      name: GameBoyTestADDHLBC
+      fullName: Tests.GameBoyTest.GameBoyTestADDHLBC
+      resultStatus: 1
+      duration: 0.0012657
       messages: 
       output: 
       stacktrace: 
@@ -1008,7 +1059,7 @@ MonoBehaviour:
       name: GameBoyTestADDHLDE
       fullName: Tests.GameBoyTest.GameBoyTestADDHLDE
       resultStatus: 1
-      duration: 0.001096
+      duration: 0.0072269
       messages: 
       output: 
       stacktrace: 
@@ -1025,7 +1076,58 @@ MonoBehaviour:
       name: GameBoyTestADDHLHL
       fullName: Tests.GameBoyTest.GameBoyTestADDHLHL
       resultStatus: 1
-      duration: 0.0059525
+      duration: 0.0007169
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1134
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestADDHLSP]
+      name: GameBoyTestADDHLSP
+      fullName: Tests.GameBoyTest.GameBoyTestADDHLSP
+      resultStatus: 1
+      duration: 0.0007309
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1135
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestADDHLSPN]
+      name: GameBoyTestADDHLSPN
+      fullName: Tests.GameBoyTest.GameBoyTestADDHLSPN
+      resultStatus: 1
+      duration: 0.0007802
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1136
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestADDHLSPNSigned]
+      name: GameBoyTestADDHLSPNSigned
+      fullName: Tests.GameBoyTest.GameBoyTestADDHLSPNSigned
+      resultStatus: 1
+      duration: 0.0007482
       messages: 
       output: 
       stacktrace: 
@@ -1042,7 +1144,7 @@ MonoBehaviour:
       name: GameBoyTestADDL
       fullName: Tests.GameBoyTest.GameBoyTestADDL
       resultStatus: 1
-      duration: 0.0007468
+      duration: 0.0007584
       messages: 
       output: 
       stacktrace: 
@@ -1059,7 +1161,58 @@ MonoBehaviour:
       name: GameBoyTestADDn
       fullName: Tests.GameBoyTest.GameBoyTestADDn
       resultStatus: 1
-      duration: 0.000718
+      duration: 0.0067721
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1135
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestADDSPN]
+      name: GameBoyTestADDSPN
+      fullName: Tests.GameBoyTest.GameBoyTestADDSPN
+      resultStatus: 1
+      duration: 0.000727
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1138
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestADDSPNSigned]
+      name: GameBoyTestADDSPNSigned
+      fullName: Tests.GameBoyTest.GameBoyTestADDSPNSigned
+      resultStatus: 1
+      duration: 0.0007025
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1139
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestADDSPNSignedTwo]
+      name: GameBoyTestADDSPNSignedTwo
+      fullName: Tests.GameBoyTest.GameBoyTestADDSPNSignedTwo
+      resultStatus: 1
+      duration: 0.0007591
       messages: 
       output: 
       stacktrace: 
@@ -1076,7 +1229,24 @@ MonoBehaviour:
       name: GameBoyTestANDA
       fullName: Tests.GameBoyTest.GameBoyTestANDA
       resultStatus: 1
-      duration: 0.0009002
+      duration: 0.0008683
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1077
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestANDB]
+      name: GameBoyTestANDB
+      fullName: Tests.GameBoyTest.GameBoyTestANDB
+      resultStatus: 1
+      duration: 0.0007416
       messages: 
       output: 
       stacktrace: 
@@ -1093,7 +1263,24 @@ MonoBehaviour:
       name: GameBoyTestANDC
       fullName: Tests.GameBoyTest.GameBoyTestANDC
       resultStatus: 1
-      duration: 0.0008249
+      duration: 0.0067926
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1079
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestANDD]
+      name: GameBoyTestANDD
+      fullName: Tests.GameBoyTest.GameBoyTestANDD
+      resultStatus: 1
+      duration: 0.0008333
       messages: 
       output: 
       stacktrace: 
@@ -1110,7 +1297,41 @@ MonoBehaviour:
       name: GameBoyTestANDd8
       fullName: Tests.GameBoyTest.GameBoyTestANDd8
       resultStatus: 1
-      duration: 0.0057081
+      duration: 0.000778
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1080
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestANDE]
+      name: GameBoyTestANDE
+      fullName: Tests.GameBoyTest.GameBoyTestANDE
+      resultStatus: 1
+      duration: 0.0007886
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1081
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestANDH]
+      name: GameBoyTestANDH
+      fullName: Tests.GameBoyTest.GameBoyTestANDH
+      resultStatus: 1
+      duration: 0.0007821
       messages: 
       output: 
       stacktrace: 
@@ -1127,7 +1348,976 @@ MonoBehaviour:
       name: GameBoyTestANDHL
       fullName: Tests.GameBoyTest.GameBoyTestANDHL
       resultStatus: 1
-      duration: 0.0007591
+      duration: 0.007246
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1082
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestANDL]
+      name: GameBoyTestANDL
+      fullName: Tests.GameBoyTest.GameBoyTestANDL
+      resultStatus: 1
+      duration: 0.0007781
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1159
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit0A]
+      name: GameBoyTestBit0A
+      fullName: Tests.GameBoyTest.GameBoyTestBit0A
+      resultStatus: 1
+      duration: 0.0009445
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1153
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit0B]
+      name: GameBoyTestBit0B
+      fullName: Tests.GameBoyTest.GameBoyTestBit0B
+      resultStatus: 1
+      duration: 0.0007897
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1154
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit0C]
+      name: GameBoyTestBit0C
+      fullName: Tests.GameBoyTest.GameBoyTestBit0C
+      resultStatus: 1
+      duration: 0.0007945
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1155
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit0D]
+      name: GameBoyTestBit0D
+      fullName: Tests.GameBoyTest.GameBoyTestBit0D
+      resultStatus: 1
+      duration: 0.0007273
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1156
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit0E]
+      name: GameBoyTestBit0E
+      fullName: Tests.GameBoyTest.GameBoyTestBit0E
+      resultStatus: 1
+      duration: 0.006985
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1157
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit0H]
+      name: GameBoyTestBit0H
+      fullName: Tests.GameBoyTest.GameBoyTestBit0H
+      resultStatus: 1
+      duration: 0.0006832
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1158
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit0L]
+      name: GameBoyTestBit0L
+      fullName: Tests.GameBoyTest.GameBoyTestBit0L
+      resultStatus: 1
+      duration: 0.0007185
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1166
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit1A]
+      name: GameBoyTestBit1A
+      fullName: Tests.GameBoyTest.GameBoyTestBit1A
+      resultStatus: 1
+      duration: 0.0006899
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1160
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit1B]
+      name: GameBoyTestBit1B
+      fullName: Tests.GameBoyTest.GameBoyTestBit1B
+      resultStatus: 1
+      duration: 0.0006981
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1161
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit1C]
+      name: GameBoyTestBit1C
+      fullName: Tests.GameBoyTest.GameBoyTestBit1C
+      resultStatus: 1
+      duration: 0.0007136
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1162
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit1D]
+      name: GameBoyTestBit1D
+      fullName: Tests.GameBoyTest.GameBoyTestBit1D
+      resultStatus: 1
+      duration: 0.0069797
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1163
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit1E]
+      name: GameBoyTestBit1E
+      fullName: Tests.GameBoyTest.GameBoyTestBit1E
+      resultStatus: 1
+      duration: 0.0006915
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1164
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit1H]
+      name: GameBoyTestBit1H
+      fullName: Tests.GameBoyTest.GameBoyTestBit1H
+      resultStatus: 1
+      duration: 0.0006672
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1165
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit1L]
+      name: GameBoyTestBit1L
+      fullName: Tests.GameBoyTest.GameBoyTestBit1L
+      resultStatus: 1
+      duration: 0.0006877
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1173
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit2A]
+      name: GameBoyTestBit2A
+      fullName: Tests.GameBoyTest.GameBoyTestBit2A
+      resultStatus: 1
+      duration: 0.0007146
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1167
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit2B]
+      name: GameBoyTestBit2B
+      fullName: Tests.GameBoyTest.GameBoyTestBit2B
+      resultStatus: 1
+      duration: 0.0007919
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1168
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit2C]
+      name: GameBoyTestBit2C
+      fullName: Tests.GameBoyTest.GameBoyTestBit2C
+      resultStatus: 1
+      duration: 0.0072921
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1169
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit2D]
+      name: GameBoyTestBit2D
+      fullName: Tests.GameBoyTest.GameBoyTestBit2D
+      resultStatus: 1
+      duration: 0.0008737
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1170
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit2E]
+      name: GameBoyTestBit2E
+      fullName: Tests.GameBoyTest.GameBoyTestBit2E
+      resultStatus: 1
+      duration: 0.0008051
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1171
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit2H]
+      name: GameBoyTestBit2H
+      fullName: Tests.GameBoyTest.GameBoyTestBit2H
+      resultStatus: 1
+      duration: 0.0008272
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1172
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit2L]
+      name: GameBoyTestBit2L
+      fullName: Tests.GameBoyTest.GameBoyTestBit2L
+      resultStatus: 1
+      duration: 0.0008662
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1180
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit3A]
+      name: GameBoyTestBit3A
+      fullName: Tests.GameBoyTest.GameBoyTestBit3A
+      resultStatus: 1
+      duration: 0.007185
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1174
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit3B]
+      name: GameBoyTestBit3B
+      fullName: Tests.GameBoyTest.GameBoyTestBit3B
+      resultStatus: 1
+      duration: 0.0006918
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1175
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit3C]
+      name: GameBoyTestBit3C
+      fullName: Tests.GameBoyTest.GameBoyTestBit3C
+      resultStatus: 1
+      duration: 0.0007061
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1176
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit3D]
+      name: GameBoyTestBit3D
+      fullName: Tests.GameBoyTest.GameBoyTestBit3D
+      resultStatus: 1
+      duration: 0.0006979
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1177
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit3E]
+      name: GameBoyTestBit3E
+      fullName: Tests.GameBoyTest.GameBoyTestBit3E
+      resultStatus: 1
+      duration: 0.0006818
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1178
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit3H]
+      name: GameBoyTestBit3H
+      fullName: Tests.GameBoyTest.GameBoyTestBit3H
+      resultStatus: 1
+      duration: 0.0007197
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1179
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit3L]
+      name: GameBoyTestBit3L
+      fullName: Tests.GameBoyTest.GameBoyTestBit3L
+      resultStatus: 1
+      duration: 0.0068877
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1187
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit4A]
+      name: GameBoyTestBit4A
+      fullName: Tests.GameBoyTest.GameBoyTestBit4A
+      resultStatus: 1
+      duration: 0.0006967
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1181
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit4B]
+      name: GameBoyTestBit4B
+      fullName: Tests.GameBoyTest.GameBoyTestBit4B
+      resultStatus: 1
+      duration: 0.000666
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1182
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit4C]
+      name: GameBoyTestBit4C
+      fullName: Tests.GameBoyTest.GameBoyTestBit4C
+      resultStatus: 1
+      duration: 0.0007363
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1183
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit4D]
+      name: GameBoyTestBit4D
+      fullName: Tests.GameBoyTest.GameBoyTestBit4D
+      resultStatus: 1
+      duration: 0.0007074
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1184
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit4E]
+      name: GameBoyTestBit4E
+      fullName: Tests.GameBoyTest.GameBoyTestBit4E
+      resultStatus: 1
+      duration: 0.0007075
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1185
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit4H]
+      name: GameBoyTestBit4H
+      fullName: Tests.GameBoyTest.GameBoyTestBit4H
+      resultStatus: 1
+      duration: 0.006889
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1186
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit4L]
+      name: GameBoyTestBit4L
+      fullName: Tests.GameBoyTest.GameBoyTestBit4L
+      resultStatus: 1
+      duration: 0.0008114
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1194
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit5A]
+      name: GameBoyTestBit5A
+      fullName: Tests.GameBoyTest.GameBoyTestBit5A
+      resultStatus: 1
+      duration: 0.000814
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1188
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit5B]
+      name: GameBoyTestBit5B
+      fullName: Tests.GameBoyTest.GameBoyTestBit5B
+      resultStatus: 1
+      duration: 0.0007684
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1189
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit5C]
+      name: GameBoyTestBit5C
+      fullName: Tests.GameBoyTest.GameBoyTestBit5C
+      resultStatus: 1
+      duration: 0.0007945
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1190
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit5D]
+      name: GameBoyTestBit5D
+      fullName: Tests.GameBoyTest.GameBoyTestBit5D
+      resultStatus: 1
+      duration: 0.0007884
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1191
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit5E]
+      name: GameBoyTestBit5E
+      fullName: Tests.GameBoyTest.GameBoyTestBit5E
+      resultStatus: 1
+      duration: 0.007405
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1192
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit5H]
+      name: GameBoyTestBit5H
+      fullName: Tests.GameBoyTest.GameBoyTestBit5H
+      resultStatus: 1
+      duration: 0.0008292
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1193
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit5L]
+      name: GameBoyTestBit5L
+      fullName: Tests.GameBoyTest.GameBoyTestBit5L
+      resultStatus: 1
+      duration: 0.0009625
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1201
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit6A]
+      name: GameBoyTestBit6A
+      fullName: Tests.GameBoyTest.GameBoyTestBit6A
+      resultStatus: 1
+      duration: 0.0007669
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1195
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit6B]
+      name: GameBoyTestBit6B
+      fullName: Tests.GameBoyTest.GameBoyTestBit6B
+      resultStatus: 1
+      duration: 0.0007358
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1196
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit6C]
+      name: GameBoyTestBit6C
+      fullName: Tests.GameBoyTest.GameBoyTestBit6C
+      resultStatus: 1
+      duration: 0.0007392
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1197
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit6D]
+      name: GameBoyTestBit6D
+      fullName: Tests.GameBoyTest.GameBoyTestBit6D
+      resultStatus: 1
+      duration: 0.0067067
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1198
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit6E]
+      name: GameBoyTestBit6E
+      fullName: Tests.GameBoyTest.GameBoyTestBit6E
+      resultStatus: 1
+      duration: 0.0007569
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1199
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit6H]
+      name: GameBoyTestBit6H
+      fullName: Tests.GameBoyTest.GameBoyTestBit6H
+      resultStatus: 1
+      duration: 0.0007046
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1200
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit6L]
+      name: GameBoyTestBit6L
+      fullName: Tests.GameBoyTest.GameBoyTestBit6L
+      resultStatus: 1
+      duration: 0.0007082
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1208
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit7A]
+      name: GameBoyTestBit7A
+      fullName: Tests.GameBoyTest.GameBoyTestBit7A
+      resultStatus: 1
+      duration: 0.000708
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1202
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit7B]
+      name: GameBoyTestBit7B
+      fullName: Tests.GameBoyTest.GameBoyTestBit7B
+      resultStatus: 1
+      duration: 0.0067866
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1203
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit7C]
+      name: GameBoyTestBit7C
+      fullName: Tests.GameBoyTest.GameBoyTestBit7C
+      resultStatus: 1
+      duration: 0.0007397
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1204
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit7D]
+      name: GameBoyTestBit7D
+      fullName: Tests.GameBoyTest.GameBoyTestBit7D
+      resultStatus: 1
+      duration: 0.000657
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1205
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit7E]
+      name: GameBoyTestBit7E
+      fullName: Tests.GameBoyTest.GameBoyTestBit7E
+      resultStatus: 1
+      duration: 0.000686
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1206
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit7H]
+      name: GameBoyTestBit7H
+      fullName: Tests.GameBoyTest.GameBoyTestBit7H
+      resultStatus: 1
+      duration: 0.0007215
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1207
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestBit7L]
+      name: GameBoyTestBit7L
+      fullName: Tests.GameBoyTest.GameBoyTestBit7L
+      resultStatus: 1
+      duration: 0.0007506
       messages: 
       output: 
       stacktrace: 
@@ -1144,7 +2334,7 @@ MonoBehaviour:
       name: GameBoyTestBitTest
       fullName: Tests.GameBoyTest.GameBoyTestBitTest
       resultStatus: 1
-      duration: 0.0010581
+      duration: 0.0075427
       messages: 
       output: 
       stacktrace: 
@@ -1161,7 +2351,7 @@ MonoBehaviour:
       name: GameBoyTestCallC
       fullName: Tests.GameBoyTest.GameBoyTestCallC
       resultStatus: 1
-      duration: 0.0011519
+      duration: 0.0011676
       messages: 
       output: 
       stacktrace: 
@@ -1178,7 +2368,7 @@ MonoBehaviour:
       name: GameBoyTestCallCSkip
       fullName: Tests.GameBoyTest.GameBoyTestCallCSkip
       resultStatus: 1
-      duration: 0.0058666
+      duration: 0.0009096
       messages: 
       output: 
       stacktrace: 
@@ -1195,7 +2385,7 @@ MonoBehaviour:
       name: GameBoyTestCallNC
       fullName: Tests.GameBoyTest.GameBoyTestCallNC
       resultStatus: 1
-      duration: 0.0008089
+      duration: 0.0010065
       messages: 
       output: 
       stacktrace: 
@@ -1212,7 +2402,7 @@ MonoBehaviour:
       name: GameBoyTestCallNN
       fullName: Tests.GameBoyTest.GameBoyTestCallNN
       resultStatus: 1
-      duration: 0.0008593
+      duration: 0.0009711
       messages: 
       output: 
       stacktrace: 
@@ -1229,7 +2419,7 @@ MonoBehaviour:
       name: GameBoyTestCallNZ
       fullName: Tests.GameBoyTest.GameBoyTestCallNZ
       resultStatus: 1
-      duration: 0.0008258
+      duration: 0.0009232
       messages: 
       output: 
       stacktrace: 
@@ -1246,7 +2436,7 @@ MonoBehaviour:
       name: GameBoyTestCallNZSkip
       fullName: Tests.GameBoyTest.GameBoyTestCallNZSkip
       resultStatus: 1
-      duration: 0.0007714
+      duration: 0.0070785
       messages: 
       output: 
       stacktrace: 
@@ -1263,7 +2453,24 @@ MonoBehaviour:
       name: GameBoyTestCallZ
       fullName: Tests.GameBoyTest.GameBoyTestCallZ
       resultStatus: 1
-      duration: 0.0058172
+      duration: 0.0007908
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1219
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestCBRLA]
+      name: GameBoyTestCBRLA
+      fullName: Tests.GameBoyTest.GameBoyTestCBRLA
+      resultStatus: 1
+      duration: 0.0009294
       messages: 
       output: 
       stacktrace: 
@@ -1280,7 +2487,7 @@ MonoBehaviour:
       name: GameBoyTestCCF
       fullName: Tests.GameBoyTest.GameBoyTestCCF
       resultStatus: 1
-      duration: 0.0008353
+      duration: 0.0008127
       messages: 
       output: 
       stacktrace: 
@@ -1297,7 +2504,7 @@ MonoBehaviour:
       name: GameBoyTestCPA
       fullName: Tests.GameBoyTest.GameBoyTestCPA
       resultStatus: 1
-      duration: 0.0011468
+      duration: 0.0010258
       messages: 
       output: 
       stacktrace: 
@@ -1314,7 +2521,7 @@ MonoBehaviour:
       name: GameBoyTestCPB
       fullName: Tests.GameBoyTest.GameBoyTestCPB
       resultStatus: 1
-      duration: 0.0007604
+      duration: 0.000751
       messages: 
       output: 
       stacktrace: 
@@ -1331,7 +2538,7 @@ MonoBehaviour:
       name: GameBoyTestCPC
       fullName: Tests.GameBoyTest.GameBoyTestCPC
       resultStatus: 1
-      duration: 0.0058822
+      duration: 0.006922
       messages: 
       output: 
       stacktrace: 
@@ -1348,7 +2555,7 @@ MonoBehaviour:
       name: GameBoyTestCPD
       fullName: Tests.GameBoyTest.GameBoyTestCPD
       resultStatus: 1
-      duration: 0.0008579
+      duration: 0.0007212
       messages: 
       output: 
       stacktrace: 
@@ -1365,7 +2572,7 @@ MonoBehaviour:
       name: GameBoyTestCPE
       fullName: Tests.GameBoyTest.GameBoyTestCPE
       resultStatus: 1
-      duration: 0.000767
+      duration: 0.0006947
       messages: 
       output: 
       stacktrace: 
@@ -1382,7 +2589,7 @@ MonoBehaviour:
       name: GameBoyTestCPH
       fullName: Tests.GameBoyTest.GameBoyTestCPH
       resultStatus: 1
-      duration: 0.0007402
+      duration: 0.0007187
       messages: 
       output: 
       stacktrace: 
@@ -1399,7 +2606,7 @@ MonoBehaviour:
       name: GameBoyTestCPHL
       fullName: Tests.GameBoyTest.GameBoyTestCPHL
       resultStatus: 1
-      duration: 0.0008877
+      duration: 0.0007393
       messages: 
       output: 
       stacktrace: 
@@ -1416,7 +2623,7 @@ MonoBehaviour:
       name: GameBoyTestCPL
       fullName: Tests.GameBoyTest.GameBoyTestCPL
       resultStatus: 1
-      duration: 0.0059566
+      duration: 0.0070904
       messages: 
       output: 
       stacktrace: 
@@ -1433,7 +2640,7 @@ MonoBehaviour:
       name: GameBoyTestCPLA
       fullName: Tests.GameBoyTest.GameBoyTestCPLA
       resultStatus: 1
-      duration: 0.0008679
+      duration: 0.0008842
       messages: 
       output: 
       stacktrace: 
@@ -1450,7 +2657,7 @@ MonoBehaviour:
       name: GameBoyTestCPN
       fullName: Tests.GameBoyTest.GameBoyTestCPN
       resultStatus: 1
-      duration: 0.0008018
+      duration: 0.0008066
       messages: 
       output: 
       stacktrace: 
@@ -1467,7 +2674,7 @@ MonoBehaviour:
       name: GameBoyTestDECA
       fullName: Tests.GameBoyTest.GameBoyTestDECA
       resultStatus: 1
-      duration: 0.0009587
+      duration: 0.0009679
       messages: 
       output: 
       stacktrace: 
@@ -1484,7 +2691,7 @@ MonoBehaviour:
       name: GameBoyTestDECB
       fullName: Tests.GameBoyTest.GameBoyTestDECB
       resultStatus: 1
-      duration: 0.0057574
+      duration: 0.0008157
       messages: 
       output: 
       stacktrace: 
@@ -1501,7 +2708,7 @@ MonoBehaviour:
       name: GameBoyTestDECC
       fullName: Tests.GameBoyTest.GameBoyTestDECC
       resultStatus: 1
-      duration: 0.0006834
+      duration: 0.0008063
       messages: 
       output: 
       stacktrace: 
@@ -1518,7 +2725,7 @@ MonoBehaviour:
       name: GameBoyTestDECD
       fullName: Tests.GameBoyTest.GameBoyTestDECD
       resultStatus: 1
-      duration: 0.0007335
+      duration: 0.0074711
       messages: 
       output: 
       stacktrace: 
@@ -1535,7 +2742,7 @@ MonoBehaviour:
       name: GameBoyTestDECE
       fullName: Tests.GameBoyTest.GameBoyTestDECE
       resultStatus: 1
-      duration: 0.0007152
+      duration: 0.0007249
       messages: 
       output: 
       stacktrace: 
@@ -1552,7 +2759,7 @@ MonoBehaviour:
       name: GameBoyTestDECFlag
       fullName: Tests.GameBoyTest.GameBoyTestDECFlag
       resultStatus: 1
-      duration: 0.0008411
+      duration: 0.0008598
       messages: 
       output: 
       stacktrace: 
@@ -1569,7 +2776,7 @@ MonoBehaviour:
       name: GameBoyTestDECH
       fullName: Tests.GameBoyTest.GameBoyTestDECH
       resultStatus: 1
-      duration: 0.0058091
+      duration: 0.0007046
       messages: 
       output: 
       stacktrace: 
@@ -1586,7 +2793,7 @@ MonoBehaviour:
       name: GameBoyTestDECL
       fullName: Tests.GameBoyTest.GameBoyTestDECL
       resultStatus: 1
-      duration: 0.0007141
+      duration: 0.0007294
       messages: 
       output: 
       stacktrace: 
@@ -1603,7 +2810,7 @@ MonoBehaviour:
       name: GameBoyTestINCA
       fullName: Tests.GameBoyTest.GameBoyTestINCA
       resultStatus: 1
-      duration: 0.0009042
+      duration: 0.0008749
       messages: 
       output: 
       stacktrace: 
@@ -1620,7 +2827,7 @@ MonoBehaviour:
       name: GameBoyTestINCB
       fullName: Tests.GameBoyTest.GameBoyTestINCB
       resultStatus: 1
-      duration: 0.0007703
+      duration: 0.0070362
       messages: 
       output: 
       stacktrace: 
@@ -1637,7 +2844,7 @@ MonoBehaviour:
       name: GameBoyTestINCC
       fullName: Tests.GameBoyTest.GameBoyTestINCC
       resultStatus: 1
-      duration: 0.0058086
+      duration: 0.0007144
       messages: 
       output: 
       stacktrace: 
@@ -1654,7 +2861,7 @@ MonoBehaviour:
       name: GameBoyTestINCD
       fullName: Tests.GameBoyTest.GameBoyTestINCD
       resultStatus: 1
-      duration: 0.000674
+      duration: 0.0006872
       messages: 
       output: 
       stacktrace: 
@@ -1671,7 +2878,7 @@ MonoBehaviour:
       name: GameBoyTestINCE
       fullName: Tests.GameBoyTest.GameBoyTestINCE
       resultStatus: 1
-      duration: 0.0008783
+      duration: 0.0006876
       messages: 
       output: 
       stacktrace: 
@@ -1688,7 +2895,7 @@ MonoBehaviour:
       name: GameBoyTestINCFlags
       fullName: Tests.GameBoyTest.GameBoyTestINCFlags
       resultStatus: 1
-      duration: 0.0007721
+      duration: 0.0007203
       messages: 
       output: 
       stacktrace: 
@@ -1705,7 +2912,7 @@ MonoBehaviour:
       name: GameBoyTestINCH
       fullName: Tests.GameBoyTest.GameBoyTestINCH
       resultStatus: 1
-      duration: 0.0007754
+      duration: 0.0007876
       messages: 
       output: 
       stacktrace: 
@@ -1722,7 +2929,7 @@ MonoBehaviour:
       name: GameBoyTestINCHL
       fullName: Tests.GameBoyTest.GameBoyTestINCHL
       resultStatus: 1
-      duration: 0.0058728
+      duration: 0.0070108
       messages: 
       output: 
       stacktrace: 
@@ -1739,7 +2946,7 @@ MonoBehaviour:
       name: GameBoyTestINCHLMemory
       fullName: Tests.GameBoyTest.GameBoyTestINCHLMemory
       resultStatus: 1
-      duration: 0.0006769
+      duration: 0.0008163
       messages: 
       output: 
       stacktrace: 
@@ -1756,7 +2963,24 @@ MonoBehaviour:
       name: GameBoyTestINCL
       fullName: Tests.GameBoyTest.GameBoyTestINCL
       resultStatus: 1
-      duration: 0.0007263
+      duration: 0.0008502
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1173
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestINCSP]
+      name: GameBoyTestINCSP
+      fullName: Tests.GameBoyTest.GameBoyTestINCSP
+      resultStatus: 1
+      duration: 0.0008759
       messages: 
       output: 
       stacktrace: 
@@ -1773,7 +2997,7 @@ MonoBehaviour:
       name: GameBoyTestInterruptsRST
       fullName: Tests.GameBoyTest.GameBoyTestInterruptsRST
       resultStatus: 1
-      duration: 0.0037102
+      duration: 0.004017
       messages: 
       output: 
       stacktrace: 
@@ -1790,7 +3014,7 @@ MonoBehaviour:
       name: GameBoyTestJP
       fullName: Tests.GameBoyTest.GameBoyTestJP
       resultStatus: 1
-      duration: 0.0008932
+      duration: 0.0010041
       messages: 
       output: 
       stacktrace: 
@@ -1807,7 +3031,7 @@ MonoBehaviour:
       name: GameBoyTestJPC
       fullName: Tests.GameBoyTest.GameBoyTestJPC
       resultStatus: 1
-      duration: 0.0058412
+      duration: 0.0073611
       messages: 
       output: 
       stacktrace: 
@@ -1824,7 +3048,7 @@ MonoBehaviour:
       name: GameBoyTestJPHL
       fullName: Tests.GameBoyTest.GameBoyTestJPHL
       resultStatus: 1
-      duration: 0.0007017
+      duration: 0.0007482
       messages: 
       output: 
       stacktrace: 
@@ -1841,7 +3065,7 @@ MonoBehaviour:
       name: GameBoyTestJPNC
       fullName: Tests.GameBoyTest.GameBoyTestJPNC
       resultStatus: 1
-      duration: 0.0007492
+      duration: 0.0008426
       messages: 
       output: 
       stacktrace: 
@@ -1858,7 +3082,7 @@ MonoBehaviour:
       name: GameBoyTestJPNZ
       fullName: Tests.GameBoyTest.GameBoyTestJPNZ
       resultStatus: 1
-      duration: 0.0007566
+      duration: 0.0007634
       messages: 
       output: 
       stacktrace: 
@@ -1875,7 +3099,7 @@ MonoBehaviour:
       name: GameBoyTestJPZZ
       fullName: Tests.GameBoyTest.GameBoyTestJPZZ
       resultStatus: 1
-      duration: 0.0058552
+      duration: 0.0007338
       messages: 
       output: 
       stacktrace: 
@@ -1892,7 +3116,7 @@ MonoBehaviour:
       name: GameBoyTestJR
       fullName: Tests.GameBoyTest.GameBoyTestJR
       resultStatus: 1
-      duration: 0.0010754
+      duration: 0.001071
       messages: 
       output: 
       stacktrace: 
@@ -1909,7 +3133,7 @@ MonoBehaviour:
       name: GameBoyTestJRCCC
       fullName: Tests.GameBoyTest.GameBoyTestJRCCC
       resultStatus: 1
-      duration: 0.0008127
+      duration: 0.0069069
       messages: 
       output: 
       stacktrace: 
@@ -1926,7 +3150,7 @@ MonoBehaviour:
       name: GameBoyTestJRCCNC
       fullName: Tests.GameBoyTest.GameBoyTestJRCCNC
       resultStatus: 1
-      duration: 0.0008594
+      duration: 0.0008093
       messages: 
       output: 
       stacktrace: 
@@ -1943,7 +3167,7 @@ MonoBehaviour:
       name: GameBoyTestJRCCNZ
       fullName: Tests.GameBoyTest.GameBoyTestJRCCNZ
       resultStatus: 1
-      duration: 0.000783
+      duration: 0.0007313
       messages: 
       output: 
       stacktrace: 
@@ -1960,7 +3184,7 @@ MonoBehaviour:
       name: GameBoyTestJRCCNZManyOpsFlow
       fullName: Tests.GameBoyTest.GameBoyTestJRCCNZManyOpsFlow
       resultStatus: 1
-      duration: 0.0136677
+      duration: 0.0084339
       messages: 
       output: 
       stacktrace: 
@@ -1977,7 +3201,7 @@ MonoBehaviour:
       name: GameBoyTestJRCCNZManyOpsFlowTimerInterrupts
       fullName: Tests.GameBoyTest.GameBoyTestJRCCNZManyOpsFlowTimerInterrupts
       resultStatus: 1
-      duration: 0.0127521
+      duration: 0.013007
       messages: 
       output: 
       stacktrace: 
@@ -1994,7 +3218,7 @@ MonoBehaviour:
       name: GameBoyTestJRCCNZManyOpsGraphicsInterrupts
       fullName: Tests.GameBoyTest.GameBoyTestJRCCNZManyOpsGraphicsInterrupts
       resultStatus: 1
-      duration: 0.0399592
+      duration: 0.0472996
       messages: 
       output: 
       stacktrace: 
@@ -2011,7 +3235,7 @@ MonoBehaviour:
       name: GameBoyTestJRCCZ
       fullName: Tests.GameBoyTest.GameBoyTestJRCCZ
       resultStatus: 1
-      duration: 0.0009189
+      duration: 0.0010293
       messages: 
       output: 
       stacktrace: 
@@ -2028,7 +3252,7 @@ MonoBehaviour:
       name: GameBoyTestLDCR
       fullName: Tests.GameBoyTest.GameBoyTestLDCR
       resultStatus: 1
-      duration: 0.0053841
+      duration: 0.0008511
       messages: 
       output: 
       stacktrace: 
@@ -2045,7 +3269,7 @@ MonoBehaviour:
       name: GameBoyTestLDDHLA
       fullName: Tests.GameBoyTest.GameBoyTestLDDHLA
       resultStatus: 1
-      duration: 0.0006271
+      duration: 0.0007341
       messages: 
       output: 
       stacktrace: 
@@ -2062,7 +3286,7 @@ MonoBehaviour:
       name: GameBoyTestLDDHLADEC
       fullName: Tests.GameBoyTest.GameBoyTestLDDHLADEC
       resultStatus: 1
-      duration: 0.0006117
+      duration: 0.0006934
       messages: 
       output: 
       stacktrace: 
@@ -2079,7 +3303,7 @@ MonoBehaviour:
       name: GameBoyTestLDDHLAINC
       fullName: Tests.GameBoyTest.GameBoyTestLDDHLAINC
       resultStatus: 1
-      duration: 0.0006482
+      duration: 0.0007991
       messages: 
       output: 
       stacktrace: 
@@ -2096,7 +3320,7 @@ MonoBehaviour:
       name: GameBoyTestLDDHLDEight
       fullName: Tests.GameBoyTest.GameBoyTestLDDHLDEight
       resultStatus: 1
-      duration: 0.0007332
+      duration: 0.0065612
       messages: 
       output: 
       stacktrace: 
@@ -2113,7 +3337,7 @@ MonoBehaviour:
       name: GameBoyTestLDNN
       fullName: Tests.GameBoyTest.GameBoyTestLDNN
       resultStatus: 1
-      duration: 0.0064105
+      duration: 0.0009606
       messages: 
       output: 
       stacktrace: 
@@ -2130,7 +3354,7 @@ MonoBehaviour:
       name: GameBoyTestLDNNA
       fullName: Tests.GameBoyTest.GameBoyTestLDNNA
       resultStatus: 1
-      duration: 0.0008726
+      duration: 0.0008693
       messages: 
       output: 
       stacktrace: 
@@ -2147,7 +3371,7 @@ MonoBehaviour:
       name: GameBoyTestLDNNAHLI
       fullName: Tests.GameBoyTest.GameBoyTestLDNNAHLI
       resultStatus: 1
-      duration: 0.0007755
+      duration: 0.000803
       messages: 
       output: 
       stacktrace: 
@@ -2164,7 +3388,7 @@ MonoBehaviour:
       name: GameBoyTestLDRNC
       fullName: Tests.GameBoyTest.GameBoyTestLDRNC
       resultStatus: 1
-      duration: 0.0007258
+      duration: 0.0007356
       messages: 
       output: 
       stacktrace: 
@@ -2181,7 +3405,7 @@ MonoBehaviour:
       name: GameBoyTestLDRND
       fullName: Tests.GameBoyTest.GameBoyTestLDRND
       resultStatus: 1
-      duration: 0.0056713
+      duration: 0.0064926
       messages: 
       output: 
       stacktrace: 
@@ -2198,7 +3422,7 @@ MonoBehaviour:
       name: GameBoyTestLDRNE
       fullName: Tests.GameBoyTest.GameBoyTestLDRNE
       resultStatus: 1
-      duration: 0.0006312
+      duration: 0.0006262
       messages: 
       output: 
       stacktrace: 
@@ -2215,7 +3439,7 @@ MonoBehaviour:
       name: GameBoyTestLDRNHn
       fullName: Tests.GameBoyTest.GameBoyTestLDRNHn
       resultStatus: 1
-      duration: 0.0006135
+      duration: 0.0006636
       messages: 
       output: 
       stacktrace: 
@@ -2232,7 +3456,7 @@ MonoBehaviour:
       name: GameBoyTestLDRNLn
       fullName: Tests.GameBoyTest.GameBoyTestLDRNLn
       resultStatus: 1
-      duration: 0.0006273
+      duration: 0.0006372
       messages: 
       output: 
       stacktrace: 
@@ -2249,7 +3473,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRAA
       fullName: Tests.GameBoyTest.GameBoyTestLDRRAA
       resultStatus: 1
-      duration: 0.0007455
+      duration: 0.0007157
       messages: 
       output: 
       stacktrace: 
@@ -2266,7 +3490,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRAB
       fullName: Tests.GameBoyTest.GameBoyTestLDRRAB
       resultStatus: 1
-      duration: 0.0055965
+      duration: 0.0007374
       messages: 
       output: 
       stacktrace: 
@@ -2283,7 +3507,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRAC
       fullName: Tests.GameBoyTest.GameBoyTestLDRRAC
       resultStatus: 1
-      duration: 0.0007091
+      duration: 0.0069215
       messages: 
       output: 
       stacktrace: 
@@ -2300,7 +3524,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRAD
       fullName: Tests.GameBoyTest.GameBoyTestLDRRAD
       resultStatus: 1
-      duration: 0.0006561
+      duration: 0.0007715
       messages: 
       output: 
       stacktrace: 
@@ -2317,7 +3541,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRAH
       fullName: Tests.GameBoyTest.GameBoyTestLDRRAH
       resultStatus: 1
-      duration: 0.0006835
+      duration: 0.0007595
       messages: 
       output: 
       stacktrace: 
@@ -2334,7 +3558,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRAL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRAL
       resultStatus: 1
-      duration: 0.000716
+      duration: 0.0007417
       messages: 
       output: 
       stacktrace: 
@@ -2351,7 +3575,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRBA
       fullName: Tests.GameBoyTest.GameBoyTestLDRRBA
       resultStatus: 1
-      duration: 0.0056305
+      duration: 0.0007981
       messages: 
       output: 
       stacktrace: 
@@ -2368,7 +3592,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRBB
       fullName: Tests.GameBoyTest.GameBoyTestLDRRBB
       resultStatus: 1
-      duration: 0.0007278
+      duration: 0.0008161
       messages: 
       output: 
       stacktrace: 
@@ -2385,7 +3609,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRBC
       fullName: Tests.GameBoyTest.GameBoyTestLDRRBC
       resultStatus: 1
-      duration: 0.000697
+      duration: 0.0073258
       messages: 
       output: 
       stacktrace: 
@@ -2402,7 +3626,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRBD
       fullName: Tests.GameBoyTest.GameBoyTestLDRRBD
       resultStatus: 1
-      duration: 0.0007183
+      duration: 0.0008526
       messages: 
       output: 
       stacktrace: 
@@ -2419,7 +3643,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRBE
       fullName: Tests.GameBoyTest.GameBoyTestLDRRBE
       resultStatus: 1
-      duration: 0.005926
+      duration: 0.0008018
       messages: 
       output: 
       stacktrace: 
@@ -2436,7 +3660,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRBH
       fullName: Tests.GameBoyTest.GameBoyTestLDRRBH
       resultStatus: 1
-      duration: 0.000781
+      duration: 0.0008008
       messages: 
       output: 
       stacktrace: 
@@ -2453,7 +3677,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRBHL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRBHL
       resultStatus: 1
-      duration: 0.0007287
+      duration: 0.0009197
       messages: 
       output: 
       stacktrace: 
@@ -2470,7 +3694,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRBL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRBL
       resultStatus: 1
-      duration: 0.0007074
+      duration: 0.0009231
       messages: 
       output: 
       stacktrace: 
@@ -2487,7 +3711,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRCA
       fullName: Tests.GameBoyTest.GameBoyTestLDRRCA
       resultStatus: 1
-      duration: 0.0006763
+      duration: 0.0071943
       messages: 
       output: 
       stacktrace: 
@@ -2504,7 +3728,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRCB
       fullName: Tests.GameBoyTest.GameBoyTestLDRRCB
       resultStatus: 1
-      duration: 0.0057559
+      duration: 0.0007126
       messages: 
       output: 
       stacktrace: 
@@ -2521,7 +3745,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRCC
       fullName: Tests.GameBoyTest.GameBoyTestLDRRCC
       resultStatus: 1
-      duration: 0.0006843
+      duration: 0.0006559
       messages: 
       output: 
       stacktrace: 
@@ -2538,7 +3762,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRCD
       fullName: Tests.GameBoyTest.GameBoyTestLDRRCD
       resultStatus: 1
-      duration: 0.0006968
+      duration: 0.0007999
       messages: 
       output: 
       stacktrace: 
@@ -2555,7 +3779,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRCE
       fullName: Tests.GameBoyTest.GameBoyTestLDRRCE
       resultStatus: 1
-      duration: 0.0007192
+      duration: 0.0007079
       messages: 
       output: 
       stacktrace: 
@@ -2572,7 +3796,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRCH
       fullName: Tests.GameBoyTest.GameBoyTestLDRRCH
       resultStatus: 1
-      duration: 0.0007413
+      duration: 0.000717
       messages: 
       output: 
       stacktrace: 
@@ -2589,7 +3813,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRCHL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRCHL
       resultStatus: 1
-      duration: 0.005736
+      duration: 0.0067639
       messages: 
       output: 
       stacktrace: 
@@ -2606,7 +3830,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRCL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRCL
       resultStatus: 1
-      duration: 0.0007525
+      duration: 0.0006892
       messages: 
       output: 
       stacktrace: 
@@ -2623,7 +3847,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRDA
       fullName: Tests.GameBoyTest.GameBoyTestLDRRDA
       resultStatus: 1
-      duration: 0.0006953
+      duration: 0.0006705
       messages: 
       output: 
       stacktrace: 
@@ -2640,7 +3864,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRDB
       fullName: Tests.GameBoyTest.GameBoyTestLDRRDB
       resultStatus: 1
-      duration: 0.0007509
+      duration: 0.0007006
       messages: 
       output: 
       stacktrace: 
@@ -2657,7 +3881,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRDC
       fullName: Tests.GameBoyTest.GameBoyTestLDRRDC
       resultStatus: 1
-      duration: 0.000753
+      duration: 0.0007388
       messages: 
       output: 
       stacktrace: 
@@ -2674,7 +3898,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRDD
       fullName: Tests.GameBoyTest.GameBoyTestLDRRDD
       resultStatus: 1
-      duration: 0.0056223
+      duration: 0.0007809
       messages: 
       output: 
       stacktrace: 
@@ -2691,7 +3915,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRDE
       fullName: Tests.GameBoyTest.GameBoyTestLDRRDE
       resultStatus: 1
-      duration: 0.0006986
+      duration: 0.0073779
       messages: 
       output: 
       stacktrace: 
@@ -2708,7 +3932,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRDEA
       fullName: Tests.GameBoyTest.GameBoyTestLDRRDEA
       resultStatus: 1
-      duration: 0.0006809
+      duration: 0.0008779
       messages: 
       output: 
       stacktrace: 
@@ -2725,7 +3949,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRDH
       fullName: Tests.GameBoyTest.GameBoyTestLDRRDH
       resultStatus: 1
-      duration: 0.0007028
+      duration: 0.0008236
       messages: 
       output: 
       stacktrace: 
@@ -2742,7 +3966,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRDHL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRDHL
       resultStatus: 1
-      duration: 0.0056743
+      duration: 0.0008786
       messages: 
       output: 
       stacktrace: 
@@ -2759,7 +3983,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRDL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRDL
       resultStatus: 1
-      duration: 0.000775
+      duration: 0.000828
       messages: 
       output: 
       stacktrace: 
@@ -2776,7 +4000,7 @@ MonoBehaviour:
       name: GameBoyTestLDRREA
       fullName: Tests.GameBoyTest.GameBoyTestLDRREA
       resultStatus: 1
-      duration: 0.0006745
+      duration: 0.0007789
       messages: 
       output: 
       stacktrace: 
@@ -2793,7 +4017,7 @@ MonoBehaviour:
       name: GameBoyTestLDRREB
       fullName: Tests.GameBoyTest.GameBoyTestLDRREB
       resultStatus: 1
-      duration: 0.0006862
+      duration: 0.0073217
       messages: 
       output: 
       stacktrace: 
@@ -2810,7 +4034,7 @@ MonoBehaviour:
       name: GameBoyTestLDRREC
       fullName: Tests.GameBoyTest.GameBoyTestLDRREC
       resultStatus: 1
-      duration: 0.0007318
+      duration: 0.0007271
       messages: 
       output: 
       stacktrace: 
@@ -2827,7 +4051,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRED
       fullName: Tests.GameBoyTest.GameBoyTestLDRRED
       resultStatus: 1
-      duration: 0.0057518
+      duration: 0.0006772
       messages: 
       output: 
       stacktrace: 
@@ -2844,7 +4068,7 @@ MonoBehaviour:
       name: GameBoyTestLDRREE
       fullName: Tests.GameBoyTest.GameBoyTestLDRREE
       resultStatus: 1
-      duration: 0.0007021
+      duration: 0.000683
       messages: 
       output: 
       stacktrace: 
@@ -2861,7 +4085,7 @@ MonoBehaviour:
       name: GameBoyTestLDRREH
       fullName: Tests.GameBoyTest.GameBoyTestLDRREH
       resultStatus: 1
-      duration: 0.0007155
+      duration: 0.0007377
       messages: 
       output: 
       stacktrace: 
@@ -2878,7 +4102,7 @@ MonoBehaviour:
       name: GameBoyTestLDRREHL
       fullName: Tests.GameBoyTest.GameBoyTestLDRREHL
       resultStatus: 1
-      duration: 0.0007147
+      duration: 0.0007369
       messages: 
       output: 
       stacktrace: 
@@ -2895,7 +4119,7 @@ MonoBehaviour:
       name: GameBoyTestLDRREL
       fullName: Tests.GameBoyTest.GameBoyTestLDRREL
       resultStatus: 1
-      duration: 0.0006877
+      duration: 0.0069677
       messages: 
       output: 
       stacktrace: 
@@ -2912,7 +4136,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHA
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHA
       resultStatus: 1
-      duration: 0.0056708
+      duration: 0.0007634
       messages: 
       output: 
       stacktrace: 
@@ -2929,7 +4153,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHB
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHB
       resultStatus: 1
-      duration: 0.0007112
+      duration: 0.0006782
       messages: 
       output: 
       stacktrace: 
@@ -2946,7 +4170,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHC
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHC
       resultStatus: 1
-      duration: 0.0007164
+      duration: 0.0006638
       messages: 
       output: 
       stacktrace: 
@@ -2963,7 +4187,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHD
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHD
       resultStatus: 1
-      duration: 0.0006939
+      duration: 0.0006835
       messages: 
       output: 
       stacktrace: 
@@ -2980,7 +4204,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHE
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHE
       resultStatus: 1
-      duration: 0.0007022
+      duration: 0.0006971
       messages: 
       output: 
       stacktrace: 
@@ -2997,7 +4221,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHH
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHH
       resultStatus: 1
-      duration: 0.005788
+      duration: 0.0072334
       messages: 
       output: 
       stacktrace: 
@@ -3014,7 +4238,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHHL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHHL
       resultStatus: 1
-      duration: 0.0007557
+      duration: 0.0009044
       messages: 
       output: 
       stacktrace: 
@@ -3031,7 +4255,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHL
       resultStatus: 1
-      duration: 0.0007016
+      duration: 0.0007966
       messages: 
       output: 
       stacktrace: 
@@ -3048,7 +4272,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHLB
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHLB
       resultStatus: 1
-      duration: 0.0007299
+      duration: 0.0009075
       messages: 
       output: 
       stacktrace: 
@@ -3065,7 +4289,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHLC
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHLC
       resultStatus: 1
-      duration: 0.0059513
+      duration: 0.0008064
       messages: 
       output: 
       stacktrace: 
@@ -3082,7 +4306,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHLD
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHLD
       resultStatus: 1
-      duration: 0.0007382
+      duration: 0.0009242
       messages: 
       output: 
       stacktrace: 
@@ -3099,7 +4323,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHLE
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHLE
       resultStatus: 1
-      duration: 0.0007816
+      duration: 0.0075577
       messages: 
       output: 
       stacktrace: 
@@ -3116,7 +4340,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHLH
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHLH
       resultStatus: 1
-      duration: 0.0007625
+      duration: 0.0007891
       messages: 
       output: 
       stacktrace: 
@@ -3133,7 +4357,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRHLL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRHLL
       resultStatus: 1
-      duration: 0.0007363
+      duration: 0.000719
       messages: 
       output: 
       stacktrace: 
@@ -3150,7 +4374,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRLA
       fullName: Tests.GameBoyTest.GameBoyTestLDRRLA
       resultStatus: 1
-      duration: 0.0059271
+      duration: 0.0006698
       messages: 
       output: 
       stacktrace: 
@@ -3167,7 +4391,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRLB
       fullName: Tests.GameBoyTest.GameBoyTestLDRRLB
       resultStatus: 1
-      duration: 0.0007128
+      duration: 0.0007026
       messages: 
       output: 
       stacktrace: 
@@ -3184,7 +4408,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRLC
       fullName: Tests.GameBoyTest.GameBoyTestLDRRLC
       resultStatus: 1
-      duration: 0.0006812
+      duration: 0.0007806
       messages: 
       output: 
       stacktrace: 
@@ -3201,7 +4425,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRLD
       fullName: Tests.GameBoyTest.GameBoyTestLDRRLD
       resultStatus: 1
-      duration: 0.0006977
+      duration: 0.0072723
       messages: 
       output: 
       stacktrace: 
@@ -3218,7 +4442,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRLE
       fullName: Tests.GameBoyTest.GameBoyTestLDRRLE
       resultStatus: 1
-      duration: 0.0006923
+      duration: 0.0006931
       messages: 
       output: 
       stacktrace: 
@@ -3235,7 +4459,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRLH
       fullName: Tests.GameBoyTest.GameBoyTestLDRRLH
       resultStatus: 1
-      duration: 0.0059804
+      duration: 0.0006891
       messages: 
       output: 
       stacktrace: 
@@ -3252,7 +4476,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRLHL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRLHL
       resultStatus: 1
-      duration: 0.0007129
+      duration: 0.0006898
       messages: 
       output: 
       stacktrace: 
@@ -3269,7 +4493,7 @@ MonoBehaviour:
       name: GameBoyTestLDRRLL
       fullName: Tests.GameBoyTest.GameBoyTestLDRRLL
       resultStatus: 1
-      duration: 0.0006826
+      duration: 0.0007317
       messages: 
       output: 
       stacktrace: 
@@ -3286,7 +4510,7 @@ MonoBehaviour:
       name: GameBoyTestLoada16A
       fullName: Tests.GameBoyTest.GameBoyTestLoada16A
       resultStatus: 1
-      duration: 0.0007712
+      duration: 0.0008053
       messages: 
       output: 
       stacktrace: 
@@ -3303,7 +4527,7 @@ MonoBehaviour:
       name: GameBoyTestLoadFromMemoryIntoReg
       fullName: Tests.GameBoyTest.GameBoyTestLoadFromMemoryIntoReg
       resultStatus: 1
-      duration: 0.0006574
+      duration: 0.0070085
       messages: 
       output: 
       stacktrace: 
@@ -3320,7 +4544,7 @@ MonoBehaviour:
       name: GameBoyTestLoadFromMemoryWordIntoReg
       fullName: Tests.GameBoyTest.GameBoyTestLoadFromMemoryWordIntoReg
       resultStatus: 1
-      duration: 0.0056773
+      duration: 0.0008793
       messages: 
       output: 
       stacktrace: 
@@ -3337,7 +4561,7 @@ MonoBehaviour:
       name: GameBoyTestLoadIntoBCTest
       fullName: Tests.GameBoyTest.GameBoyTestLoadIntoBCTest
       resultStatus: 1
-      duration: 0.0006834
+      duration: 0.0009024
       messages: 
       output: 
       stacktrace: 
@@ -3354,7 +4578,7 @@ MonoBehaviour:
       name: GameBoyTestLoadIntoMemory
       fullName: Tests.GameBoyTest.GameBoyTestLoadIntoMemory
       resultStatus: 1
-      duration: 0.0006599
+      duration: 0.000786
       messages: 
       output: 
       stacktrace: 
@@ -3371,7 +4595,7 @@ MonoBehaviour:
       name: GameBoyTestLoadIntoSPTest
       fullName: Tests.GameBoyTest.GameBoyTestLoadIntoSPTest
       resultStatus: 1
-      duration: 0.0007048
+      duration: 0.0007804
       messages: 
       output: 
       stacktrace: 
@@ -3388,7 +4612,7 @@ MonoBehaviour:
       name: GameBoyTestLoadSPa16
       fullName: Tests.GameBoyTest.GameBoyTestLoadSPa16
       resultStatus: 1
-      duration: 0.006163
+      duration: 0.0009196
       messages: 
       output: 
       stacktrace: 
@@ -3405,7 +4629,7 @@ MonoBehaviour:
       name: GameBoyTestLoadSPHL
       fullName: Tests.GameBoyTest.GameBoyTestLoadSPHL
       resultStatus: 1
-      duration: 0.000707
+      duration: 0.0074895
       messages: 
       output: 
       stacktrace: 
@@ -3422,7 +4646,7 @@ MonoBehaviour:
       name: GameBoyTestLoadTestSeparateRegisters
       fullName: Tests.GameBoyTest.GameBoyTestLoadTestSeparateRegisters
       resultStatus: 1
-      duration: 0.0007689
+      duration: 0.000894
       messages: 
       output: 
       stacktrace: 
@@ -3439,7 +4663,7 @@ MonoBehaviour:
       name: GameBoyTestORA
       fullName: Tests.GameBoyTest.GameBoyTestORA
       resultStatus: 1
-      duration: 0.00091
+      duration: 0.000945
       messages: 
       output: 
       stacktrace: 
@@ -3456,7 +4680,7 @@ MonoBehaviour:
       name: GameBoyTestORD
       fullName: Tests.GameBoyTest.GameBoyTestORD
       resultStatus: 1
-      duration: 0.0007731
+      duration: 0.0007098
       messages: 
       output: 
       stacktrace: 
@@ -3473,7 +4697,7 @@ MonoBehaviour:
       name: GameBoyTestORd8
       fullName: Tests.GameBoyTest.GameBoyTestORd8
       resultStatus: 1
-      duration: 0.0058697
+      duration: 0.0008351
       messages: 
       output: 
       stacktrace: 
@@ -3490,7 +4714,7 @@ MonoBehaviour:
       name: GameBoyTestORE
       fullName: Tests.GameBoyTest.GameBoyTestORE
       resultStatus: 1
-      duration: 0.0007388
+      duration: 0.0009038
       messages: 
       output: 
       stacktrace: 
@@ -3507,7 +4731,7 @@ MonoBehaviour:
       name: GameBoyTestORH
       fullName: Tests.GameBoyTest.GameBoyTestORH
       resultStatus: 1
-      duration: 0.0006821
+      duration: 0.0069681
       messages: 
       output: 
       stacktrace: 
@@ -3524,7 +4748,7 @@ MonoBehaviour:
       name: GameBoyTestORHL
       fullName: Tests.GameBoyTest.GameBoyTestORHL
       resultStatus: 1
-      duration: 0.0006865
+      duration: 0.0006827
       messages: 
       output: 
       stacktrace: 
@@ -3541,7 +4765,7 @@ MonoBehaviour:
       name: GameBoyTestORL
       fullName: Tests.GameBoyTest.GameBoyTestORL
       resultStatus: 1
-      duration: 0.0007772
+      duration: 0.0006653
       messages: 
       output: 
       stacktrace: 
@@ -3558,7 +4782,7 @@ MonoBehaviour:
       name: GameBoyTestPop
       fullName: Tests.GameBoyTest.GameBoyTestPop
       resultStatus: 1
-      duration: 0.0063181
+      duration: 0.0009683
       messages: 
       output: 
       stacktrace: 
@@ -3575,7 +4799,7 @@ MonoBehaviour:
       name: GameBoyTestPush
       fullName: Tests.GameBoyTest.GameBoyTestPush
       resultStatus: 1
-      duration: 0.0008144
+      duration: 0.0008251
       messages: 
       output: 
       stacktrace: 
@@ -3592,7 +4816,228 @@ MonoBehaviour:
       name: GameBoyTestRES0A
       fullName: Tests.GameBoyTest.GameBoyTestRES0A
       resultStatus: 1
-      duration: 0.000664
+      duration: 0.0006964
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1209
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES0B]
+      name: GameBoyTestRES0B
+      fullName: Tests.GameBoyTest.GameBoyTestRES0B
+      resultStatus: 1
+      duration: 0.0069353
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1209
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES0C]
+      name: GameBoyTestRES0C
+      fullName: Tests.GameBoyTest.GameBoyTestRES0C
+      resultStatus: 1
+      duration: 0.0005991
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1210
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES0D]
+      name: GameBoyTestRES0D
+      fullName: Tests.GameBoyTest.GameBoyTestRES0D
+      resultStatus: 1
+      duration: 0.000539
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1211
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES0E]
+      name: GameBoyTestRES0E
+      fullName: Tests.GameBoyTest.GameBoyTestRES0E
+      resultStatus: 1
+      duration: 0.0005268
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1212
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES0H]
+      name: GameBoyTestRES0H
+      fullName: Tests.GameBoyTest.GameBoyTestRES0H
+      resultStatus: 1
+      duration: 0.000561
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1213
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES0L]
+      name: GameBoyTestRES0L
+      fullName: Tests.GameBoyTest.GameBoyTestRES0L
+      resultStatus: 1
+      duration: 0.00056
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1221
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES1A]
+      name: GameBoyTestRES1A
+      fullName: Tests.GameBoyTest.GameBoyTestRES1A
+      resultStatus: 1
+      duration: 0.0435997
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1215
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES1B]
+      name: GameBoyTestRES1B
+      fullName: Tests.GameBoyTest.GameBoyTestRES1B
+      resultStatus: 1
+      duration: 0.0349649
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1216
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES1C]
+      name: GameBoyTestRES1C
+      fullName: Tests.GameBoyTest.GameBoyTestRES1C
+      resultStatus: 1
+      duration: 0.0408076
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1217
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES1D]
+      name: GameBoyTestRES1D
+      fullName: Tests.GameBoyTest.GameBoyTestRES1D
+      resultStatus: 1
+      duration: 0.0011935
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1218
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES1E]
+      name: GameBoyTestRES1E
+      fullName: Tests.GameBoyTest.GameBoyTestRES1E
+      resultStatus: 1
+      duration: 0.0015822
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1219
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES1H]
+      name: GameBoyTestRES1H
+      fullName: Tests.GameBoyTest.GameBoyTestRES1H
+      resultStatus: 1
+      duration: 0.0439166
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1220
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRES1L]
+      name: GameBoyTestRES1L
+      fullName: Tests.GameBoyTest.GameBoyTestRES1L
+      resultStatus: 1
+      duration: 0.0010145
       messages: 
       output: 
       stacktrace: 
@@ -3609,7 +5054,7 @@ MonoBehaviour:
       name: GameBoyTestRet
       fullName: Tests.GameBoyTest.GameBoyTestRet
       resultStatus: 1
-      duration: 0.0011091
+      duration: 0.0079319
       messages: 
       output: 
       stacktrace: 
@@ -3626,7 +5071,7 @@ MonoBehaviour:
       name: GameBoyTestRetCCC
       fullName: Tests.GameBoyTest.GameBoyTestRetCCC
       resultStatus: 1
-      duration: 0.0009868
+      duration: 0.0012335
       messages: 
       output: 
       stacktrace: 
@@ -3643,7 +5088,7 @@ MonoBehaviour:
       name: GameBoyTestRetCCCSkip
       fullName: Tests.GameBoyTest.GameBoyTestRetCCCSkip
       resultStatus: 1
-      duration: 0.0060199
+      duration: 0.0011949
       messages: 
       output: 
       stacktrace: 
@@ -3660,7 +5105,7 @@ MonoBehaviour:
       name: GameBoyTestRetCCNC
       fullName: Tests.GameBoyTest.GameBoyTestRetCCNC
       resultStatus: 1
-      duration: 0.0009989
+      duration: 0.0011342
       messages: 
       output: 
       stacktrace: 
@@ -3677,7 +5122,7 @@ MonoBehaviour:
       name: GameBoyTestRetCCNCSkip
       fullName: Tests.GameBoyTest.GameBoyTestRetCCNCSkip
       resultStatus: 1
-      duration: 0.0009692
+      duration: 0.001244
       messages: 
       output: 
       stacktrace: 
@@ -3694,7 +5139,7 @@ MonoBehaviour:
       name: GameBoyTestRetCCNZ
       fullName: Tests.GameBoyTest.GameBoyTestRetCCNZ
       resultStatus: 1
-      duration: 0.0009766
+      duration: 0.0011547
       messages: 
       output: 
       stacktrace: 
@@ -3711,7 +5156,7 @@ MonoBehaviour:
       name: GameBoyTestRetCCNZSkip
       fullName: Tests.GameBoyTest.GameBoyTestRetCCNZSkip
       resultStatus: 1
-      duration: 0.0060057
+      duration: 0.0074456
       messages: 
       output: 
       stacktrace: 
@@ -3728,24 +5173,7 @@ MonoBehaviour:
       name: GameBoyTestRetCCZ
       fullName: Tests.GameBoyTest.GameBoyTestRetCCZ
       resultStatus: 1
-      duration: 0.0009451
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
-    - id: 1038
-      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRL]
-      name: GameBoyTestRL
-      fullName: Tests.GameBoyTest.GameBoyTestRL
-      resultStatus: 1
-      duration: 0.0011947
+      duration: 0.0010278
       messages: 
       output: 
       stacktrace: 
@@ -3762,7 +5190,262 @@ MonoBehaviour:
       name: GameBoyTestRLA
       fullName: Tests.GameBoyTest.GameBoyTestRLA
       resultStatus: 1
-      duration: 0.0006887
+      duration: 0.0007581
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1214
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLB]
+      name: GameBoyTestRLB
+      fullName: Tests.GameBoyTest.GameBoyTestRLB
+      resultStatus: 1
+      duration: 0.0007258
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1214
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLC]
+      name: GameBoyTestRLC
+      fullName: Tests.GameBoyTest.GameBoyTestRLC
+      resultStatus: 1
+      duration: 0.0007232
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1212
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLCA]
+      name: GameBoyTestRLCA
+      fullName: Tests.GameBoyTest.GameBoyTestRLCA
+      resultStatus: 1
+      duration: 0.0009636
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1213
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLCarryA]
+      name: GameBoyTestRLCarryA
+      fullName: Tests.GameBoyTest.GameBoyTestRLCarryA
+      resultStatus: 1
+      duration: 0.0070443
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1213
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLCarryB]
+      name: GameBoyTestRLCarryB
+      fullName: Tests.GameBoyTest.GameBoyTestRLCarryB
+      resultStatus: 1
+      duration: 0.0007586
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1214
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLCarryC]
+      name: GameBoyTestRLCarryC
+      fullName: Tests.GameBoyTest.GameBoyTestRLCarryC
+      resultStatus: 1
+      duration: 0.0007112
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1215
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLCarryD]
+      name: GameBoyTestRLCarryD
+      fullName: Tests.GameBoyTest.GameBoyTestRLCarryD
+      resultStatus: 1
+      duration: 0.0007799
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1216
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLCarryE]
+      name: GameBoyTestRLCarryE
+      fullName: Tests.GameBoyTest.GameBoyTestRLCarryE
+      resultStatus: 1
+      duration: 0.0008171
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1217
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLCarryH]
+      name: GameBoyTestRLCarryH
+      fullName: Tests.GameBoyTest.GameBoyTestRLCarryH
+      resultStatus: 1
+      duration: 0.0008561
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1218
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLCarryL]
+      name: GameBoyTestRLCarryL
+      fullName: Tests.GameBoyTest.GameBoyTestRLCarryL
+      resultStatus: 1
+      duration: 0.0075765
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1215
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLD]
+      name: GameBoyTestRLD
+      fullName: Tests.GameBoyTest.GameBoyTestRLD
+      resultStatus: 1
+      duration: 0.0008456
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1216
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLE]
+      name: GameBoyTestRLE
+      fullName: Tests.GameBoyTest.GameBoyTestRLE
+      resultStatus: 1
+      duration: 0.0009087
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1217
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLH]
+      name: GameBoyTestRLH
+      fullName: Tests.GameBoyTest.GameBoyTestRLH
+      resultStatus: 1
+      duration: 0.0012964
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1215
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLHL]
+      name: GameBoyTestRLHL
+      fullName: Tests.GameBoyTest.GameBoyTestRLHL
+      resultStatus: 1
+      duration: 0.0009375
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1214
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRLL]
+      name: GameBoyTestRLL
+      fullName: Tests.GameBoyTest.GameBoyTestRLL
+      resultStatus: 1
+      duration: 0.000827
       messages: 
       output: 
       stacktrace: 
@@ -3779,7 +5462,7 @@ MonoBehaviour:
       name: GameBoyTestRRA
       fullName: Tests.GameBoyTest.GameBoyTestRRA
       resultStatus: 1
-      duration: 0.0009191
+      duration: 0.0073978
       messages: 
       output: 
       stacktrace: 
@@ -3796,7 +5479,7 @@ MonoBehaviour:
       name: GameBoyTestRRA2
       fullName: Tests.GameBoyTest.GameBoyTestRRA2
       resultStatus: 1
-      duration: 0.0059153
+      duration: 0.0008256
       messages: 
       output: 
       stacktrace: 
@@ -3813,7 +5496,7 @@ MonoBehaviour:
       name: GameBoyTestRRB
       fullName: Tests.GameBoyTest.GameBoyTestRRB
       resultStatus: 1
-      duration: 0.0007481
+      duration: 0.0007173
       messages: 
       output: 
       stacktrace: 
@@ -3830,7 +5513,143 @@ MonoBehaviour:
       name: GameBoyTestRRC
       fullName: Tests.GameBoyTest.GameBoyTestRRC
       resultStatus: 1
-      duration: 0.0007261
+      duration: 0.0007178
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1213
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRCA]
+      name: GameBoyTestRRCA
+      fullName: Tests.GameBoyTest.GameBoyTestRRCA
+      resultStatus: 1
+      duration: 0.0008984
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1227
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRCarryA]
+      name: GameBoyTestRRCarryA
+      fullName: Tests.GameBoyTest.GameBoyTestRRCarryA
+      resultStatus: 1
+      duration: 0.000771
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1221
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRCarryB]
+      name: GameBoyTestRRCarryB
+      fullName: Tests.GameBoyTest.GameBoyTestRRCarryB
+      resultStatus: 1
+      duration: 0.0071597
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1222
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRCarryC]
+      name: GameBoyTestRRCarryC
+      fullName: Tests.GameBoyTest.GameBoyTestRRCarryC
+      resultStatus: 1
+      duration: 0.0007094
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1223
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRCarryD]
+      name: GameBoyTestRRCarryD
+      fullName: Tests.GameBoyTest.GameBoyTestRRCarryD
+      resultStatus: 1
+      duration: 0.0006889
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1224
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRCarryE]
+      name: GameBoyTestRRCarryE
+      fullName: Tests.GameBoyTest.GameBoyTestRRCarryE
+      resultStatus: 1
+      duration: 0.0007184
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1225
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRCarryH]
+      name: GameBoyTestRRCarryH
+      fullName: Tests.GameBoyTest.GameBoyTestRRCarryH
+      resultStatus: 1
+      duration: 0.0007711
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1226
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRCarryL]
+      name: GameBoyTestRRCarryL
+      fullName: Tests.GameBoyTest.GameBoyTestRRCarryL
+      resultStatus: 1
+      duration: 0.0008543
       messages: 
       output: 
       stacktrace: 
@@ -3847,7 +5666,7 @@ MonoBehaviour:
       name: GameBoyTestRRD
       fullName: Tests.GameBoyTest.GameBoyTestRRD
       resultStatus: 1
-      duration: 0.0007017
+      duration: 0.0074217
       messages: 
       output: 
       stacktrace: 
@@ -3864,7 +5683,41 @@ MonoBehaviour:
       name: GameBoyTestRRE
       fullName: Tests.GameBoyTest.GameBoyTestRRE
       resultStatus: 1
-      duration: 0.0007231
+      duration: 0.0009073
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1245
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRH]
+      name: GameBoyTestRRH
+      fullName: Tests.GameBoyTest.GameBoyTestRRH
+      resultStatus: 1
+      duration: 0.0008415
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1246
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestRRL]
+      name: GameBoyTestRRL
+      fullName: Tests.GameBoyTest.GameBoyTestRRL
+      resultStatus: 1
+      duration: 0.0008883
       messages: 
       output: 
       stacktrace: 
@@ -3881,7 +5734,7 @@ MonoBehaviour:
       name: GameBoyTestRST0x00
       fullName: Tests.GameBoyTest.GameBoyTestRST0x00
       resultStatus: 1
-      duration: 0.0058002
+      duration: 0.0008338
       messages: 
       output: 
       stacktrace: 
@@ -3898,7 +5751,7 @@ MonoBehaviour:
       name: GameBoyTestRST0x08
       fullName: Tests.GameBoyTest.GameBoyTestRST0x08
       resultStatus: 1
-      duration: 0.000834
+      duration: 0.0008585
       messages: 
       output: 
       stacktrace: 
@@ -3915,7 +5768,7 @@ MonoBehaviour:
       name: GameBoyTestRST0x10
       fullName: Tests.GameBoyTest.GameBoyTestRST0x10
       resultStatus: 1
-      duration: 0.0008058
+      duration: 0.007354
       messages: 
       output: 
       stacktrace: 
@@ -3932,7 +5785,7 @@ MonoBehaviour:
       name: GameBoyTestRST0x18
       fullName: Tests.GameBoyTest.GameBoyTestRST0x18
       resultStatus: 1
-      duration: 0.0008047
+      duration: 0.0007429
       messages: 
       output: 
       stacktrace: 
@@ -3949,7 +5802,7 @@ MonoBehaviour:
       name: GameBoyTestRST0x20
       fullName: Tests.GameBoyTest.GameBoyTestRST0x20
       resultStatus: 1
-      duration: 0.0008296
+      duration: 0.0007326
       messages: 
       output: 
       stacktrace: 
@@ -3966,7 +5819,7 @@ MonoBehaviour:
       name: GameBoyTestRST0x28
       fullName: Tests.GameBoyTest.GameBoyTestRST0x28
       resultStatus: 1
-      duration: 0.0060107
+      duration: 0.0007435
       messages: 
       output: 
       stacktrace: 
@@ -3983,7 +5836,7 @@ MonoBehaviour:
       name: GameBoyTestRST0x30
       fullName: Tests.GameBoyTest.GameBoyTestRST0x30
       resultStatus: 1
-      duration: 0.0008625
+      duration: 0.0007203
       messages: 
       output: 
       stacktrace: 
@@ -4000,7 +5853,24 @@ MonoBehaviour:
       name: GameBoyTestRST0x38
       fullName: Tests.GameBoyTest.GameBoyTestRST0x38
       resultStatus: 1
-      duration: 0.0008989
+      duration: 0.0007609
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1174
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSBCA]
+      name: GameBoyTestSBCA
+      fullName: Tests.GameBoyTest.GameBoyTestSBCA
+      resultStatus: 1
+      duration: 0.0074107
       messages: 
       output: 
       stacktrace: 
@@ -4017,7 +5887,7 @@ MonoBehaviour:
       name: GameBoyTestSBCB
       fullName: Tests.GameBoyTest.GameBoyTestSBCB
       resultStatus: 1
-      duration: 0.0399285
+      duration: 0.0006898
       messages: 
       output: 
       stacktrace: 
@@ -4034,7 +5904,7 @@ MonoBehaviour:
       name: GameBoyTestSBCC
       fullName: Tests.GameBoyTest.GameBoyTestSBCC
       resultStatus: 1
-      duration: 0.0386713
+      duration: 0.0007091
       messages: 
       output: 
       stacktrace: 
@@ -4051,7 +5921,7 @@ MonoBehaviour:
       name: GameBoyTestSBCD
       fullName: Tests.GameBoyTest.GameBoyTestSBCD
       resultStatus: 1
-      duration: 0.0398371
+      duration: 0.0007272
       messages: 
       output: 
       stacktrace: 
@@ -4068,7 +5938,58 @@ MonoBehaviour:
       name: GameBoyTestSBCE
       fullName: Tests.GameBoyTest.GameBoyTestSBCE
       resultStatus: 1
-      duration: 0.0355996
+      duration: 0.0006969
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1178
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSBCH]
+      name: GameBoyTestSBCH
+      fullName: Tests.GameBoyTest.GameBoyTestSBCH
+      resultStatus: 1
+      duration: 0.0007044
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1179
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSBCL]
+      name: GameBoyTestSBCL
+      fullName: Tests.GameBoyTest.GameBoyTestSBCL
+      resultStatus: 1
+      duration: 0.0073194
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1198
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSBCU8]
+      name: GameBoyTestSBCU8
+      fullName: Tests.GameBoyTest.GameBoyTestSBCU8
+      resultStatus: 1
+      duration: 0.0008869
       messages: 
       output: 
       stacktrace: 
@@ -4085,7 +6006,245 @@ MonoBehaviour:
       name: GameBoyTestSCF
       fullName: Tests.GameBoyTest.GameBoyTestSCF
       resultStatus: 1
-      duration: 0.0007574
+      duration: 0.0008003
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1253
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSLAA]
+      name: GameBoyTestSLAA
+      fullName: Tests.GameBoyTest.GameBoyTestSLAA
+      resultStatus: 1
+      duration: 0.0010725
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1247
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSLAB]
+      name: GameBoyTestSLAB
+      fullName: Tests.GameBoyTest.GameBoyTestSLAB
+      resultStatus: 1
+      duration: 0.0008055
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1248
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSLAC]
+      name: GameBoyTestSLAC
+      fullName: Tests.GameBoyTest.GameBoyTestSLAC
+      resultStatus: 1
+      duration: 0.0008201
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1249
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSLAD]
+      name: GameBoyTestSLAD
+      fullName: Tests.GameBoyTest.GameBoyTestSLAD
+      resultStatus: 1
+      duration: 0.0074762
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1250
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSLAE]
+      name: GameBoyTestSLAE
+      fullName: Tests.GameBoyTest.GameBoyTestSLAE
+      resultStatus: 1
+      duration: 0.0007155
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1251
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSLAH]
+      name: GameBoyTestSLAH
+      fullName: Tests.GameBoyTest.GameBoyTestSLAH
+      resultStatus: 1
+      duration: 0.0007032
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1252
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSLAL]
+      name: GameBoyTestSLAL
+      fullName: Tests.GameBoyTest.GameBoyTestSLAL
+      resultStatus: 1
+      duration: 0.0007104
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1260
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRAA]
+      name: GameBoyTestSRAA
+      fullName: Tests.GameBoyTest.GameBoyTestSRAA
+      resultStatus: 1
+      duration: 0.000939
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1254
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRAB]
+      name: GameBoyTestSRAB
+      fullName: Tests.GameBoyTest.GameBoyTestSRAB
+      resultStatus: 1
+      duration: 0.0007406
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1255
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRAC]
+      name: GameBoyTestSRAC
+      fullName: Tests.GameBoyTest.GameBoyTestSRAC
+      resultStatus: 1
+      duration: 0.0072092
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1256
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRAD]
+      name: GameBoyTestSRAD
+      fullName: Tests.GameBoyTest.GameBoyTestSRAD
+      resultStatus: 1
+      duration: 0.0007461
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1257
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRAE]
+      name: GameBoyTestSRAE
+      fullName: Tests.GameBoyTest.GameBoyTestSRAE
+      resultStatus: 1
+      duration: 0.0007679
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1258
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRAH]
+      name: GameBoyTestSRAH
+      fullName: Tests.GameBoyTest.GameBoyTestSRAH
+      resultStatus: 1
+      duration: 0.0007343
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1259
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRAL]
+      name: GameBoyTestSRAL
+      fullName: Tests.GameBoyTest.GameBoyTestSRAL
+      resultStatus: 1
+      duration: 0.0008101
       messages: 
       output: 
       stacktrace: 
@@ -4102,7 +6261,7 @@ MonoBehaviour:
       name: GameBoyTestSRLA
       fullName: Tests.GameBoyTest.GameBoyTestSRLA
       resultStatus: 1
-      duration: 0.006099
+      duration: 0.0009496
       messages: 
       output: 
       stacktrace: 
@@ -4119,7 +6278,92 @@ MonoBehaviour:
       name: GameBoyTestSRLB
       fullName: Tests.GameBoyTest.GameBoyTestSRLB
       resultStatus: 1
-      duration: 0.000712
+      duration: 0.0073913
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1246
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRLC]
+      name: GameBoyTestSRLC
+      fullName: Tests.GameBoyTest.GameBoyTestSRLC
+      resultStatus: 1
+      duration: 0.0009041
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1247
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRLD]
+      name: GameBoyTestSRLD
+      fullName: Tests.GameBoyTest.GameBoyTestSRLD
+      resultStatus: 1
+      duration: 0.0008735
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1248
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRLE]
+      name: GameBoyTestSRLE
+      fullName: Tests.GameBoyTest.GameBoyTestSRLE
+      resultStatus: 1
+      duration: 0.0009111
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1249
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRLH]
+      name: GameBoyTestSRLH
+      fullName: Tests.GameBoyTest.GameBoyTestSRLH
+      resultStatus: 1
+      duration: 0.0008131
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1250
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSRLL]
+      name: GameBoyTestSRLL
+      fullName: Tests.GameBoyTest.GameBoyTestSRLL
+      resultStatus: 1
+      duration: 0.0009684
       messages: 
       output: 
       stacktrace: 
@@ -4136,7 +6380,7 @@ MonoBehaviour:
       name: GameBoyTestSUBA
       fullName: Tests.GameBoyTest.GameBoyTestSUBA
       resultStatus: 1
-      duration: 0.0464832
+      duration: 0.0011667
       messages: 
       output: 
       stacktrace: 
@@ -4153,7 +6397,7 @@ MonoBehaviour:
       name: GameBoyTestSUBB
       fullName: Tests.GameBoyTest.GameBoyTestSUBB
       resultStatus: 1
-      duration: 0.0009205
+      duration: 0.0078329
       messages: 
       output: 
       stacktrace: 
@@ -4170,7 +6414,7 @@ MonoBehaviour:
       name: GameBoyTestSUBC
       fullName: Tests.GameBoyTest.GameBoyTestSUBC
       resultStatus: 1
-      duration: 0.000717
+      duration: 0.0007793
       messages: 
       output: 
       stacktrace: 
@@ -4187,7 +6431,7 @@ MonoBehaviour:
       name: GameBoyTestSUBD
       fullName: Tests.GameBoyTest.GameBoyTestSUBD
       resultStatus: 1
-      duration: 0.0007952
+      duration: 0.0009052
       messages: 
       output: 
       stacktrace: 
@@ -4204,7 +6448,7 @@ MonoBehaviour:
       name: GameBoyTestSUBE
       fullName: Tests.GameBoyTest.GameBoyTestSUBE
       resultStatus: 1
-      duration: 0.0060145
+      duration: 0.0008552
       messages: 
       output: 
       stacktrace: 
@@ -4221,7 +6465,7 @@ MonoBehaviour:
       name: GameBoyTestSUBH
       fullName: Tests.GameBoyTest.GameBoyTestSUBH
       resultStatus: 1
-      duration: 0.0007188
+      duration: 0.0007392
       messages: 
       output: 
       stacktrace: 
@@ -4238,7 +6482,7 @@ MonoBehaviour:
       name: GameBoyTestSUBHL
       fullName: Tests.GameBoyTest.GameBoyTestSUBHL
       resultStatus: 1
-      duration: 0.0393924
+      duration: 0.0007551
       messages: 
       output: 
       stacktrace: 
@@ -4255,7 +6499,7 @@ MonoBehaviour:
       name: GameBoyTestSUBL
       fullName: Tests.GameBoyTest.GameBoyTestSUBL
       resultStatus: 1
-      duration: 0.0007062
+      duration: 0.0071088
       messages: 
       output: 
       stacktrace: 
@@ -4272,7 +6516,7 @@ MonoBehaviour:
       name: GameBoyTestSUBN
       fullName: Tests.GameBoyTest.GameBoyTestSUBN
       resultStatus: 1
-      duration: 0.0007972
+      duration: 0.0007071
       messages: 
       output: 
       stacktrace: 
@@ -4289,7 +6533,92 @@ MonoBehaviour:
       name: GameBoyTestSWAPA
       fullName: Tests.GameBoyTest.GameBoyTestSWAPA
       resultStatus: 1
-      duration: 0.0009264
+      duration: 0.0008247
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1088
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSWAPB]
+      name: GameBoyTestSWAPB
+      fullName: Tests.GameBoyTest.GameBoyTestSWAPB
+      resultStatus: 1
+      duration: 0.0006603
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1089
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSWAPC]
+      name: GameBoyTestSWAPC
+      fullName: Tests.GameBoyTest.GameBoyTestSWAPC
+      resultStatus: 1
+      duration: 0.0006584
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1090
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSWAPD]
+      name: GameBoyTestSWAPD
+      fullName: Tests.GameBoyTest.GameBoyTestSWAPD
+      resultStatus: 1
+      duration: 0.0006866
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1091
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSWAPE]
+      name: GameBoyTestSWAPE
+      fullName: Tests.GameBoyTest.GameBoyTestSWAPE
+      resultStatus: 1
+      duration: 0.0068342
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1092
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSWAPH]
+      name: GameBoyTestSWAPH
+      fullName: Tests.GameBoyTest.GameBoyTestSWAPH
+      resultStatus: 1
+      duration: 0.0008236
       messages: 
       output: 
       stacktrace: 
@@ -4306,7 +6635,7 @@ MonoBehaviour:
       name: GameBoyTestSWAPHL
       fullName: Tests.GameBoyTest.GameBoyTestSWAPHL
       resultStatus: 1
-      duration: 0.0060175
+      duration: 0.0007944
       messages: 
       output: 
       stacktrace: 
@@ -4318,12 +6647,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
-    - id: 1006
-      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestXORa]
-      name: GameBoyTestXORa
-      fullName: Tests.GameBoyTest.GameBoyTestXORa
+    - id: 1093
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestSWAPL]
+      name: GameBoyTestSWAPL
+      fullName: Tests.GameBoyTest.GameBoyTestSWAPL
       resultStatus: 1
-      duration: 0.000845
+      duration: 0.0007817
       messages: 
       output: 
       stacktrace: 
@@ -4335,12 +6664,97 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
-    - id: 1028
-      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestXORc]
-      name: GameBoyTestXORc
-      fullName: Tests.GameBoyTest.GameBoyTestXORc
+    - id: 1096
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestXORA]
+      name: GameBoyTestXORA
+      fullName: Tests.GameBoyTest.GameBoyTestXORA
       resultStatus: 1
-      duration: 0.0006652
+      duration: 0.0009242
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1097
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestXORB]
+      name: GameBoyTestXORB
+      fullName: Tests.GameBoyTest.GameBoyTestXORB
+      resultStatus: 1
+      duration: 0.00074
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1098
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestXORC]
+      name: GameBoyTestXORC
+      fullName: Tests.GameBoyTest.GameBoyTestXORC
+      resultStatus: 1
+      duration: 0.0075883
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1099
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestXORD]
+      name: GameBoyTestXORD
+      fullName: Tests.GameBoyTest.GameBoyTestXORD
+      resultStatus: 1
+      duration: 0.000776
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1100
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestXORE]
+      name: GameBoyTestXORE
+      fullName: Tests.GameBoyTest.GameBoyTestXORE
+      resultStatus: 1
+      duration: 0.000872
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
+    - id: 1101
+      uniqueId: Tests.dll/Tests/GameBoyTest/[Tests][Tests.GameBoyTest.GameBoyTestXORH]
+      name: GameBoyTestXORH
+      fullName: Tests.GameBoyTest.GameBoyTestXORH
+      resultStatus: 1
+      duration: 0.0007161
       messages: 
       output: 
       stacktrace: 
@@ -4357,7 +6771,7 @@ MonoBehaviour:
       name: GameBoyTestXORHL
       fullName: Tests.GameBoyTest.GameBoyTestXORHL
       resultStatus: 1
-      duration: 0.0007391
+      duration: 0.0007138
       messages: 
       output: 
       stacktrace: 
@@ -4374,7 +6788,7 @@ MonoBehaviour:
       name: GameBoyTestXORL
       fullName: Tests.GameBoyTest.GameBoyTestXORL
       resultStatus: 1
-      duration: 0.0007405
+      duration: 0.000804
       messages: 
       output: 
       stacktrace: 
@@ -4391,7 +6805,7 @@ MonoBehaviour:
       name: GameBoyTestXORn
       fullName: Tests.GameBoyTest.GameBoyTestXORn
       resultStatus: 1
-      duration: 0.0060383
+      duration: 0.0073881
       messages: 
       output: 
       stacktrace: 
@@ -4403,13 +6817,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: Tests.dll/Tests/[Tests][Tests.GameBoyTest][suite]
-    m_ResultText: GameBoyTestSBCE (0.036s)
+    m_ResultText: GameBoyTestRES1H (0.044s)
     m_ResultStacktrace: 
     m_TestListState:
-      scrollPos: {x: 0, y: 3150}
-      m_SelectedIDs: 7c85ff74
-      m_LastClickedID: 1962902908
-      m_ExpandedIDs: e557abf78359db41a60483513693bc52ffffff7f
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: e6b0e73b
+      m_LastClickedID: 1005039846
+      m_ExpandedIDs: e557abf78359db413693bc52ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -4456,10 +6870,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1404
+    x: 1150
     y: 75
-    width: 275
-    height: 499
+    width: 529
+    height: 552
   m_ViewDataDictionary: {fileID: 0}
   m_OpenAddComponentMenu: 0
   m_ObjectsLockedBeforeSerialization: []
@@ -5056,9 +7470,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 595
+    y: 648
     width: 1680
-    height: 363
+    height: 309
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -5073,20 +7487,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Roms/cpu_instrs/individual
+    - Assets/Roms/gb-test-roms/cpu_instrs/individual
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Roms/cpu_instrs/individual
+  - Assets/Roms/gb-test-roms/cpu_instrs/individual
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/sl/gameboyunity
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 8a390000
-    m_LastClickedID: 14730
-    m_ExpandedIDs: 0000000076390000
+    m_SelectedIDs: 043a0000
+    m_LastClickedID: 14852
+    m_ExpandedIDs: 0000000076390000783900007a3900007c390000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -5114,7 +7528,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000076390000
+    m_ExpandedIDs: 0000000076390000783900007a3900007c390000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -5141,7 +7555,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 12390000
     m_LastClickedInstanceID: 14610
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 123a000000000000543f0000fe690000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -5191,10 +7605,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 805
-    y: 595
-    width: 875
-    height: 363
+    x: 0
+    y: 648
+    width: 1680
+    height: 309
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &21
 MonoBehaviour:
@@ -5218,9 +7632,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 594
+    y: 649
     width: 1680
-    height: 363
+    height: 309
   m_ViewDataDictionary: {fileID: 0}
   m_ViewTransforms:
     m_KeySerializationHelper:
@@ -5282,10 +7696,10 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 594
+    y: 649
     width: 1680
-    height: 363
+    height: 309
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 19208
+  m_LastSelectedObjectID: 14610

@@ -213,6 +213,7 @@ public class GameBoyGraphic
                 break;
         }
 
+        //https://www.designpieces.com/palette/game-boy-original-color-palette-hex-and-rgb/
         switch(result) {
             case 0:
                 resultColor = new Color(155/255.0f, 188/255.0f, 15/255.0f,1);

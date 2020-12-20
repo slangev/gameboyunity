@@ -123,6 +123,8 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         L = 0x4D;
         PC = 0x100;
         SP = 0xFFFE;
+        m.WriteToMemory(0xFF00,0x0F); // no buttons pressed
+        m.WriteToMemory(0xFF80,0x0F); // no buttons pressed
         m.WriteToMemory(0xFF40,0x91);
         m.WriteToMemory(0xFF47,0xFC);
         m.WriteToMemory(0xFF48,0xFF);
@@ -155,11 +157,19 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 B = separatedBytes.Item1;
                 C = separatedBytes.Item2;
                 break;
+            case 0x07:
+                A = RLC(A);
+                F = resetBit(ZFlag,F);
+                break;
             case 0x08:
                 word = LDnNN();
                 separatedBytes = separateWordToBytes(SP);
                 m.WriteToMemory((ushort)(word),separatedBytes.Item2); //Low byte
                 m.WriteToMemory((ushort)(word+1),separatedBytes.Item1); //High byte
+                break;
+            case 0x0F:
+                A = RRC(A);
+                F = resetBit(ZFlag,F);
                 break;
             case 0xFA:
                 word = LDnNN();
@@ -175,8 +185,20 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 byte b = LDRN();
                 A = m.ReadFromMemory((ushort)(0xFF00 + b));
                 break;
+            case 0xA8:
+                A = XORn(A,B);
+                break;
             case 0xA9:
                 A = XORn(A,C);
+                break;
+            case 0xAA:
+                A = XORn(A,D);
+                break;
+            case 0xAB:
+                A = XORn(A,E);
+                break;
+            case 0xAC:
+                A = XORn(A,H);
                 break;
             case 0xAD:
                 A = XORn(A,L);
@@ -238,6 +260,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 break;
             case 0xE2:
                 LDCR(C,A);
+                break;
+            case 0xF2:
+                A = m.ReadFromMemory((ushort)(0xFF00+C));
                 break;
             case 0x26:
                 H = LDRN();
@@ -357,15 +382,35 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x9B:
                 A = SBC(A,E);
                 break;
-            case 0xC6:
+            case 0x9C:
+                A = SBC(A,H);
+                break;
+            case 0x9D:
+                A = SBC(A,L);
+                break;
+            case 0x9F:
+                A = SBC(A,A);
+                break;
+            case 0xDE:
                 byte n = m.ReadFromMemory(PC++);
+                A = SBC(A,n);
+                break;
+            case 0xC6:
+                n = m.ReadFromMemory(PC++);
                 A = ADD(n);
                 break;
             case 0xCE:
                 n = m.ReadFromMemory(PC++);
                 A = ADC(A,n);
                 break;
-
+            case 0x09:
+                HL = combineBytesToWord(H,L);
+                BC = combineBytesToWord(B,C);
+                HL = ADDWord(HL,BC);
+                separatedBytes = separateWordToBytes(HL);
+                H = separatedBytes.Item1;
+                L = separatedBytes.Item2;
+                break;
             case 0x19:
                 HL = combineBytesToWord(H,L);
                 ushort DE = combineBytesToWord(D,E);
@@ -377,6 +422,20 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x29:
                 HL = combineBytesToWord(H,L);
                 HL = ADDWord(HL,HL);
+                separatedBytes = separateWordToBytes(HL);
+                H = separatedBytes.Item1;
+                L = separatedBytes.Item2;
+                break;
+            case 0x39:
+                HL = combineBytesToWord(H,L);
+                HL = ADDWord(HL,SP);
+                separatedBytes = separateWordToBytes(HL);
+                H = separatedBytes.Item1;
+                L = separatedBytes.Item2;
+                break;
+            case 0x2B:
+                HL = combineBytesToWord(H,L);
+                HL = DECWord(HL);
                 separatedBytes = separateWordToBytes(HL);
                 H = separatedBytes.Item1;
                 L = separatedBytes.Item2;
@@ -394,8 +453,23 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0xA7:
                 A = AND(A,A);
                 break;
+            case 0xA0:
+                A = AND(A,B);
+                break;
             case 0xA1:
                 A = AND(A,C);
+                break;
+            case 0xA2:
+                A = AND(A,D);
+                break;
+            case 0xA3:
+                A = AND(A,E);
+                break;
+            case 0xA4:
+                A = AND(A,H);
+                break;
+            case 0xA5:
+                A = AND(A,L);
                 break;
             case 0xE6:
                 n = m.ReadFromMemory(PC++);
@@ -597,6 +671,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 H = separatedBytes.Item1;
                 L = separatedBytes.Item2;
                 break;
+            case 0x33:
+                SP = INC(SP);
+                break;
             case 0x3D:
                 A = DEC(A);
                 break;
@@ -631,6 +708,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 separatedBytes = separateWordToBytes(word);
                 D = separatedBytes.Item1;
                 E = separatedBytes.Item2;
+                break;
+            case 0x3B:
+                SP = DECWord(SP);
                 break;
             case 0x35:
                 HL = combineBytesToWord(H,L);
@@ -700,6 +780,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x75:
                 HL = combineBytesToWord(H,L);
                 m.WriteToMemory(HL,L);
+                break;
+            case 0x76:
+                halt = true;
                 break;
             case 0x22:
                 LDDHL(1,A);
@@ -892,6 +975,17 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 n = m.ReadFromMemory(PC++);
                 A = SUB(n);
                 break;
+            case 0xE8:
+                b = m.ReadFromMemory(PC++);
+		        sbyte sb = unchecked((sbyte)(b));
+                byte lowerByteOfSP = (byte)(SP & 0x00FF);
+                F = resetBit(ZFlag,F);
+                F = resetBit(NFlag,F);
+                F = (isHalfCarryAdd(lowerByteOfSP, b)) ? setBit(HFlag,F) : resetBit(HFlag,F);
+                F = (isCarryAdd(lowerByteOfSP, b)) ? setBit(CFlag,F) : resetBit(CFlag,F);
+                clearLowerBitOfF();
+                SP = (ushort)(SP + sb);
+                break;
             case 0xEA:
                 word = LDNNA();
                 m.WriteToMemory(word,A);
@@ -926,6 +1020,21 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0xF3:
                 DI();
                 break;
+            case 0xF8:
+                b = m.ReadFromMemory(PC++);
+		        sb = unchecked((sbyte)(b));
+                F = resetBit(ZFlag,F);
+                F = resetBit(NFlag,F);
+                lowerByteOfSP = (byte)(SP & 0x00FF);
+                F = (isHalfCarryAdd(lowerByteOfSP, b)) ? setBit(HFlag,F) : resetBit(HFlag,F);
+                F = (isCarryAdd(lowerByteOfSP, b)) ? setBit(CFlag,F) : resetBit(CFlag,F);
+                clearLowerBitOfF();
+                HL = combineBytesToWord(H,L);
+                HL = (ushort)(SP + sb);
+                separatedBytes = separateWordToBytes(HL);
+                H = separatedBytes.Item1;
+                L = separatedBytes.Item2;
+                break;
             case 0xF9:
                 HL = combineBytesToWord(H,L);
                 SP = HL;
@@ -938,11 +1047,62 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 byte opcodetwo = m.ReadFromMemory(PC++);
                 lastCycleCount += cycleCount_CB[opcodetwo];
                 switch(opcodetwo) {
-                    case 0x7C:
-                        TestBit(7,H);
+                    case 0x00:
+                        B = RLC(B);
+                        break;
+                    case 0x01:
+                        C = RLC(C);
+                        break;
+                    case 0x02:
+                        D = RLC(D);
+                        break;
+                    case 0x03:
+                        E = RLC(E);
+                        break;
+                    case 0x04:
+                        H = RLC(H);
+                        break;
+                    case 0x05:
+                        L = RLC(L);
+                        break;
+                    case 0x07:
+                        A = RLC(A);
+                        break;
+                    case 0x08:
+                        B = RRC(B);
+                        break;
+                    case 0x09:
+                        C = RRC(C);
+                        break;
+                    case 0x0A:
+                        D = RRC(D);
+                        break;
+                    case 0x0B:
+                        E = RRC(E);
+                        break;
+                    case 0x0C:
+                        H = RRC(H);
+                        break;
+                    case 0x0D:
+                        L = RRC(L);
+                        break;
+                    case 0x0F:
+                        A = RRC(A);
+                        break;
+                    case 0x10:
+                        B = RL(B);
                         break;
                     case 0x11:  
                         C = RL(C);
+                        break;
+                    case 0x12:  
+                        D = RL(D);
+                        break;
+                    case 0x13:  
+                        E = RL(E);
+                        break;
+                    case 0x14:  
+                        H = RL(H);
                         break;
                     case 0x15:
                         L = RL(L);
@@ -951,6 +1111,279 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                         HL = combineBytesToWord(H,L);
                         m.WriteToMemory(HL,RL(m.ReadFromMemory(HL)));
                         break;
+                    case 0x17:
+                        A = RL(A);
+                        break;
+                    case 0x20:
+                        B = SLA(B);
+                        break;
+                    case 0x21:
+                        C = SLA(C);
+                        break;
+                    case 0x22:
+                        D = SLA(D);
+                        break;
+                    case 0x23:
+                        E = SLA(E);
+                        break;
+                    case 0x24:
+                        H = SLA(H);
+                        break;
+                    case 0x25:
+                        L = SLA(L);
+                        break;
+                    case 0x27:
+                        A = SLA(A);
+                        break;
+                    case 0x28:
+                        B = SRA(B);
+                        break;
+                    case 0x29:
+                        C = SRA(C);
+                        break;
+                    case 0x2A:
+                        D = SRA(D);
+                        break;
+                    case 0x2B:
+                        E = SRA(E);
+                        break;
+                    case 0x2C:
+                        H = SRA(H);
+                        break;
+                    case 0x2D:
+                        L = SRA(L);
+                        break;
+                    case 0x2F:
+                        A = SRA(A);
+                        break;
+                    case 0x30:
+                        B = SWAP(B);
+                        break;
+                    case 0x31:
+                        C = SWAP(C);
+                        break;
+                    case 0x32:
+                        D = SWAP(D);
+                        break;
+                    case 0x33:
+                        E = SWAP(E);
+                        break;
+                    case 0x34:
+                        H = SWAP(H);
+                        break;
+                    case 0x35:
+                        L = SWAP(L);
+                        break;
+                    case 0x40:
+                        BIT(0,B);
+                        break;
+                    case 0x41:
+                        BIT(0,C);
+                        break;
+                    case 0x42:
+                        BIT(0,D);
+                        break;
+                    case 0x43:
+                        BIT(0,E);
+                        break;
+                    case 0x44:
+                        BIT(0,H);
+                        break;
+                    case 0x45:
+                        BIT(0,L);
+                        break;
+                    case 0x47:
+                        BIT(0,A);
+                        break;
+                    case 0x48:
+                        BIT(1,B);
+                        break;
+                    case 0x49:
+                        BIT(1,C);
+                        break;
+                    case 0x4A:
+                        BIT(1,D);
+                        break;
+                    case 0x4B:
+                        BIT(1,E);
+                        break;
+                    case 0x4C:
+                        BIT(1,H);
+                        break;
+                    case 0x4D:
+                        BIT(1,L);
+                        break;
+                    case 0x4F:
+                        BIT(1,A);
+                        break;
+                    case 0x50:
+                        BIT(2,B);
+                        break;
+                    case 0x51:
+                        BIT(2,C);
+                        break;
+                    case 0x52:
+                        BIT(2,D);
+                        break;
+                    case 0x53:
+                        BIT(2,E);
+                        break;
+                    case 0x54:
+                        BIT(2,H);
+                        break;
+                    case 0x55:
+                        BIT(2,L);
+                        break;
+                    case 0x57:
+                        BIT(2,A);
+                        break;
+                    case 0x58:
+                        BIT(3,B);
+                        break;
+                    case 0x59:
+                        BIT(3,C);
+                        break;
+                    case 0x5A:
+                        BIT(3,D);
+                        break;
+                    case 0x5B:
+                        BIT(3,E);
+                        break;
+                    case 0x5C:
+                        BIT(3,H);
+                        break;
+                    case 0x5D:
+                        BIT(3,L);
+                        break;
+                    case 0x5F:
+                        BIT(3,A);
+                        break;
+                    case 0x60:
+                        BIT(4,B);
+                        break;
+                    case 0x61:
+                        BIT(4,C);
+                        break;
+                    case 0x62:
+                        BIT(4,D);
+                        break;
+                    case 0x63:
+                        BIT(4,E);
+                        break;
+                    case 0x64:
+                        BIT(4,H);
+                        break;
+                    case 0x65:
+                        BIT(4,L);
+                        break;
+                    case 0x67:
+                        BIT(4,A);
+                        break;
+                    case 0x68:
+                        BIT(5,B);
+                        break;
+                    case 0x69:
+                        BIT(5,C);
+                        break;
+                    case 0x6A:
+                        BIT(5,D);
+                        break;
+                    case 0x6B:
+                        BIT(5,E);
+                        break;
+                    case 0x6C:
+                        BIT(5,H);
+                        break;
+                    case 0x6D:
+                        BIT(5,L);
+                        break;
+                    case 0x6F:
+                        BIT(5,A);
+                        break;
+                    case 0x70:
+                        BIT(6,B);
+                        break;
+                    case 0x71:
+                        BIT(6,C);
+                        break;
+                    case 0x72:
+                        BIT(6,D);
+                        break;
+                    case 0x73:
+                        BIT(6,E);
+                        break;
+                    case 0x74:
+                        BIT(6,H);
+                        break;
+                    case 0x75:
+                        BIT(6,L);
+                        break;
+                    case 0x77:
+                        BIT(6,A);
+                        break;
+                    case 0x78:
+                        BIT(7,B);
+                        break;
+                    case 0x79:
+                        BIT(7,C);
+                        break;
+                    case 0x7A:
+                        BIT(7,D);
+                        break;
+                    case 0x7B:
+                        BIT(7,E);
+                        break;
+                    case 0x7C:
+                        BIT(7,H);
+                        break;
+                    case 0x7D:
+                        BIT(7,L);
+                        break;
+                    case 0x7F:
+                        BIT(7,A);
+                        break;
+                    case 0x80:
+                        B = resetBit(0,B);
+                        break;
+                    case 0x81:
+                        C = resetBit(0,C);
+                        break;
+                    case 0x82:
+                        D = resetBit(0,D);
+                        break;
+                    case 0x83:
+                        E = resetBit(0,E);
+                        break;
+                    case 0x84:
+                        H = resetBit(0,H);
+                        break;
+                    case 0x85:
+                        L = resetBit(0,L);
+                        break;
+                    case 0x87:
+                        A = resetBit(0,A);
+                        break;
+                    case 0x88:
+                        B = resetBit(1,B);
+                        break;
+                    case 0x89:
+                        C = resetBit(1,C);
+                        break;
+                    case 0x8A:
+                        D = resetBit(1,D);
+                        break;
+                    case 0x8B:
+                        E = resetBit(1,E);
+                        break;
+                    case 0x8C:
+                        H = resetBit(1,H);
+                        break;
+                    case 0x8D:
+                        L = resetBit(1,L);
+                        break;
+                    case 0x8F:
+                        A = resetBit(1,A);
+                        break;                    
                     case 0x36:
                         HL = combineBytesToWord(H,L);
                         m.WriteToMemory(HL,SWAP(m.ReadFromMemory(HL)));
@@ -973,14 +1406,32 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                     case 0x1B:
                         E = RR(E);
                         break;
+                    case 0x1C:
+                        H = RR(H);
+                        break;
+                    case 0x1D:
+                        L = RR(L);
+                        break;
                     case 0x3F:
                         A = SRL(A);
                         break;
                     case 0x38:
                         B = SRL(B);
                         break;
-                    case 0x87:
-                        A = resetBit(0,A);
+                    case 0x39:
+                        C = SRL(C);
+                        break;
+                    case 0x3A:
+                        D = SRL(D);
+                        break;
+                    case 0x3B:
+                        E = SRL(E);
+                        break;
+                    case 0x3C:
+                        H = SRL(H);
+                        break;
+                    case 0x3D:
+                        L = SRL(L);
                         break;
                     default:
                         Debug.Log("Unknown opcode while using extended opcodes: " + opcodetwo.ToString("X2") + " PC: " + (PC-1).ToString("X2"));
@@ -1006,8 +1457,8 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     private void printDebugLine() {
         string line = "";
-        line = "A: " +A.ToString("X2")+ " F: " +F.ToString("X2")+ " B: "+B.ToString("X2")+" C: "+C.ToString("X2")+" D: "+D.ToString("X2")+" E: "+E.ToString("X2")+" H: "+H.ToString("X2")+" L: "+L.ToString("X2")+" SP: "+SP.ToString("X4")+" PC: 00:" +PC.ToString("X4")+" ("+m.ReadFromMemory(PC).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+1)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+2)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+3)).ToString("X2") + ")\n";
-        using(StreamWriter writetext = new StreamWriter("Assets/write.txt"))
+        line = "A: " +A.ToString("X2")+ " F: " +F.ToString("X2")+ " B: "+B.ToString("X2")+" C: "+C.ToString("X2")+" D: "+D.ToString("X2")+" E: "+E.ToString("X2")+" H: "+H.ToString("X2")+" L: "+L.ToString("X2")+" SP: "+SP.ToString("X4")+" PC: 00:" +PC.ToString("X4")+" ("+m.ReadFromMemory(PC).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+1)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+2)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+3)).ToString("X2") + ")";
+        using(StreamWriter writetext = File.AppendText(("Assets/write.txt")))
         {
             writetext.WriteLine(line);
         }
@@ -1091,22 +1542,6 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     private void clearLowerBitOfF() {
         //bit 0-3 ALWAYS ZERO
         F = (byte)(F & 0xF0);
-    }
-
-    // page 103
-    private byte TestBit(byte b, ushort r) {
-        byte result = (byte)((r & (1 << b)));
-		result = (byte)(result >> b);
-        result = (byte)(~result & 0x1);
-        if(result == 0x1) {
-            F = setBit(ZFlag,F); // set z to 1
-        } else { 
-            F = resetBit(ZFlag,F); // set z to 0
-        }
-        F = resetBit(NFlag,F);
-        F = setBit(HFlag,F);
-        clearLowerBitOfF();
-        return result;
     }
 
     // 8-bit load
@@ -1422,6 +1857,32 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         return result;
     }
 
+    // page 101
+    private byte SLA(byte n) {
+        byte bitZero = getBit(7,n);
+        byte result = (byte)(n << 1);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = resetBit(NFlag,F);
+        F = resetBit(HFlag,F);
+        F = (bitZero == 1) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        clearLowerBitOfF();
+        return result;
+    }
+
+    // page 101
+    private byte SRA(byte n) {
+        byte bitZero = getBit(0,n);
+        byte bitSeven = getBit(7,n);
+        byte result = (byte)(n >> 1);
+        result = (bitSeven == 1) ? setBit(7,result) : resetBit(7,result);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = resetBit(NFlag,F);
+        F = resetBit(HFlag,F);
+        F = (bitZero == 1) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        clearLowerBitOfF();
+        return result;
+    }
+
     //page 100
     private byte RR(byte n) {
         byte bit = getBit(0,n);
@@ -1481,5 +1942,68 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         F = resetBit(HFlag,F);
         F = (getC == 1) ? resetBit(CFlag,F) : setBit(CFlag,F);
         clearLowerBitOfF();
+    }
+
+    // page 99 
+    private byte RLC(byte r) {
+        byte getBitFromR = getBit(7,r);
+        r = (byte)(r << 1);
+        F = resetBit(NFlag,F);
+        F = resetBit(HFlag,F);
+        F = (getBitFromR == 1) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        byte result = (getBitFromR == 1 ) ? setBit(0,r) : resetBit(0,r);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        clearLowerBitOfF();
+        return result;
+    }
+
+    // page 99 
+    private byte RRC(byte r) {
+        byte getBitFromR = getBit(0,r);
+        r = (byte)(r >> 1);
+        F = resetBit(NFlag,F);
+        F = resetBit(HFlag,F);
+        F = (getBitFromR == 1) ? setBit(CFlag,F) : resetBit(CFlag,F);
+        byte result = (getBitFromR == 1 ) ? setBit(7,r) : resetBit(7,r);
+        F = (result == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        clearLowerBitOfF();
+        return result;
+    }
+
+    // page 103
+    private void BIT(byte bit, byte r) {
+        byte bitFromR = getBit(bit,r);
+        F = (bitFromR == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        F = resetBit(NFlag,F);
+        F = setBit(HFlag,F);
+        clearLowerBitOfF();
+    }
+
+    private void DAA() {
+        /*if (getN()) {
+				if (getH()) {
+					reg_A += 0xFA;
+				}
+				if (getC()) {
+					reg_A += 0xA0;
+				}
+			}
+			else {
+				uint16_t tempReg_A = reg_A;
+				if ((reg_A & 0xf) > 0x9 || getH()) {
+					tempReg_A += 0x6;
+				}
+				if ((tempReg_A & 0x1f0) > 0x90 || getC()) {
+					tempReg_A += 0x60;
+					setC(true);
+				}
+				else {
+					setC(false);
+				}
+				reg_A = (uint8_t)tempReg_A;
+			}
+			setH(false);
+			setZ(reg_A == 0);
+        */
     }
 }

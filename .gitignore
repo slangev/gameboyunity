@@ -11,6 +11,7 @@ Library
 Library/*
 ProjectSettings/
 Temp/
+.vscode/
 
 # Node artifact files
 node_modules/
