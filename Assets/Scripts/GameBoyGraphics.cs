@@ -238,6 +238,7 @@ public class GameBoyGraphic
                         if(bitFromData2 == 1) {
                             colorNum = GameBoyCPU.setBit(1,colorNum);
                         }
+                        // If the pixel is 0 before template is applied, ignore it. White pixels(0) are transparent.
                         if(colorNum == 0) {
                             continue;
                         }
@@ -248,6 +249,9 @@ public class GameBoyGraphic
                         int xPix = 0 - tilePixel;
  					    xPix += 7 ;
 					    int pixel = PosX+xPix;
+                        if ((LY<0)||(LY>143)||(pixel<0)||(pixel>159)) {
+                            continue ;
+                        }
                         videoMemory[LY][pixel]=c;
                     }  
                 }

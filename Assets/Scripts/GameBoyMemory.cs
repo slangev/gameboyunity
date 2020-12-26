@@ -6,7 +6,7 @@ public class GameBoyMemory
 {
     private uint memorySize = 0x10000;
     private ushort DMA = 0xFF46;
-    public byte joypadState = 0xFF; // All buttons are up
+    private static byte joypadState = 0xFF; // All buttons are up
     private ushort biosSize;
     private List<byte> memory {get; set;}
     private GameBoyCartiridge gbCart;
@@ -85,77 +85,33 @@ public class GameBoyMemory
     }
 
     private byte getJoyPadState() {
-        //Debug.Log(joypadState.ToString("X2"));
-        return joypadState;
+        byte res = memory[0xFF00] ;
+        // flip all the bits
+        res ^= 0xFF ;
+
+        // are we interested in the standard buttons?
+        if (GameBoyCPU.getBit(4, res) == 0)
+        {
+            byte topJoypad = (byte)(joypadState >> 4);
+            topJoypad |= 0xF0 ; // turn the top 4 bits on
+            res &= topJoypad ; // show what buttons are pressed
+        }
+        else if (GameBoyCPU.getBit(5, res) == 0)//directional buttons
+        {
+            byte bottomJoypad = (byte)(joypadState & 0xF);
+            bottomJoypad |= 0xF0 ;
+            res &= bottomJoypad;
+        }
+        return res;
     }
 
-    public void handleKeyEvents() {
+    public void SetJoyPadBit(byte key) {
+        joypadState = GameBoyCPU.setBit(key, GameBoyMemory.joypadState);
+    }
 
-        // Buttons down (b,a,select,start)
-        if(Input.GetKey(KeyCode.S)) {
-            joypadState = GameBoyCPU.resetBit(5, joypadState);
-        }
-        if(Input.GetKey(KeyCode.A)) {
-            joypadState = GameBoyCPU.resetBit(4, joypadState);
-        }
-        if(Input.GetKey(KeyCode.Space)) {
-            joypadState = GameBoyCPU.resetBit(6, joypadState);
-        }
-        if(Input.GetKey(KeyCode.Return)) {
-            joypadState = GameBoyCPU.resetBit(7, joypadState);
-        }
-
-        // Buttons up (b,a,select,start)
-        if(Input.GetKeyUp(KeyCode.S)) {
-            joypadState = GameBoyCPU.setBit(5, joypadState);
-        }
-        if(Input.GetKeyUp(KeyCode.A)) {
-            joypadState = GameBoyCPU.setBit(4, joypadState);
-        }
-        if(Input.GetKeyUp(KeyCode.Space)) {
-            joypadState = GameBoyCPU.setBit(6, joypadState);
-        }
-        if(Input.GetKeyUp(KeyCode.Return)) {
-            joypadState = GameBoyCPU.setBit(7, joypadState);
-        }
-
-        // Directional down (b,a,select,start)
-        if(Input.GetKey(KeyCode.UpArrow)) {
-            //Debug.Log("Key UpArrow is down");
-            joypadState = GameBoyCPU.resetBit(2, joypadState);
-        }
-        if(Input.GetKey(KeyCode.DownArrow)) {
-            //Debug.Log("Key DownArrow is down");
-            joypadState = GameBoyCPU.resetBit(3, joypadState);
-        }
-        if(Input.GetKey(KeyCode.LeftArrow)) {
-            //Debug.Log("Key LeftArrow is down");
-            joypadState = GameBoyCPU.resetBit(1, joypadState);
-        }
-        if(Input.GetKey(KeyCode.RightArrow)) {
-            //Debug.Log("Key RightArrow is down");
-            joypadState = GameBoyCPU.resetBit(0, joypadState);
-        }
-
-        // Directional up (b,a,select,start)
-        if(Input.GetKeyUp(KeyCode.UpArrow)) {
-            //Debug.Log("Key UpArrow is down");
-            joypadState = GameBoyCPU.setBit(2, joypadState);
-
-        }
-        if(Input.GetKeyUp(KeyCode.DownArrow)) {
-            //Debug.Log("Key DownArrow is down");
-            joypadState = GameBoyCPU.setBit(3, joypadState);
-
-        }
-        if(Input.GetKeyUp(KeyCode.LeftArrow)) {
-            //Debug.Log("Key LeftArrow is down");
-            joypadState = GameBoyCPU.setBit(1, joypadState);
-
-        }
-        if(Input.GetKeyUp(KeyCode.RightArrow)) {
-            //Debug.Log("Key RightArrow is down");
-            joypadState = GameBoyCPU.setBit(0, joypadState);
-        }
+    public bool ResetJoyPadBit(byte key) {
+        bool isHighToLow = (GameBoyCPU.getBit(5, memory[0xFF00]) == 1) ? true : false; 
+        joypadState = GameBoyCPU.resetBit(key, GameBoyMemory.joypadState);
+        return isHighToLow;
     }
 }

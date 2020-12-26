@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class GameBoyInterrupts
+﻿public class GameBoyInterrupts
 {
     // Interrupt flags
     public static bool IMEFlag = false; // Interrupt Master Enabled (flag)

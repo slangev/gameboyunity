@@ -8,6 +8,7 @@ public class GameBoy : MonoBehaviour
     GameBoyInterrupts gbInterrupts;
     GameBoyCartiridge gbCart;
     GameBoyCPU gbCPU;
+    GameBoyJoyPad gbJoyPad;
     Texture2D texture;
     GameObject GogbGraphic;
     ushort width = 160;
@@ -62,6 +63,9 @@ public class GameBoy : MonoBehaviour
         }
         //Create GPU
         gbGraphic = new GameBoyGraphic(width, height, texture, gbInterrupts, gbMemory);
+
+        //Create Keyboard
+        gbJoyPad = new GameBoyJoyPad(gbInterrupts,gbMemory);
     }
 
     void Start() {
@@ -71,7 +75,7 @@ public class GameBoy : MonoBehaviour
     void Update() {
         uint cyclesThisUpdate = 0 ; 
         while (cyclesThisUpdate < MAXCYCLES) {
-            gbMemory.handleKeyEvents();
+            gbJoyPad.HandleKeyEvents();
             uint cycles = gbCPU.Tick();
             cyclesThisUpdate+=cycles ;
             gbTimer.UpdateTimers(cycles);

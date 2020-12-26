@@ -25,6 +25,7 @@ namespace Tests
             RES(N,HL)
             SET(N,HL)
             DAA
+            PPU test https://github.com/mattcurrie/dmg-acid2
         */
 
         [SetUp] 
