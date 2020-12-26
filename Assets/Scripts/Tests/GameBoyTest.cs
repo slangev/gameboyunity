@@ -6181,5 +6181,28 @@ namespace Tests
             Assert.AreEqual(0x00, gbCPU.F); // H,N, and C are unset
             Assert.AreEqual(4, cycle);
         }
+
+        [Test]
+        public void GameBoyTestDAA()
+        {
+            //DAA
+            gbCPU.A = 0x45;
+            gbCPU.B = 0x38;
+            gbCPU.F = 0x50; //N is Set
+            gbMemory.WriteToMemory(0,0x80);
+            gbMemory.WriteToMemory(1,0x27);
+            gbMemory.WriteToMemory(2,0x90);
+            gbMemory.WriteToMemory(3,0x27);
+
+            uint cycle = gbCPU.Tick();
+            Assert.AreEqual(0x00, gbCPU.F); // N is unset
+            Assert.AreEqual(0x7D, gbCPU.A);
+            Assert.AreEqual(4, cycle);
+
+            cycle = gbCPU.Tick();
+            Assert.AreEqual(0x00, gbCPU.F); // C is unset
+            Assert.AreEqual(0x83, gbCPU.A);
+            Assert.AreEqual(4, cycle);
+        } 
     }
 }

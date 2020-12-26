@@ -71,6 +71,7 @@ public class GameBoy : MonoBehaviour
     void Update() {
         uint cyclesThisUpdate = 0 ; 
         while (cyclesThisUpdate < MAXCYCLES) {
+            gbMemory.handleKeyEvents();
             uint cycles = gbCPU.Tick();
             cyclesThisUpdate+=cycles ;
             gbTimer.UpdateTimers(cycles);

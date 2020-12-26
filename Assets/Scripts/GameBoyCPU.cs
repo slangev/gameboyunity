@@ -271,6 +271,9 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x26:
                 H = LDRN();
                 break;
+            case 0x27:
+                A = DAA(A);
+                break;
             case 0x2E:
                 L = LDRN();
                 break;
@@ -2409,31 +2412,37 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         clearLowerBitOfF();
     }
 
-    private void DAA() {
-        /*if (getN()) {
-				if (getH()) {
+    // page 110
+    private byte DAA(byte r) {
+        byte reg_A = r;
+
+        if (getBit(NFlag,F) == 1) {
+				if (getBit(HFlag,F) == 1) {
 					reg_A += 0xFA;
 				}
-				if (getC()) {
+				if (getBit(CFlag,F) == 1) {
 					reg_A += 0xA0;
 				}
-			}
-			else {
-				uint16_t tempReg_A = reg_A;
-				if ((reg_A & 0xf) > 0x9 || getH()) {
-					tempReg_A += 0x6;
-				}
-				if ((tempReg_A & 0x1f0) > 0x90 || getC()) {
-					tempReg_A += 0x60;
-					setC(true);
-				}
-				else {
-					setC(false);
-				}
-				reg_A = (uint8_t)tempReg_A;
-			}
-			setH(false);
-			setZ(reg_A == 0);
-        */
+		} else {
+            ushort tempReg_A = reg_A;
+            if ((reg_A & 0xf) > 0x9 || getBit(HFlag,F) == 1) {
+                tempReg_A += 0x6;
+            }
+            if ((tempReg_A & 0x1f0) > 0x90 || getBit(CFlag,F) == 1) {
+                tempReg_A += 0x60;
+                //setC(true);
+                F = setBit(CFlag,F);
+            }
+            else {
+                //setC(false);
+                F = resetBit(CFlag,F);
+            }
+            reg_A = (byte)(tempReg_A);
+        }
+        //setH(false);
+        F = resetBit(HFlag,F);
+		//setZ(reg_A == 0);
+        F = (reg_A == 0) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
+        return reg_A;
     }
 }
