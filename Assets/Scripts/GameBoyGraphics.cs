@@ -51,6 +51,7 @@ public class GameBoyGraphic
                 if (GPUCycleCount >= 204) {
 					GPUCycleCount -= 204;
                     memory.IncrementReg(LYAddr);
+                    LYCInterrupt();
                     byte LYvalue = memory.ReadFromMemory(LYAddr);
 					
                     //Start of V-blank
@@ -76,10 +77,12 @@ public class GameBoyGraphic
                 if(GPUCycleCount >= 456) {
                     GPUCycleCount -= 456;
                     memory.IncrementReg(LYAddr);
+                    LYCInterrupt();
                     byte LY = memory.ReadFromMemory(LYAddr);
 
                     if(LY == 153) {
                         memory.WriteToMemory(LYAddr, 0);
+                        LYCInterrupt();
                     } else if(LY == 1) {
                         mode = 2;
                         if ((memory.ReadFromMemory(STATAddr) & 0x20) != 0) {
@@ -115,7 +118,6 @@ public class GameBoyGraphic
         }
         memory.WriteToMemory(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) & 0xFC));
         memory.WriteToMemory(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) | mode));
-        LYCInterrupt();
     }
 
     private void renderScanLine(bool lcdcEnabled) {
@@ -164,7 +166,7 @@ public class GameBoyGraphic
                 else
                     tileNum = (sbyte)memory.ReadFromMemory(tileAddress) ;
                 ushort tileLocation = tileData;
-                if (!signed)
+                if(!signed)
 				    tileLocation += (ushort) (tileNum * 16);
 			    else
 				    tileLocation += (ushort) ((tileNum+128) * 16);
@@ -201,23 +203,25 @@ public class GameBoyGraphic
         int ysize = (use8x16) ? 16 : 8;
         if(spritesEnabled) {
             byte LY = memory.ReadFromMemory(LYAddr);
-            for(int i = 0; i < 40; i++) {
+            int spritecount = 0;
+            for(int i = 0; i < 40 && spritecount < 10; i++) {
                 byte PosY = (byte)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4))) - 16);
                 byte PosX = (byte)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 1)) - 8);
                 byte tileID = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 2));
                 byte attributes = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 3));
                 if((LY >= PosY) && (LY < (PosY+ysize))) {
+                    spritecount++;
                     byte spritePriorityBit = GameBoyCPU.getBit(7,attributes);
                     byte yFlipBit = GameBoyCPU.getBit(6,attributes);
                     byte xFlipBit = GameBoyCPU.getBit(5,attributes);
                     byte paletteNumberBit = GameBoyCPU.getBit(4,attributes);
                     int line = LY - PosY;
                     if(yFlipBit == 1) {
-                        line -= (int)(ysize);
+                        line -= ysize;
                         line *= -1;
                     }
                     line *=2;
-                    ushort tileLocation = (ushort)(0x8000 + (tileID * 16));
+                    ushort tileLocation = (ushort)(0x8000 + tileID * 16);
                     // Read two bytes of data. These bytes determine the color of the pixel
                     byte data1 = (byte)memory.ReadFromMemory((ushort)(tileLocation + line));
                     byte data2 = (byte)memory.ReadFromMemory((ushort)(tileLocation + line + 1));
@@ -251,6 +255,10 @@ public class GameBoyGraphic
 					    int pixel = PosX+xPix;
                         if ((LY<0)||(LY>143)||(pixel<0)||(pixel>159)) {
                             continue ;
+                        }
+
+                        if(spritePriorityBit == 1) {
+                            Debug.Log("HERE");
                         }
                         videoMemory[LY][pixel]=c;
                     }  
@@ -300,7 +308,7 @@ public class GameBoyGraphic
     private void LYCInterrupt() {
         byte LYValue = memory.ReadFromMemory(LYAddr);
         byte LYCValue = memory.ReadFromMemory(LYCAddr);
-        if(LYValue == LYCAddr) {
+        if(LYValue == LYCValue) {
             memory.WriteToMemory(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) | 0x04));
         } else {
             memory.WriteToMemory(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) & 0xFB));
