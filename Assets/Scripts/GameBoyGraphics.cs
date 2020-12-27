@@ -121,17 +121,82 @@ public class GameBoyGraphic
     }
 
     private void renderScanLine(bool lcdcEnabled) {
-        if (lcdcEnabled)
-        {
+        if (lcdcEnabled) {
             renderBackground();
+            renderWindow();
             renderSprites();
+        }
+    }
+
+    private void renderWindow() {
+        bool windowEnabled = ((memory.ReadFromMemory(LCDCAddr) & 0x20) != 0) ? true : false;
+        bool windowTileSelect = ((memory.ReadFromMemory(LCDCAddr) & 0x40) != 0) ? true : false;
+        if(windowEnabled) {
+            byte windowX = (byte)(memory.ReadFromMemory(WXAddr) - 7);
+		    byte windowY = memory.ReadFromMemory(WYAddr);
+            
+            byte scrollX = memory.ReadFromMemory(SCXAddr);
+            byte LY = memory.ReadFromMemory(LYAddr);
+            if (windowX >= 160 || windowY > LY) {
+		        return;
+	        }
+            ushort tileData = (ushort)(((memory.ReadFromMemory(LCDCAddr) & 0x10) != 0) ? 0x8000 : 0x8800); // Bit 4 - BG & Window Tile Data Select (0=8800-97FF, 1=8000-8FFF)
+            bool signed = (tileData == 0x8800) ? true : false; // 0x8800 uses signed data
+            ushort backgroundMemory = 0;
+            if(windowTileSelect) {
+                backgroundMemory = 0x9C00;
+            } else {
+                backgroundMemory = 0x9800;
+            }
+            byte yPos = (byte)(LY - windowY);
+            short tileRow = (short)((yPos/8) * 32); // There are 32 rows and each row has 32 tiles. Each tile is 8 pixel tall. 
+
+            for(int pixel = 0; pixel < 160; pixel++) {
+                byte xPos = (byte)(pixel+scrollX); // xPos equals the current pixel we are working on. It's part of the calculation for tileCol. Same idea as tileRow.
+                if(pixel >= windowX) {
+                    xPos = (byte)(pixel - windowX);
+                }
+                short tileCol = (short)(xPos/8);
+                short tileNum;
+                ushort tileAddress = (ushort)(backgroundMemory + tileRow + tileCol);
+                if(!signed)
+                    tileNum = (byte)memory.ReadFromMemory(tileAddress);
+                else
+                    tileNum = (sbyte)memory.ReadFromMemory(tileAddress) ;
+                ushort tileLocation = tileData;
+                if(!signed)
+				    tileLocation += (ushort) (tileNum * 16);
+			    else
+				    tileLocation += (ushort) ((tileNum+128) * 16);
+
+                byte line = (byte)(yPos % 8);
+                line *= 2;
+                // Read two bytes of data. These bytes determine the color of the pixel
+                byte data1 = (byte)memory.ReadFromMemory((ushort)(tileLocation + line));
+                byte data2 = (byte)memory.ReadFromMemory((ushort)(tileLocation + line + 1));
+
+                byte colorBit = (byte)(((xPos % 8) -7) * -1);
+
+                byte bitFromData1 = GameBoyCPU.getBit(colorBit,data1);
+                byte bitFromData2 = GameBoyCPU.getBit(colorBit,data2);
+                byte colorNum = 0;
+                if(bitFromData1 == 1) {
+                    colorNum = GameBoyCPU.setBit(0,colorNum);
+                }
+                if(bitFromData2 == 1) {
+                    colorNum = GameBoyCPU.setBit(1,colorNum);
+                }
+
+                // Go through color template
+                byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(BGPAddr));
+                Color c = getColor(colorNum,colorTemplate);
+                videoMemory[LY][pixel]=c;
+            }
         }
     }
 
     private void renderBackground() {
         bool backgroundEnabled = ((memory.ReadFromMemory(LCDCAddr) & 0x1) != 0) ? true : false;
-        bool windowEnabled = ((memory.ReadFromMemory(LCDCAddr) & 0x20) != 0) ? true : false;
-        bool windowTileSelect = ((memory.ReadFromMemory(LCDCAddr) & 0x40) != 0) ? true : false;
         bool backgroundTileSelect = ((memory.ReadFromMemory(LCDCAddr) & 0x8) != 0) ? true : false;
         if(backgroundEnabled) {
             byte scrollY = memory.ReadFromMemory(SCYAddr);
@@ -140,18 +205,11 @@ public class GameBoyGraphic
             ushort tileData = (ushort)(((memory.ReadFromMemory(LCDCAddr) & 0x10) != 0) ? 0x8000 : 0x8800); // Bit 4 - BG & Window Tile Data Select (0=8800-97FF, 1=8000-8FFF)
             bool signed = (tileData == 0x8800) ? true : false; // 0x8800 uses signed data
             ushort backgroundMemory = 0;
-            if(windowEnabled) {
-                if(windowTileSelect) {
-                    backgroundMemory = 0x9C00;
-                } else {
-                    backgroundMemory = 0x9800;
-                }
+
+            if(backgroundTileSelect) {
+                backgroundMemory = 0x9C00;
             } else {
-                if(backgroundTileSelect) {
-                    backgroundMemory = 0x9C00;
-                } else {
-                    backgroundMemory = 0x9800;
-                }
+                backgroundMemory = 0x9800;
             }
             byte yPos = (byte)(scrollY + LY); // yPos equals the current tile row/pixel
             short tileRow = (short)((yPos/8) * 32); // There are 32 rows and each row has 32 tiles. Each tile is 8 pixel tall. 
@@ -258,7 +316,7 @@ public class GameBoyGraphic
                         }
 
                         if(spritePriorityBit == 1) {
-                            Debug.Log("HERE");
+                            //Debug.Log("HERE");
                         }
                         videoMemory[LY][pixel]=c;
                     }  
