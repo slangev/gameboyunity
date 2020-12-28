@@ -189,7 +189,8 @@ public class GameBoyGraphic
 
                 // Go through color template
                 byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(BGPAddr));
-                Color c = getColor(colorNum,colorTemplate);
+                var getColorResult = getColor(colorNum,colorTemplate);
+                Color c = getColorResult.Item1;
                 videoMemory[LY][pixel]=c;
             }
         }
@@ -249,7 +250,8 @@ public class GameBoyGraphic
 
                 // Go through color template
                 byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(BGPAddr));
-                Color c = getColor(colorNum,colorTemplate);
+                var getColorResult = getColor(colorNum,colorTemplate);
+                Color c = getColorResult.Item1;
                 videoMemory[LY][pixel]=c;
             }
         }
@@ -307,7 +309,9 @@ public class GameBoyGraphic
                         int pall = (paletteNumberBit == 1) ? 0xFF49 : 0xFF48;
                         // Go through color template
                         byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(pall));
-                        Color c = getColor(colorNum,colorTemplate);
+                        var getColorResult = getColor(colorNum,colorTemplate);
+                        Color c = getColorResult.Item1;
+                        byte colorResult = getColorResult.Item2;
                         int xPix = 0 - tilePixel;
  					    xPix += 7 ;
 					    int pixel = PosX+xPix;
@@ -316,7 +320,9 @@ public class GameBoyGraphic
                         }
 
                         if(spritePriorityBit == 1) {
-                            //Debug.Log("HERE");
+                            if(colorResult == 0) {
+                                continue;
+                            }
                         }
                         videoMemory[LY][pixel]=c;
                     }  
@@ -326,7 +332,7 @@ public class GameBoyGraphic
     }
 
 
-    private Color getColor(byte colorNum, byte colorTemplate) {
+    private (Color,byte) getColor(byte colorNum, byte colorTemplate) {
         Color resultColor = new Color();
         byte result = 0;
         switch(colorNum) {
@@ -360,7 +366,7 @@ public class GameBoyGraphic
                 break;
         }
 
-        return resultColor;
+        return (resultColor,result);
     }
 
     private void LYCInterrupt() {
