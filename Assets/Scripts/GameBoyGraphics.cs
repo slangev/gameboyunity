@@ -151,7 +151,7 @@ public class GameBoyGraphic
             byte yPos = (byte)(LY - windowY);
             short tileRow = (short)((yPos/8) * 32); // There are 32 rows and each row has 32 tiles. Each tile is 8 pixel tall. 
 
-            for(int pixel = 0; pixel < 160; pixel++) {
+            for(int pixel = windowX; pixel < 160; pixel++) {
                 byte xPos = (byte)(pixel+scrollX); // xPos equals the current pixel we are working on. It's part of the calculation for tileCol. Same idea as tileRow.
                 if(pixel >= windowX) {
                     xPos = (byte)(pixel - windowX);
