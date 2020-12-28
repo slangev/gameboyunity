@@ -59,6 +59,7 @@ public class GameBoyMemory
     public bool WriteToMemory(ushort pos, byte data) {
         if(pos == GameBoyTimer.DIV) {
             memory[pos] = 0;
+            //TODO: Reset TAC to 0 to prevent intrerrupts?
         } else if(pos == GameBoyGraphic.LYAddr) {
             memory[pos] = 0;
         } else if(pos == DMA){
