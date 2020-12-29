@@ -277,10 +277,13 @@ public class GameBoyGraphic
                     byte paletteNumberBit = GameBoyCPU.getBit(4,attributes);
                     int line = LY - PosY;
                     if(yFlipBit == 1) {
-                        line -= ysize;
+                        line -= ysize - 1;
                         line *= -1;
                     }
                     line *=2;
+                    if(use8x16) {
+                        tileID = GameBoyCPU.resetBit(0,tileID);
+                    }
                     ushort tileLocation = (ushort)(0x8000 + tileID * 16);
                     // Read two bytes of data. These bytes determine the color of the pixel
                     byte data1 = (byte)memory.ReadFromMemory((ushort)(tileLocation + line));
