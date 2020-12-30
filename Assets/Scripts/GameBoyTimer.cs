@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class GameBoyTimer
+﻿public class GameBoyTimer
 {
     GameBoyMemory gbMemory;
     GameBoyInterrupts gbInterrupts;
@@ -21,6 +19,10 @@ public class GameBoyTimer
     private uint getClockRateFromTac() {
         uint rate = (byte)(gbMemory.ReadFromMemory(TAC) & 0x3);
         return (uint)(rate == (0) ? 1024 : rate == (1) ? 16 : rate == (2) ? 64 : rate == (3) ? 256 : 0);
+    }
+
+    public void resetTimer() {
+        TIMACycleCount = 0;
     }
 
     public void UpdateTimers(uint cycles) {

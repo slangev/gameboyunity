@@ -55,6 +55,7 @@ public class GameBoy : MonoBehaviour
 
         //Create Timer
         gbTimer = new GameBoyTimer(gbMemory, gbInterrupts);
+        gbMemory.AddTimer(gbTimer);
 
         //Create CPU
         gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);

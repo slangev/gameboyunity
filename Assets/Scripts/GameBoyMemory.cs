@@ -10,9 +10,14 @@ public class GameBoyMemory
     private ushort biosSize;
     private List<byte> memory {get; set;}
     private GameBoyCartiridge gbCart;
+    private GameBoyTimer gbTimer;
     public GameBoyMemory(GameBoyCartiridge gbCart) {
         this.gbCart = gbCart;
         memory = new List<byte>(new byte[memorySize]);
+    }
+
+    public void AddTimer(GameBoyTimer gbTimer) {
+        this.gbTimer = gbTimer;
     }
 
     public void LoadBios(string bios) {
@@ -59,7 +64,7 @@ public class GameBoyMemory
     public bool WriteToMemory(ushort pos, byte data) {
         if(pos == GameBoyTimer.DIV) {
             memory[pos] = 0;
-            //TODO: Reset TAC to 0 to prevent intrerrupts?
+            gbTimer.resetTimer();
         } else if(pos == GameBoyGraphic.LYAddr) {
             memory[pos] = 0;
         } else if(pos == DMA){
