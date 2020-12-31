@@ -2,8 +2,8 @@
 {
     GameBoyMemory gbMemory;
     GameBoyInterrupts gbInterrupts;
-    private uint DIVCycleCount = 0;
-    private uint TIMACycleCount = 0;
+    private ushort DIVCycleCount = 0;
+    public ushort TIMACycleCount {get;set;} = 0;
 
     // Divide/Timer Register address
     public static readonly ushort DIV = 0xFF04;
@@ -16,9 +16,9 @@
         gbInterrupts = i;
     }
 
-    private uint getClockRateFromTac() {
-        uint rate = (byte)(gbMemory.ReadFromMemory(TAC) & 0x3);
-        return (uint)(rate == (0) ? 1024 : rate == (1) ? 16 : rate == (2) ? 64 : rate == (3) ? 256 : 0);
+    private ushort getClockRateFromTac() {
+        ushort rate = (byte)(gbMemory.ReadFromMemory(TAC) & 0x3);
+        return (ushort)(rate == (0) ? 1024 : rate == (1) ? 16 : rate == (2) ? 64 : rate == (3) ? 256 : 0);
     }
 
     public void resetTimer() {
@@ -36,15 +36,15 @@
     }
 
     public void UpdateTimers(uint cycles) {
-        DIVCycleCount += cycles;
+        DIVCycleCount += (ushort)(cycles);
 	    if (DIVCycleCount >= 256) {
 		    DIVCycleCount -= 256;
 		    gbMemory.IncrementReg(DIV);
 	    }
         bool tacEnabled = (byte)(gbMemory.ReadFromMemory(TAC) & 0x4) != 0;
         if(tacEnabled) {
-            TIMACycleCount += cycles;
-		    uint clockRateNum = getClockRateFromTac();
+            TIMACycleCount += (ushort)(cycles);
+		    ushort clockRateNum = getClockRateFromTac();
             while (TIMACycleCount >= clockRateNum) {
 			    TIMACycleCount -= clockRateNum;
                 IncrementTIMACheck();

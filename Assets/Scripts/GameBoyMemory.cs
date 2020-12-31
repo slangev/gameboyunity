@@ -70,7 +70,7 @@ public class GameBoyMemory
         if(pos == GameBoyTimer.DIV) {
             uint rate = (byte)(memory[GameBoyTimer.TAC] & 0x3);
             byte divValue = memory[GameBoyTimer.DIV];
-            if(GameBoyCPU.getBit(1, divValue) == 1 && rate == 0) {
+            if(GameBoyCPU.getBit(1, divValue) == 1 && rate == 0 && gbTimer.TIMACycleCount == 512) {
                 gbTimer.IncrementTIMACheck();
             }
             memory[GameBoyTimer.DIV] = 0;
