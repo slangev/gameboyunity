@@ -68,7 +68,12 @@ public class GameBoyMemory
     
     public bool WriteToMemory(ushort pos, byte data) {
         if(pos == GameBoyTimer.DIV) {
-            memory[pos] = 0;
+            uint rate = (byte)(memory[GameBoyTimer.TAC] & 0x3);
+            byte divValue = memory[GameBoyTimer.DIV];
+            if(GameBoyCPU.getBit(1, divValue) == 1 && rate == 0) {
+                gbTimer.IncrementTIMACheck();
+            }
+            memory[GameBoyTimer.DIV] = 0;
             gbTimer.resetTimer();
         } else if(pos == GameBoyGraphic.LYAddr) {
             memory[pos] = 0;

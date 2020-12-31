@@ -25,6 +25,16 @@
         TIMACycleCount = 0;
     }
 
+    public void IncrementTIMACheck() {
+        gbMemory.IncrementReg(TIMA);
+        byte result = (byte)(gbMemory.ReadFromMemory(TIMA));
+
+        if (result == 0) {
+            gbMemory.WriteToMemory(TIMA, (byte)(gbMemory.ReadFromMemory(TMA)));
+            gbInterrupts.RequestInterrupt(GameBoyInterrupts.TimerOverflowBit);
+        }
+    }
+
     public void UpdateTimers(uint cycles) {
         DIVCycleCount += cycles;
 	    if (DIVCycleCount >= 256) {
@@ -37,13 +47,7 @@
 		    uint clockRateNum = getClockRateFromTac();
             while (TIMACycleCount >= clockRateNum) {
 			    TIMACycleCount -= clockRateNum;
-                gbMemory.IncrementReg(TIMA);
-			    byte result = (byte)(gbMemory.ReadFromMemory(TIMA));
-
-			    if (result == 0) {
-				    gbMemory.WriteToMemory(TIMA, (byte)(gbMemory.ReadFromMemory(TMA)));
-                    gbInterrupts.RequestInterrupt(GameBoyInterrupts.TimerOverflowBit);
-			    }
+                IncrementTIMACheck();
 		    }
         }
     }
