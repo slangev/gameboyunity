@@ -11,6 +11,7 @@ public class GameBoyMemory
     private List<byte> memory {get; set;}
     private GameBoyCartiridge gbCart;
     private GameBoyTimer gbTimer;
+    private GameBoyGraphic gbGraphic;
     public GameBoyMemory(GameBoyCartiridge gbCart) {
         this.gbCart = gbCart;
         memory = new List<byte>(new byte[memorySize]);
@@ -18,6 +19,10 @@ public class GameBoyMemory
 
     public void AddTimer(GameBoyTimer gbTimer) {
         this.gbTimer = gbTimer;
+    }
+
+    public void AddGraphics(GameBoyGraphic gbGraphic) {
+        this.gbGraphic = gbGraphic;
     }
 
     public void LoadBios(string bios) {
@@ -67,6 +72,7 @@ public class GameBoyMemory
             gbTimer.resetTimer();
         } else if(pos == GameBoyGraphic.LYAddr) {
             memory[pos] = 0;
+            gbGraphic.resetWindowLine();
         } else if(pos == DMA){
             DMATransfer(data);
         } else if(pos >= 0xE000 && pos <= 0xFDFF) {

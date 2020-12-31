@@ -26,6 +26,7 @@ public class GameBoyGraphic
     public static readonly ushort OBP1Addr = 0xFF49;
     public static readonly ushort WYAddr = 0xFF4A;
     public static readonly ushort WXAddr = 0xFF4B;
+    private byte windowLine {get; set;} = 0;
 
     public GameBoyGraphic(uint width, uint height, Texture2D screen, GameBoyInterrupts interrupts, GameBoyMemory memory) {
         this.width = width;
@@ -124,7 +125,7 @@ public class GameBoyGraphic
         if (lcdcEnabled) {
             renderBackground();
             renderWindow();
-            renderSprites2();
+            renderSprites();
         }
     }
 
@@ -148,7 +149,7 @@ public class GameBoyGraphic
             } else {
                 backgroundMemory = 0x9800;
             }
-            byte yPos = (byte)(LY - windowY);
+            byte yPos = windowLine++;
             short tileRow = (short)((yPos/8) * 32); // There are 32 rows and each row has 32 tiles. Each tile is 8 pixel tall. 
 
             for(int pixel = windowX; pixel < 160; pixel++) {
@@ -257,7 +258,7 @@ public class GameBoyGraphic
         }
     }
 
-    private void renderSprites2() {
+    private void renderSprites() {
         bool spritesEnabled = ((memory.ReadFromMemory(LCDCAddr) & 0x2) != 0) ? true : false;
         bool use8x16 = ((memory.ReadFromMemory(LCDCAddr) & 0x4) != 0) ? true : false;
         int ysize = (use8x16) ? 16 : 8;
@@ -339,84 +340,6 @@ public class GameBoyGraphic
             }
         }
     }
-
-    private void renderSprites() {
-        bool spritesEnabled = ((memory.ReadFromMemory(LCDCAddr) & 0x2) != 0) ? true : false;
-        bool use8x16 = ((memory.ReadFromMemory(LCDCAddr) & 0x4) != 0) ? true : false;
-        int ysize = (use8x16) ? 16 : 8;
-        if(spritesEnabled) {
-            byte LY = memory.ReadFromMemory(LYAddr);
-            int spritecount = 0;
-            for(int i = 0; i < 40 && spritecount < 10; i++) {
-                byte PosY = (byte)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4))) - 16);
-                byte PosX = (byte)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 1)) - 8);
-                byte tileID = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 2));
-                byte attributes = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 3));
-                if((LY >= PosY) && (LY < (PosY+ysize))) {
-                    spritecount++;
-                    byte spritePriorityBit = GameBoyCPU.getBit(7,attributes);
-                    byte yFlipBit = GameBoyCPU.getBit(6,attributes);
-                    byte xFlipBit = GameBoyCPU.getBit(5,attributes);
-                    byte paletteNumberBit = GameBoyCPU.getBit(4,attributes);
-                    int line = LY - PosY;
-                    if(yFlipBit == 1) {
-                        line -= ysize - 1;
-                        line *= -1;
-                    }
-                    line *=2;
-                    if(use8x16) {
-                        tileID = GameBoyCPU.resetBit(0,tileID);
-                    }
-                    ushort tileLocation = (ushort)(0x8000 + tileID * 16);
-                    // Read two bytes of data. These bytes determine the color of the pixel
-                    byte data1 = (byte)memory.ReadFromMemory((ushort)(tileLocation + line));
-                    byte data2 = (byte)memory.ReadFromMemory((ushort)(tileLocation + line + 1));
-                    
-                    for (int tilePixel = 7; tilePixel >= 0; tilePixel--) {
-                        int colorBit = tilePixel;
- 					    if (xFlipBit == 1)
- 					    {
- 					    	colorBit -= 7;
- 					    	colorBit *= -1;
- 					    }
-                        byte bitFromData1 = GameBoyCPU.getBit((byte)(colorBit),data1);
-                        byte bitFromData2 = GameBoyCPU.getBit((byte)(colorBit),data2);
-                        byte colorNum = 0;
-                        if(bitFromData1 == 1) {
-                            colorNum = GameBoyCPU.setBit(0,colorNum);
-                        }
-                        if(bitFromData2 == 1) {
-                            colorNum = GameBoyCPU.setBit(1,colorNum);
-                        }
-                        // If the pixel is 0 before template is applied, ignore it. White pixels(0) are transparent.
-                        if(colorNum == 0) {
-                            continue;
-                        }
-                        int pall = (paletteNumberBit == 1) ? 0xFF49 : 0xFF48;
-                        // Go through color template
-                        byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(pall));
-                        var getColorResult = getColor(colorNum,colorTemplate);
-                        Color c = getColorResult.Item1;
-                        byte colorResult = getColorResult.Item2;
-                        int xPix = 0 - tilePixel;
- 					    xPix += 7 ;
-					    int pixel = PosX+xPix;
-                        if ((LY<0)||(LY>143)||(pixel<0)||(pixel>159)) {
-                            continue ;
-                        }
-
-                        if(spritePriorityBit == 1) {
-                            if(colorResult == 0) {
-                                continue;
-                            }
-                        }
-                        videoMemory[LY][pixel]=c;
-                    }  
-                }
-            }
-        }
-    }
-
 
     private (Color,byte) getColor(byte colorNum, byte colorTemplate) {
         Color resultColor = new Color();
@@ -502,5 +425,9 @@ public class GameBoyGraphic
             result = result + "\n";
         }
         return result.Substring(0,result.Length-1);
+    }
+
+    public void resetWindowLine() {
+        windowLine = 0;
     }
 }

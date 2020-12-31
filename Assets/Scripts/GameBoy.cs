@@ -64,6 +64,7 @@ public class GameBoy : MonoBehaviour
         }
         //Create GPU
         gbGraphic = new GameBoyGraphic(width, height, texture, gbInterrupts, gbMemory);
+        gbMemory.AddGraphics(gbGraphic);
 
         //Create Keyboard
         gbJoyPad = new GameBoyJoyPad(gbInterrupts,gbMemory);
