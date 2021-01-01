@@ -70,7 +70,14 @@ public class GameBoyMemory
         if(pos == GameBoyTimer.DIV) {
             uint rate = (byte)(memory[GameBoyTimer.TAC] & 0x3);
             byte divValue = memory[GameBoyTimer.DIV];
-            if(GameBoyCPU.getBit(1, divValue) == 1 && rate == 0 && gbTimer.TIMACycleCount == 512) {
+            //Failing Edge detector... don't know if this is correct
+            if(rate == 0 && GameBoyCPU.getBitFromWord(9, gbTimer.TIMACycleCount) == 1) {
+                gbTimer.IncrementTIMACheck();
+            } else if(rate == 1 && GameBoyCPU.getBitFromWord(3, gbTimer.TIMACycleCount) == 1) {
+                gbTimer.IncrementTIMACheck();
+            } else if(rate == 2 && GameBoyCPU.getBitFromWord(5, gbTimer.TIMACycleCount) == 1) {
+                gbTimer.IncrementTIMACheck();
+            } else if(rate == 3 && GameBoyCPU.getBitFromWord(7, gbTimer.TIMACycleCount) == 1) {
                 gbTimer.IncrementTIMACheck();
             }
             memory[GameBoyTimer.DIV] = 0;

@@ -1925,6 +1925,12 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         return result;
     }
 
+    public static ushort getBitFromWord(byte pos, ushort reg) {
+        ushort result = (ushort)((reg & (1 << pos)));
+        result = (ushort)(result >> pos); 
+        return result;
+    }
+
     private bool isHalfCarryAdd(byte r, byte n) {
         uint result = (uint)((r & 0xf) + (n & 0xf));
         return result > 0xF;

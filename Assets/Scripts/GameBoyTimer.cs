@@ -3,6 +3,8 @@
     GameBoyMemory gbMemory;
     GameBoyInterrupts gbInterrupts;
     private ushort DIVCycleCount = 0;
+    private ushort TIMAReloadCounter = 0;
+    private bool isReloading = false;
     public ushort TIMACycleCount {get;set;} = 0;
 
     // Divide/Timer Register address
@@ -30,8 +32,9 @@
         byte result = (byte)(gbMemory.ReadFromMemory(TIMA));
 
         if (result == 0) {
-            gbMemory.WriteToMemory(TIMA, (byte)(gbMemory.ReadFromMemory(TMA)));
-            gbInterrupts.RequestInterrupt(GameBoyInterrupts.TimerOverflowBit);
+            gbMemory.WriteToMemory(TIMA, 0);
+            TIMAReloadCounter = 4;
+            isReloading = true;
         }
     }
 
@@ -44,11 +47,17 @@
         bool tacEnabled = (byte)(gbMemory.ReadFromMemory(TAC) & 0x4) != 0;
         if(tacEnabled) {
             TIMACycleCount += (ushort)(cycles);
+            TIMAReloadCounter -= (ushort)(cycles);
 		    ushort clockRateNum = getClockRateFromTac();
             while (TIMACycleCount >= clockRateNum) {
 			    TIMACycleCount -= clockRateNum;
                 IncrementTIMACheck();
 		    }
+            if(TIMAReloadCounter <= 0 && isReloading) {
+                isReloading = false;
+                gbMemory.WriteToMemory(TIMA, (byte)(gbMemory.ReadFromMemory(TMA)));
+                gbInterrupts.RequestInterrupt(GameBoyInterrupts.TimerOverflowBit);
+            }
         }
     }
 }
