@@ -56,8 +56,12 @@ public class GameBoyMemory
 			    return memory[pos];
 		    }
 			return gbCart.Read(pos);
-		} else if(pos >= 0xE000 && pos <= 0xFDFF ){
-            Debug.Log("Read from internal ram/ echo ram");
+		} 
+        else if(pos >= 0xA000 && pos <= 0xBFFF) {
+            return gbCart.Read(pos);
+        }
+        else if(pos >= 0xE000 && pos <= 0xFDFF ) {
+            //Debug.Log("Read from internal ram/ echo ram");
             return memory[pos];
         // Joypad register
         } else if(pos == 0xFF00) {
@@ -66,8 +70,10 @@ public class GameBoyMemory
         return memory[pos];
     }
     
-    public bool WriteToMemory(ushort pos, byte data) {
-        if(pos == GameBoyTimer.DIV) {
+    public bool WriteToMemory(ushort PC, byte data) {
+        if(PC >= 0x0000 && PC <= 0x7FFF) {
+            gbCart.Write(PC,data);
+        } else if(PC == GameBoyTimer.DIV) {
             uint rate = (byte)(memory[GameBoyTimer.TAC] & 0x3);
             byte divValue = memory[GameBoyTimer.DIV];
             //Failing Edge detector... don't know if this is correct
@@ -82,16 +88,18 @@ public class GameBoyMemory
             }
             memory[GameBoyTimer.DIV] = 0;
             gbTimer.resetTimer();
-        } else if(pos == GameBoyGraphic.LYAddr) {
-            memory[pos] = 0;
+        } else if(PC >= 0xA000 && PC <= 0xBFFF) {
+            gbCart.Write(PC,data);
+        } else if(PC == GameBoyGraphic.LYAddr) {
+            memory[PC] = 0;
             gbGraphic.resetWindowLine();
-        } else if(pos == DMA){
+        } else if(PC == DMA){
             DMATransfer(data);
-        } else if(pos >= 0xE000 && pos <= 0xFDFF) {
-            Debug.Log("Writing to internal ram/ echo ram");
-            memory[pos] = data;
+        } else if(PC >= 0xE000 && PC <= 0xFDFF) {
+            //Debug.Log("Writing to internal ram/ echo ram");
+            memory[PC] = data;
         } else {
-            memory[pos] = data;
+            memory[PC] = data;
         }
         return true;
     }

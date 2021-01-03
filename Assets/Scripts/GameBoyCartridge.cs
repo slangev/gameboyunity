@@ -3,7 +3,16 @@ using System.IO;
 
 public class GameBoyCartiridge
 {
-    public List<byte> romMemory;
+    enum MBCType : byte
+    {
+        NoMBC,
+        MBC1,
+        MBC1RAM,
+        MBC1RAMBATT
+    }
+
+    private List<byte> romMemory;
+    private List<byte> ramMemory;
     public string Title {get;set;}
     public byte IsGameBoyColor {get;set;}
     public byte highNibble {get;set;}
@@ -15,17 +24,20 @@ public class GameBoyCartiridge
     public byte IsNonJapanese {get;set;}
     public byte LicenseeCode {get;set;}
     public byte MaskRomVersionNumber {get;set;}
+    private GameBoyMBC mbc;
+    private static readonly uint maxRamSize = 0x8000;
 
     public GameBoyCartiridge(uint size) {
         romMemory = new List<byte>(new byte[size]);
+        ramMemory = new List<byte>(new byte[maxRamSize]);
     }
 
-    public void Write(ushort pc, byte data) {
-        romMemory[pc] = data;
+    public void Write(ushort PC, byte data) {
+        mbc.Write(PC, data);
     }
 
-    public byte Read(ushort pc) {
-        return romMemory[pc];
+    public byte Read(ushort PC) {
+        return mbc.Read(PC);
     }
 
     public void LoadRom(string rom) {
@@ -36,6 +48,20 @@ public class GameBoyCartiridge
         }
         CartiridgeType = romMemory[0x147];
         RomSize = romMemory[0x148];
+        switch(CartiridgeType) {
+            case (byte)(MBCType.NoMBC):
+                mbc = new GameBoyNoMBC(romMemory);
+                break;
+            case (byte)(MBCType.MBC1):
+                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize);
+                break;
+            case (byte)(MBCType.MBC1RAM):
+                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize);
+                break;
+            case (byte)(MBCType.MBC1RAMBATT):
+                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize);
+                break;
+        }
         IsNonJapanese = romMemory[0x014A];
     }
 

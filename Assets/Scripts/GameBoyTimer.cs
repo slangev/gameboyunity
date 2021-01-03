@@ -40,7 +40,7 @@
 
     public void UpdateTimers(uint cycles) {
         DIVCycleCount += (ushort)(cycles);
-	    if (DIVCycleCount >= 256) {
+	    while (DIVCycleCount >= 256) {
 		    DIVCycleCount -= 256;
 		    gbMemory.IncrementReg(DIV);
 	    }
