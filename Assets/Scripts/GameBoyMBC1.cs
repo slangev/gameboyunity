@@ -10,6 +10,7 @@ public class GameBoyMBC1 : GameBoyMBC {
     private byte mode;
     private uint romSize;
     private uint ramSize;
+    private byte higherRomBankBits = 0;
     
     public GameBoyMBC1(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize) {
         this.romMemory = romMemory;
@@ -34,17 +35,24 @@ public class GameBoyMBC1 : GameBoyMBC {
             // When 00h is written, the MBC translates that to bank 01h. 
             // The same happens for banks 20h, 40h, and 60h, as this register would need to be 00h for those addresses. 
             // Any attempt to address these ROM Banks will select Bank 21h, 41h and 61h instead.
-            if(data == 0x00) {
-                data = 0x01;
-            } 
-            /*else if(data == 0x20 || data == 0x40 || data == 0x60) {
-                data++;
-            }*/
             byte mask = (byte)(data & 0x1F);
-            if(romSize == 1) {
-                // we need only 2 bits because romSize 1 = 4 banks.
-                romBankNumber = (byte)(mask & 0x03);
+            if(romSize == 0) {
+                romBankNumber = (byte)(mask & 0x1);
             }
+            //228 and 229
+            else if(romSize == 1) {
+                // we need only 2 bits because romSize 1 = 4 banks.
+                romBankNumber = (byte)(mask & 0x0); // FIXMEEEEEEEEE
+            } else if(romSize == 2) {
+                romBankNumber = (byte)(mask & 0xF);
+            }
+            if(romBankNumber == 0x00 || romBankNumber == 0x20 || romBankNumber == 0x40 || romBankNumber == 0x60) {
+                romBankNumber++;
+            }
+            //if(mask == 0) {
+            //    mask++;
+            //}
+            //romBankNumber = mask;
         }
         // RAM BANK NUMBER(32kB Ram carts only) or Upper Bits of ROM Bank Number
         else if(PC >= 0x4000 && PC <= 0x5FFF) {
@@ -70,7 +78,7 @@ public class GameBoyMBC1 : GameBoyMBC {
                     ushort newAddress = (ushort)(PC - 0xA000);
                     ramMemory[newAddress + (ramBankNumber*0x2000)] = data;
                 } else if(mode == 1) {
-                    Debug.Log("Writing from RAM mode 1");
+                    Debug.Log("Writing to RAM mode 1");
                 }
             }
         }
