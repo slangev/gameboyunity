@@ -5,25 +5,48 @@ using UnityEngine;
 public class GameBoyMBC1 : GameBoyMBC {
     private List<byte> romMemory;
     private List<byte> ramMemory;
-    private bool ramEnable;
-    private byte romBankNumber;
     private byte romBankSize;
-    private byte ramBankNumber;
-    private byte mode;
+    private byte ramBankSize;
     private uint romSize;
     private uint ramSize;
-    private byte higherRomBankBits = 0;
+    private bool ramEnable = false;
+    private byte bank1 = 1;
+    private byte bank2 = 0;
+    private bool mode = false;
+    private uint ROM_BANK_SIZE = 0x4000;
+    private bool multicart = false;
     
-    public GameBoyMBC1(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize) {
+    public GameBoyMBC1(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize, bool multicart) {
         this.romMemory = romMemory;
         this.ramMemory = ramMemory;
         this.romSize = romSize;
         this.ramSize = ramSize;
+        this.multicart = multicart;
         ramEnable = false;
-        romBankNumber = 1;
         romBankSize = setRomBankSize(this.romSize);
-        ramBankNumber = 0;
-        mode = 0;
+        ramBankSize = setRamBankSize(this.ramSize);
+        mode = false;
+    }
+
+    private byte setRamBankSize(uint ramSize) {
+        byte result = 0;
+        switch(ramSize) {
+            case 1:
+                result = 1;
+                break;
+            case 2:
+                result = 1;
+                break;
+            case 3:
+                result = 4;
+                break;
+            case 4:
+                result = 16;
+                break;
+            default:
+                break;
+        }
+        return result;
     }
 
     private byte setRomBankSize(uint romSize) {
@@ -53,6 +76,14 @@ public class GameBoyMBC1 : GameBoyMBC {
         return result;
     }
 
+    private (uint,uint) rom_offsets(bool multicart) {
+        int upper_bits = (multicart) ? bank2 << 4 : bank2 << 5;
+        int lower_bits = (multicart) ? bank1 & 0b1111 : bank1;
+        uint lower_bank = (mode) ? (uint)(upper_bits) : 0b00;
+        uint upper_bank = (uint)(upper_bits | lower_bits);
+        return ((ROM_BANK_SIZE * lower_bank),(ROM_BANK_SIZE * upper_bank));
+    }
+
     public void Write(ushort PC, byte data) {
         //RAM Enabled
         if(PC >= 0x0000 && PC <= 0x1FFF) {
@@ -62,75 +93,42 @@ public class GameBoyMBC1 : GameBoyMBC {
         } 
         //ROM BANK Number Write
         else if(PC >= 0x2000 && PC <= 0x3FFF) {
-            // When 00h is written, the MBC translates that to bank 01h. 
-            // The same happens for banks 20h, 40h, and 60h, as this register would need to be 00h for those addresses. 
-            // Any attempt to address these ROM Banks will select Bank 21h, 41h and 61h instead.
-            romBankNumber = (byte)(data & 0x1F);
-            if(romBankNumber == 0x00 || romBankNumber == 0x20 || romBankNumber == 0x40 || romBankNumber == 0x60) {
-                romBankNumber++;
-            }
-            romBankNumber &= (byte)(romBankSize-1);
+            bank1 = ((byte)(data & 0b1_1111) == 0b0_0000) ? (byte)(0b0_0001) : (byte)(data & 0b1_1111);
         }
         // RAM BANK NUMBER(32kB Ram carts only) or Upper Bits of ROM Bank Number
-        else if(PC >= 0x4000 && PC <= 0x5FFF) {
-            if(romSize == 0) {
-                ramBankNumber = 0;
-            }
-            else if(ramSize == 3) {
-                //32kB Ram carts
-                ramBankNumber = (byte)(data & 0x03);
-            } else {
-                // Upper Bits off Rom Bank Number
-            }
+        else if(PC >= 0x4000 && PC <= 0x5FFF) { 
+            bank2 = (byte)(data & 0b11);
         }
         // Banking Mode Select This 1bit Register selects between the two MBC1 banking modes, 
         // controlling the behaviour of the secondary 2 bit banking register (above)
         else if(PC >= 0x6000 && PC <= 0x7FFF) {
-            byte mask = (byte)(data & 0x1);
-            mode = mask;
+            mode = (data & 0b1) == 0b1;
         } 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
-            if(ramEnable) {
-                if(mode == 0) {
-                    ushort newAddress = (ushort)(PC - 0xA000);
-                    ramMemory[newAddress + (ramBankNumber*0x2000)] = data;
-                } else if(mode == 1) {
-                    Debug.Log("Writing to RAM mode 1");
-                }
-            }
+
         }
     }
 
     public byte Read(ushort PC) {
         //ROM BANK 00/20/40/60
         if(PC >= 0x0000 && PC <= 0x3FFF) {
-            if(mode == 0) {
-                //Should be zero for smaller carts 20/40/60 and only be accessed by mode 1
-                return romMemory[(int)(PC)];
-            } else if(mode == 1) {
-                //Debug.LogWarning("Reading from Bank 0x0000-0x3FFF mode1");
-                //FIXME
-                return romMemory[(int)(PC)];
-            } else {
-                Debug.LogWarning("Bad Mode");
-                return 0xFF;
-            }
+            var romBanks = rom_offsets(multicart);
+            uint rom_lower = romBanks.Item1;
+            //Maybe pain point
+            int index = (int)(((rom_lower | (uint)((PC & 0x3fff))) & (romMemory.Count - 1)));
+            return romMemory[index];
         }
         // ROM BANK 01-7F 
         else if(PC >= 0x4000 && PC <= 0x7FFF) {
-            ushort newAddress = (ushort)(PC - 0x4000);
-            return romMemory[newAddress + (romBankNumber*0x4000)] ;
+            var romBanks = rom_offsets(multicart);
+            uint rom_upper = romBanks.Item2;
+            //Maybe pain point
+            int index = (int)(((rom_upper | (uint)((PC & 0x3fff))) & (romMemory.Count - 1)));
+            return romMemory[index];
         }
         // RAM BANK 00-03 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
-            if(ramEnable) {
-                if(mode == 0) {
-                    ushort newAddress = (ushort)(PC - 0xA000);
-                    return ramMemory[newAddress + (ramBankNumber*0xA000)];
-                } else if(mode == 1) {
-                    Debug.Log("Reading from RAM mode 1");
-                }
-            }
+            
         }
         //Default value from read. 
         return 0xFF;

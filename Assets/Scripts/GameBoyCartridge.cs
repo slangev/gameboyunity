@@ -53,13 +53,13 @@ public class GameBoyCartiridge
                 mbc = new GameBoyNoMBC(romMemory);
                 break;
             case (byte)(MBCType.MBC1):
-                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize);
+                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false);
                 break;
             case (byte)(MBCType.MBC1RAM):
-                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize);
+                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false);
                 break;
             case (byte)(MBCType.MBC1RAMBATT):
-                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize);
+                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false);
                 break;
         }
         IsNonJapanese = romMemory[0x014A];
