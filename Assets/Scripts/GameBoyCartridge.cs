@@ -48,6 +48,7 @@ public class GameBoyCartiridge
         }
         CartiridgeType = romMemory[0x147];
         RomSize = romMemory[0x148];
+        RamSize = romMemory[0x149];
         switch(CartiridgeType) {
             case (byte)(MBCType.NoMBC):
                 mbc = new GameBoyNoMBC(romMemory);

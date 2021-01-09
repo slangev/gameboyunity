@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab9c6f5b698546c79f78089183ee279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathToRom: Assets/Roms/GamesRoms/Mega Man - Dr. Wily's Revenge (USA).gb
+  pathToRom: Assets/Roms/GamesRoms/Tetris.gb
   pathToBios: Assets/Roms/DMG_ROM2.bin
 --- !u!1 &519420028
 GameObject:

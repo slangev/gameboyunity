@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 public class GameBoyMBC1 : GameBoyMBC {
@@ -14,6 +13,7 @@ public class GameBoyMBC1 : GameBoyMBC {
     private byte bank2 = 0;
     private bool mode = false;
     private uint ROM_BANK_SIZE = 0x4000;
+    private uint RAM_BANK_SIZE = 0x2000;
     private bool multicart = false;
     
     public GameBoyMBC1(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize, bool multicart) {
@@ -84,6 +84,30 @@ public class GameBoyMBC1 : GameBoyMBC {
         return ((ROM_BANK_SIZE * lower_bank),(ROM_BANK_SIZE * upper_bank));
     }
 
+    private uint ram_offset() {
+        uint bank = (mode) ? (uint)(bank2) : (uint)(0b00);
+        return RAM_BANK_SIZE * bank;
+    }
+
+    private uint ram_addr(ushort addr) {
+        return (uint)((ram_offset() | (uint)((addr & 0x1FFF))) & (ramMemory.Count - 1));
+    }
+
+    private void write_ram(ushort PC, byte data) {
+        if(ramSize != 0) {
+            uint addr = ram_addr(PC);
+            ramMemory[(byte)(addr)] = data;
+        }
+    }
+
+    private byte read_ram(ushort PC) {
+        if(ramSize != 0) {
+            uint addr = ram_addr(PC);
+            return ramMemory[(byte)(addr)];
+        }
+        return 0xFF; //Default value
+    }
+
     public void Write(ushort PC, byte data) {
         //RAM Enabled
         if(PC >= 0x0000 && PC <= 0x1FFF) {
@@ -105,7 +129,9 @@ public class GameBoyMBC1 : GameBoyMBC {
             mode = (data & 0b1) == 0b1;
         } 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
-
+            if(ramEnable) {
+                write_ram(PC,data);
+            }
         }
     }
 
@@ -128,7 +154,9 @@ public class GameBoyMBC1 : GameBoyMBC {
         }
         // RAM BANK 00-03 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
-            
+            if(ramEnable) {
+                return read_ram(PC);
+            }
         }
         //Default value from read. 
         return 0xFF;
