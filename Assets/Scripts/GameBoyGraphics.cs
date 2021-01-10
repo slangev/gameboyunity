@@ -322,9 +322,10 @@ public class GameBoyGraphic
                         byte colorResult = getColorResult.Item2;
                         int xPix = 0 - tilePixel;
  					    xPix += 7 ;
-					    int pixel = PosX+xPix;
+					    byte pixel = (byte)(PosX+xPix);
                         if ((LY<0)||(LY>143)||(pixel<0)||(pixel>159)) {
-                            continue ;
+                            Debug.Log("LY : " + LY + " pixel " + pixel + " PosX : " + PosX + " PosY: " + PosY);
+                            continue;
                         }
 
                         if(spritePriorityBit == 1) {
@@ -383,9 +384,9 @@ public class GameBoyGraphic
         byte LYValue = memory.ReadFromMemory(LYAddr);
         byte LYCValue = memory.ReadFromMemory(LYCAddr);
         if(LYValue == LYCValue) {
-            memory.WriteToMemory(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) | 0x04));
+            memory.WriteDirectly(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) | 0x04));
         } else {
-            memory.WriteToMemory(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) & 0xFB));
+            memory.WriteDirectly(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) & 0xFB));
 	    }
         //Check if LYC interrupt is enable and requesting.
         if ((byte)(memory.ReadFromMemory(STATAddr) & 0x60) != 0 && ((byte)(memory.ReadFromMemory(STATAddr) & 0x04) != 0)) {
