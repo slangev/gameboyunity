@@ -27,6 +27,10 @@
         TIMACycleCount = 0;
     }
 
+    public bool isReloadingTIMA() {
+        return isReloading;
+    }
+
     public void IncrementTIMACheck() {
         gbMemory.IncrementReg(TIMA);
         byte result = (byte)(gbMemory.ReadFromMemory(TIMA));

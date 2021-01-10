@@ -88,6 +88,10 @@ public class GameBoyMemory
             }
             memory[GameBoyTimer.DIV] = 0;
             gbTimer.resetTimer();
+        } else if(PC == GameBoyTimer.TIMA) {
+            //if(!gbTimer.isReloadingTIMA()) {
+                memory[GameBoyTimer.TIMA] = data;
+            //}
         } else if(PC >= 0xA000 && PC <= 0xBFFF) {
             gbCart.Write(PC,data);
         } else if(PC == GameBoyGraphic.LYAddr) {
@@ -97,6 +101,11 @@ public class GameBoyMemory
             DMATransfer(data);
         } else if(PC >= 0xE000 && PC <= 0xFDFF) {
             //Debug.Log("Writing to internal ram/ echo ram");
+            memory[PC] = data;
+        } else if(PC == 0xFF41) {
+            //memory[PC] = (byte)((memory[PC] & 0x7) | (data & 0xF8));
+            //memory[PC] = (byte)(data & 0xF8);
+            //FIXME prevent write from changing read only bits
             memory[PC] = data;
         } else {
             memory[PC] = data;
