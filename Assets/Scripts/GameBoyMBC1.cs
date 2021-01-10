@@ -96,14 +96,14 @@ public class GameBoyMBC1 : GameBoyMBC {
     private void write_ram(ushort PC, byte data) {
         if(ramSize != 0) {
             uint addr = ram_addr(PC);
-            ramMemory[(byte)(addr)] = data;
+            ramMemory[(int)(addr)] = data;
         }
     }
 
     private byte read_ram(ushort PC) {
         if(ramSize != 0) {
             uint addr = ram_addr(PC);
-            return ramMemory[(byte)(addr)];
+            return ramMemory[(int)(addr)];
         }
         return 0xFF; //Default value
     }

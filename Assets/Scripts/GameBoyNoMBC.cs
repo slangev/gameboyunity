@@ -8,10 +8,10 @@ public class GameBoyNoMBC : GameBoyMBC {
     }
     
     public void Write(ushort PC, byte data) {
-        romMemory[PC] = data;
+        //romMemory[PC] = data;
     }
 
     public byte Read(ushort PC) {
-        return romMemory[PC];
+        return romMemory[PC & 0x7FFF];
     }
 }
