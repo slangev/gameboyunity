@@ -115,10 +115,11 @@ public class GameBoyGraphic
             GPUCycleCount = 0;
 			memory.WriteToMemory(LYAddr, 0);
 		    mode = 0; // Probably needs to start at two or one
-            memory.WriteToMemory(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) & 0xFC));
+            memory.WriteDirectly(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) & 0xFC));
         }
-        memory.WriteToMemory(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) & 0xFC));
-        memory.WriteToMemory(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) | mode));
+        
+        memory.WriteDirectly(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) & 0xFC));
+        memory.WriteDirectly(STATAddr, (byte)(memory.ReadFromMemory(STATAddr) | mode));
     }
 
     private void renderScanLine(bool lcdcEnabled) {

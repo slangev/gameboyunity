@@ -102,15 +102,16 @@ public class GameBoyMemory
         } else if(PC >= 0xE000 && PC <= 0xFDFF) {
             //Debug.Log("Writing to internal ram/ echo ram");
             memory[PC] = data;
-        } else if(PC == 0xFF41) {
-            //memory[PC] = (byte)((memory[PC] & 0x7) | (data & 0xF8));
-            //memory[PC] = (byte)(data & 0xF8);
-            //FIXME prevent write from changing read only bits
-            memory[PC] = data;
+        } else if(PC == GameBoyGraphic.STATAddr) {
+            memory[PC] = (byte)((memory[PC] & 0x7) | (data & 0xF8));
         } else {
             memory[PC] = data;
         }
         return true;
+    }
+
+    public void WriteDirectly(ushort addr, byte data) {
+        memory[addr] = data;
     }
 
     private void DMATransfer(byte data) {
