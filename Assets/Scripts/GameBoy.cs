@@ -37,7 +37,7 @@ public class GameBoy : MonoBehaviour
             Debug.Log(gbCart.Title);
             Debug.Log("Rom: " + gbCart.RomSize);
             Debug.Log("Ram: " + gbCart.RamSize);
-            Debug.Log("CartiridgeType: " + gbCart.CartiridgeType);
+            Debug.Log("CartiridgeType: " + gbCart.CartiridgeType.ToString("X2"));
         } catch {
             Debug.Log("NO ROM LOADED");
         }
