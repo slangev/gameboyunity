@@ -133,8 +133,13 @@ public class GameBoyGraphic
     private void renderWindow() {
         bool windowEnabled = ((memory.ReadFromMemory(LCDCAddr) & 0x20) != 0) ? true : false;
         bool windowTileSelect = ((memory.ReadFromMemory(LCDCAddr) & 0x40) != 0) ? true : false;
+
         if(windowEnabled) {
-            byte windowX = (byte)(memory.ReadFromMemory(WXAddr) - 7);
+            byte windowX = (byte)(memory.ReadFromMemory(WXAddr));
+            if(windowX < 7) {
+                windowX = 7;
+            }
+            windowX -= 7;
 		    byte windowY = memory.ReadFromMemory(WYAddr);
             
             byte scrollX = memory.ReadFromMemory(SCXAddr);
@@ -324,7 +329,6 @@ public class GameBoyGraphic
  					    xPix += 7 ;
 					    byte pixel = (byte)(PosX+xPix);
                         if ((LY<0)||(LY>143)||(pixel<0)||(pixel>159)) {
-                            Debug.Log("LY : " + LY + " pixel " + pixel + " PosX : " + PosX + " PosY: " + PosY);
                             continue;
                         }
 
