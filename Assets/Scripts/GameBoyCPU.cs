@@ -146,6 +146,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     private uint handleInstructions(byte opcode) {
         uint lastCycleCount = cycleCount[opcode];
+        
         switch(opcode) {
             case 0x00:
                 NOP();
@@ -1067,7 +1068,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             //Extended Opcodes
             case 0xCB:
                 byte opcodetwo = m.ReadFromMemory(PC++);
-                lastCycleCount += cycleCount_CB[opcodetwo];
+                lastCycleCount = cycleCount_CB[opcodetwo];
                 switch(opcodetwo) {
                     case 0x00:
                         B = RLC(B);
