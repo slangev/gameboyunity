@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class GameBoyMBC1 : GameBoyMBC {
     private List<byte> romMemory;

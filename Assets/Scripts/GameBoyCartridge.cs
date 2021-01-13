@@ -5,10 +5,14 @@ public class GameBoyCartiridge
 {
     enum MBCType : byte
     {
-        NoMBC,
-        MBC1,
-        MBC1RAM,
-        MBC1RAMBATT
+        NoMBC = 0,
+        MBC1 = 1,
+        MBC1RAM = 2,
+        MBC1RAMBATT = 3,
+        MBC2 = 5,
+        MBC2BATT = 6,
+        RAM = 8,
+        RAMBATT = 9,
     }
 
     private List<byte> romMemory;
@@ -49,6 +53,7 @@ public class GameBoyCartiridge
         CartiridgeType = romMemory[0x147];
         RomSize = romMemory[0x148];
         RamSize = romMemory[0x149];
+        IsNonJapanese = romMemory[0x014A];
         switch(CartiridgeType) {
             case (byte)(MBCType.NoMBC):
                 mbc = new GameBoyNoMBC(romMemory);
@@ -62,8 +67,13 @@ public class GameBoyCartiridge
             case (byte)(MBCType.MBC1RAMBATT):
                 mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false);
                 break;
+            case (byte)(MBCType.MBC2):
+                mbc = new GameBoyMBC2(romMemory,ramMemory,RomSize);
+                break;
+            case (byte)(MBCType.MBC2BATT):
+                mbc = new GameBoyMBC2(romMemory,ramMemory,RomSize);
+                break;
         }
-        IsNonJapanese = romMemory[0x014A];
     }
 
     public string DumpRom() {
