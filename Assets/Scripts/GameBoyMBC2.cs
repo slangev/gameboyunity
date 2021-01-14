@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameBoyMBC2 : GameBoyMBC
@@ -12,10 +11,12 @@ public class GameBoyMBC2 : GameBoyMBC
     private bool ramEnable = false;
     private byte bank1 = 1;
     private uint ROM_BANK_SIZE = 0x4000;
-    public GameBoyMBC2(List<byte> romMemory, List<byte> ramMemory, uint romSize) {
+    private bool battery;
+    public GameBoyMBC2(List<byte> romMemory, List<byte> ramMemory, uint romSize, bool battery) {
         this.romMemory = romMemory;
         this.ramMemory = ramMemory;
         this.romSize = romSize;
+        this.battery = battery;
         ramEnable = false;
         romBankSize = setRomBankSize(this.romSize);
     }
@@ -53,18 +54,23 @@ public class GameBoyMBC2 : GameBoyMBC
             byte bit8 = (byte)(GameBoyCPU.getBitFromWord(8,PC));
             if(bit8 != 1) {
                 byte mask = (byte)(data & 0x0F);
+                bool prevRamState = ramEnable;
                 ramEnable = (mask == 0x0A) ? true : false;
+                //Went from true to false
+                if(prevRamState && !ramEnable && battery) {
+                    save();
+                }
             } else {
                 bank1 = (byte)(data & 0x0F);
                 if(bank1 == 0) {
                     bank1 = 1;
                 }
             }
-        } else if(PC >= 0xA000 && PC <= 0xA1FF) {
+        } else if(PC >= 0xA000 && PC <= 0xBFFF) {
             if(ramEnable) {
-                //byte newData = (byte)(data & 0x0F);
+                byte newData = (byte)(data & 0x0F);
                 int offset = PC - 0xA000;
-                ramMemory[offset] = data;
+                ramMemory[offset % 512] = data;
             }
         }
     }
@@ -77,12 +83,20 @@ public class GameBoyMBC2 : GameBoyMBC
             uint bankNumber = (ROM_BANK_SIZE * bank1);
             int index = (int)(((bankNumber | (uint)((PC & 0x3fff))) & (romMemory.Count - 1)));
             return romMemory[index];
-        } else if(PC >= 0xA000 && PC <= 0xA1FF) {
+        } else if(PC >= 0xA000 && PC <= 0xBFFF) {
             if(ramEnable) {
                 int offset = PC - 0xA000;
-                return ramMemory[offset];
+                return (byte)((0xFF & 0xF0) | (byte)(ramMemory[offset % 512] & 0x0F)); // F is undefined for Upper 4 bits. So Always return 0xFX where X is the lower 4 bits
             }
         } 
         return 0xFF;
+    }
+
+    private void save() {
+        Debug.Log("HERE");
+    }
+
+    private void restoreRam() {
+        Debug.Log("restoreRam");
     }
 }

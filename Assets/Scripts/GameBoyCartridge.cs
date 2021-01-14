@@ -17,7 +17,7 @@ public class GameBoyCartiridge
 
     private List<byte> romMemory;
     private List<byte> ramMemory;
-    public string Title {get;set;}
+    public static string Title {get;set;}
     public byte IsGameBoyColor {get;set;}
     public byte highNibble {get;set;}
     public byte lowNibble {get;set;}
@@ -59,19 +59,19 @@ public class GameBoyCartiridge
                 mbc = new GameBoyNoMBC(romMemory);
                 break;
             case (byte)(MBCType.MBC1):
-                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false);
+                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false,false);
                 break;
             case (byte)(MBCType.MBC1RAM):
-                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false);
+                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false,false);
                 break;
             case (byte)(MBCType.MBC1RAMBATT):
-                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false);
+                mbc = new GameBoyMBC1(romMemory,ramMemory,RomSize,RamSize,false,true);
                 break;
             case (byte)(MBCType.MBC2):
-                mbc = new GameBoyMBC2(romMemory,ramMemory,RomSize);
+                mbc = new GameBoyMBC2(romMemory,ramMemory,RomSize,false);
                 break;
             case (byte)(MBCType.MBC2BATT):
-                mbc = new GameBoyMBC2(romMemory,ramMemory,RomSize);
+                mbc = new GameBoyMBC2(romMemory,ramMemory,RomSize,true);
                 break;
         }
     }

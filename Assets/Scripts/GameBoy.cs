@@ -34,7 +34,7 @@ public class GameBoy : MonoBehaviour
         gbCart = new GameBoyCartiridge(0);
         try {
             gbCart.LoadRom(pathToRom);
-            Debug.Log(gbCart.Title);
+            Debug.Log(GameBoyCartiridge.Title);
             Debug.Log("Rom: " + gbCart.RomSize);
             Debug.Log("Ram: " + gbCart.RamSize);
             Debug.Log("CartiridgeType: " + gbCart.CartiridgeType.ToString("X2"));

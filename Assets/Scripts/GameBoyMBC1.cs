@@ -1,4 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
+using System.IO;
+using System;
+using UnityEngine;
 
 public class GameBoyMBC1 : GameBoyMBC {
     private List<byte> romMemory;
@@ -14,13 +19,17 @@ public class GameBoyMBC1 : GameBoyMBC {
     private uint ROM_BANK_SIZE = 0x4000;
     private uint RAM_BANK_SIZE = 0x2000;
     private bool multicart = false;
+    private bool battery = false;
+    private bool newRamData = false;
     
-    public GameBoyMBC1(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize, bool multicart) {
+    public GameBoyMBC1(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize, bool multicart, bool battery) {
         this.romMemory = romMemory;
         this.ramMemory = ramMemory;
         this.romSize = romSize;
         this.ramSize = ramSize;
         this.multicart = multicart;
+        this.battery = battery;
+        load();
         ramEnable = false;
         romBankSize = setRomBankSize(this.romSize);
         ramBankSize = setRamBankSize(this.ramSize);
@@ -96,6 +105,7 @@ public class GameBoyMBC1 : GameBoyMBC {
         if(ramSize != 0) {
             uint addr = ram_addr(PC);
             ramMemory[(int)(addr)] = data;
+            newRamData = true;
         }
     }
 
@@ -112,7 +122,12 @@ public class GameBoyMBC1 : GameBoyMBC {
         if(PC >= 0x0000 && PC <= 0x1FFF) {
             // Practically any value with 0Ah in the lower 4 bits enables RAM and any other value disables RAM.
             byte mask = (byte)(data & 0xF);
+            bool preRamEnableState = ramEnable;
             ramEnable = (mask == 0xA) ? true : false;
+            if(preRamEnableState && !ramEnable && newRamData) {
+                save();
+                newRamData = false;
+            }
         } 
         //ROM BANK Number Write
         else if(PC >= 0x2000 && PC <= 0x3FFF) {
@@ -159,5 +174,57 @@ public class GameBoyMBC1 : GameBoyMBC {
         }
         //Default value from read. 
         return 0xFF;
+    }
+
+    private void save() {
+        if(battery) {
+            string t = "";
+            try {
+                t = Regex.Replace(GameBoyCartiridge.Title, @"[^\w\.@-]", "",
+                                RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            }
+            // If we timeout when replacing invalid characters,
+            // we should return Empty.
+            catch (RegexMatchTimeoutException) {
+                t = "";
+            }
+            FileStream fs = new FileStream(Application.persistentDataPath + t, FileMode.Create);
+            BinaryFormatter bf = new BinaryFormatter();
+            try {
+                bf.Serialize(fs, ramMemory);
+            } catch {
+                Debug.Log("Failed to save");
+            } finally {
+                fs.Close();
+            }
+        }
+    }
+
+    private void load() {
+        if(battery) {
+            string t = "";
+            try {
+                t = Regex.Replace(GameBoyCartiridge.Title, @"[^\w\.@-]", "",
+                                RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            }
+            // If we timeout when replacing invalid characters,
+            // we should return Empty.
+            catch (RegexMatchTimeoutException) {
+                t = "";
+            }
+            if (File.Exists(Application.persistentDataPath + t)) {
+                FileStream fs = new FileStream(Application.persistentDataPath + t, FileMode.Open);
+                BinaryFormatter bf = new BinaryFormatter();
+                try {
+                    ramMemory = (List<byte>)bf.Deserialize(fs);
+                }
+                catch {
+                    Debug.Log("Failed to deserialize game files. Reason: ");
+                }
+                finally {
+                    fs.Close();
+                }
+            }
+        }
     }
 }
