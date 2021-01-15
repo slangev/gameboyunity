@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
+using System.IO;
+using System;
 using UnityEngine;
 
 public class GameBoyMBC2 : GameBoyMBC
@@ -18,6 +22,7 @@ public class GameBoyMBC2 : GameBoyMBC
         this.romSize = romSize;
         this.battery = battery;
         ramEnable = false;
+        load();
         romBankSize = setRomBankSize(this.romSize);
     }
     
@@ -93,10 +98,54 @@ public class GameBoyMBC2 : GameBoyMBC
     }
 
     private void save() {
-        Debug.Log("HERE");
+        if(battery) {
+            string t = "";
+            try {
+                t = Regex.Replace(GameBoyCartiridge.Title, @"[^\w\.@-]", "",
+                                RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            }
+            // If we timeout when replacing invalid characters,
+            // we should return Empty.
+            catch (RegexMatchTimeoutException) {
+                t = "";
+            }
+            FileStream fs = new FileStream(Application.persistentDataPath + t, FileMode.Create);
+            BinaryFormatter bf = new BinaryFormatter();
+            try {
+                bf.Serialize(fs, ramMemory);
+            } catch {
+                Debug.Log("Failed to save");
+            } finally {
+                fs.Close();
+            }
+        }
     }
 
-    private void restoreRam() {
-        Debug.Log("restoreRam");
+    private void load() {
+        if(battery) {
+            string t = "";
+            try {
+                t = Regex.Replace(GameBoyCartiridge.Title, @"[^\w\.@-]", "",
+                                RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            }
+            // If we timeout when replacing invalid characters,
+            // we should return Empty.
+            catch (RegexMatchTimeoutException) {
+                t = "";
+            }
+            if (File.Exists(Application.persistentDataPath + t)) {
+                FileStream fs = new FileStream(Application.persistentDataPath + t, FileMode.Open);
+                BinaryFormatter bf = new BinaryFormatter();
+                try {
+                    ramMemory = (List<byte>)bf.Deserialize(fs);
+                }
+                catch {
+                    Debug.Log("Failed to deserialize game files. Reason: ");
+                }
+                finally {
+                    fs.Close();
+                }
+            }
+        }
     }
 }

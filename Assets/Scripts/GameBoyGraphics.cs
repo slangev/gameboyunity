@@ -337,6 +337,7 @@ public class GameBoyGraphic
                                 continue;
                             }
                         }
+                        
                         if(set[pixel] == -1 || set[pixel] > PosX) {
                             set[pixel] = PosX;
                             videoMemory[LY][pixel]=c;
