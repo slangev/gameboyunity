@@ -5,7 +5,7 @@ using System.IO;
 using System;
 using UnityEngine;
 
-public class GameBoyMBC1 : GameBoyMBC {
+public class GameBoyMBC3 : GameBoyMBC {
     private List<byte> romMemory;
     private List<byte> ramMemory;
     private byte romBankSize;
@@ -15,30 +15,25 @@ public class GameBoyMBC1 : GameBoyMBC {
     private bool ramEnable = false;
     private byte bank1 = 1;
     private byte bank2 = 0;
-    private bool mode = false;
     private uint ROM_BANK_SIZE = 0x4000;
     private uint RAM_BANK_SIZE = 0x2000;
-    private bool multicart = false;
     private bool battery = false;
     private string fileName;
-
     
-    public GameBoyMBC1(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize, bool multicart, bool battery) {
+    public GameBoyMBC3(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize, bool multicart, bool battery) {
         this.romMemory = romMemory;
         this.ramMemory = ramMemory;
         this.romSize = romSize;
         this.ramSize = ramSize;
-        this.multicart = multicart;
         this.battery = battery;
         this.fileName = Application.persistentDataPath + getFileName();
         load();
         ramEnable = false;
         romBankSize = setRomBankSize(this.romSize);
         ramBankSize = setRamBankSize(this.ramSize);
-        mode = false;
     }
 
-    ~GameBoyMBC1() {
+    ~GameBoyMBC3() {
        save();
     }
 
@@ -104,16 +99,13 @@ public class GameBoyMBC1 : GameBoyMBC {
     }
 
     private (uint,uint) rom_offsets(bool multicart) {
-        int upper_bits = (multicart) ? bank2 << 4 : bank2 << 5;
-        int lower_bits = (multicart) ? bank1 & 0b1111 : bank1;
-        uint lower_bank = (mode) ? (uint)(upper_bits) : 0b00;
-        uint upper_bank = (uint)(upper_bits | lower_bits);
+        uint lower_bank = 0b00;
+        uint upper_bank = (uint)(bank1);
         return ((ROM_BANK_SIZE * lower_bank),(ROM_BANK_SIZE * upper_bank));
     }
 
     private uint ram_offset() {
-        uint bank = (mode) ? (uint)(bank2) : (uint)(0b00);
-        return RAM_BANK_SIZE * bank;
+        return RAM_BANK_SIZE * bank2;
     }
 
     private uint ram_addr(ushort addr) {
@@ -144,16 +136,15 @@ public class GameBoyMBC1 : GameBoyMBC {
         } 
         //ROM BANK Number Write
         else if(PC >= 0x2000 && PC <= 0x3FFF) {
-            bank1 = ((byte)(data & 0b1_1111) == 0b0_0000) ? (byte)(0b0_0001) : (byte)(data & 0b1_1111);
+            bank1 = ((byte)(data & 0x7F) == 0) ? (byte)(1) : (byte)(data & 0x7F);
         }
         // RAM BANK NUMBER(32kB Ram carts only) or Upper Bits of ROM Bank Number
         else if(PC >= 0x4000 && PC <= 0x5FFF) { 
             bank2 = (byte)(data & 0b11);
         }
-        // Banking Mode Select This 1bit Register selects between the two MBC1 banking modes, 
-        // controlling the behaviour of the secondary 2 bit banking register (above)
+
+        //Latch Clock Data
         else if(PC >= 0x6000 && PC <= 0x7FFF) {
-            mode = (data & 0b1) == 0b1;
         } 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
             if(ramEnable) {
@@ -163,9 +154,9 @@ public class GameBoyMBC1 : GameBoyMBC {
     }
 
     public byte Read(ushort PC) {
-        //ROM BANK 00/20/40/60
+        //ROM BANK 00
         if(PC >= 0x0000 && PC <= 0x3FFF) {
-            var romBanks = rom_offsets(multicart);
+            var romBanks = rom_offsets(false);
             uint rom_lower = romBanks.Item1;
             //Maybe pain point
             int index = (int)(((rom_lower | (uint)((PC & 0x3fff))) & (romMemory.Count - 1)));
@@ -173,7 +164,7 @@ public class GameBoyMBC1 : GameBoyMBC {
         }
         // ROM BANK 01-7F 
         else if(PC >= 0x4000 && PC <= 0x7FFF) {
-            var romBanks = rom_offsets(multicart);
+            var romBanks = rom_offsets(false);
             uint rom_upper = romBanks.Item2;
             //Maybe pain point
             int index = (int)(((rom_upper | (uint)((PC & 0x3fff))) & (romMemory.Count - 1)));

@@ -12,6 +12,7 @@ public class GameBoyGraphic
 
     // Frame Buffer
     public List<List<Color>> videoMemory;
+    private List<int> bgWinPriority; 
 
     public static readonly ushort LCDCAddr = 0xFF40;
     public static readonly ushort OAMStartAdress = 0xFE00;
@@ -37,6 +38,10 @@ public class GameBoyGraphic
         videoMemory = new List<List<Color>>();
         for(int i = 0; i < this.height; i++) {
             videoMemory.Add(new List<Color>(new Color[this.width]));
+        }
+        bgWinPriority = new List<int>();
+        for(int i = 0; i < width; i++) {
+            bgWinPriority.Add(0);
         }
     }
 
@@ -198,6 +203,7 @@ public class GameBoyGraphic
                 byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(BGPAddr));
                 var getColorResult = getColor(colorNum,colorTemplate);
                 Color c = getColorResult.Item1;
+                bgWinPriority[pixel] = colorNum;
                 videoMemory[LY][pixel]=c;
             }
         }
@@ -259,6 +265,7 @@ public class GameBoyGraphic
                 byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(BGPAddr));
                 var getColorResult = getColor(colorNum,colorTemplate);
                 Color c = getColorResult.Item1;
+                bgWinPriority[pixel] = colorNum;
                 videoMemory[LY][pixel]=c;
             }
         }
@@ -333,7 +340,7 @@ public class GameBoyGraphic
                         }
 
                         if(spritePriorityBit == 1) {
-                            if(colorResult == 0) {
+                            if(bgWinPriority[pixel] != 0) {
                                 continue;
                             }
                         }

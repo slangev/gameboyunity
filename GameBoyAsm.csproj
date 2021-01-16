@@ -44,6 +44,7 @@
      <Compile Include="Assets\Scripts\GameBoyJoyPad.cs" />
      <Compile Include="Assets\Scripts\GameBoyMBC1.cs" />
      <Compile Include="Assets\Scripts\GameBoyMBC2.cs" />
+     <Compile Include="Assets\Scripts\GameBoyMBC3.cs" />
      <Compile Include="Assets\Scripts\GameBoyMBCInterface.cs" />
      <Compile Include="Assets\Scripts\GameBoyMemory.cs" />
      <Compile Include="Assets\Scripts\GameBoyNoMBC.cs" />
