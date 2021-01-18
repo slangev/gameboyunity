@@ -123,8 +123,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         L = 0x4D;
         PC = 0x100;
         SP = 0xFFFE;
-        m.WriteToMemory(0xFF00,0x0F); // no buttons pressed
-        m.WriteToMemory(0xFF80,0x0F); // no buttons pressed
+        m.WriteToMemory(0xFF00,0xCF); // no buttons pressed
         m.WriteToMemory(0xFF40,0x91);
         m.WriteToMemory(0xFF47,0xFC);
         m.WriteToMemory(0xFF48,0xFF);

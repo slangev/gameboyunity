@@ -13,13 +13,16 @@ public class GameBoyCartiridge
         MBC2BATT = 6,
         RAM = 8,
         RAMBATT = 9,
-        MBC3RAMBATT = 19
+        MBC3RAMTIMERBATT = 0x10,
+        MBC3RAMBATT = 19,
+        MBC5 = 0x19,
+        MBC5RAMBATT = 0x1B
     }
 
     private List<byte> romMemory;
     private List<byte> ramMemory;
     public static string Title {get;set;}
-    public byte IsGameBoyColor {get;set;}
+    public bool IsGameBoyColor {get;set;}
     public byte highNibble {get;set;}
     public byte lowNibble {get;set;}
     public byte CartiridgeType {get;set;}
@@ -51,6 +54,7 @@ public class GameBoyCartiridge
         for(ushort b = 0x134; b < 0x143; b++) {
             Title = Title + (char)(romMemory[b]);
         }
+        IsGameBoyColor = romMemory[0x143] == 0x80;
         CartiridgeType = romMemory[0x147];
         RomSize = romMemory[0x148];
         RamSize = romMemory[0x149];
@@ -76,6 +80,15 @@ public class GameBoyCartiridge
                 break;
             case (byte)(MBCType.MBC3RAMBATT):
                 mbc = new GameBoyMBC3(romMemory,ramMemory,RomSize,RamSize,false,true);
+                break;
+            case (byte)(MBCType.MBC3RAMTIMERBATT):
+                mbc = new GameBoyMBC3(romMemory,ramMemory,RomSize,RamSize,false,true);
+                break;
+            case (byte)(MBCType.MBC5):
+                mbc = new GameBoyMBC5(romMemory,ramMemory,RomSize,RamSize,false,false);
+                break;
+            case (byte)(MBCType.MBC5RAMBATT):
+                mbc = new GameBoyMBC5(romMemory,ramMemory,RomSize,RamSize,false,true);
                 break;
         }
     }

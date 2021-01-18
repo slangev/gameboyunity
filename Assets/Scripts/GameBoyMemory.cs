@@ -102,6 +102,10 @@ public class GameBoyMemory
         } else if(PC >= 0xE000 && PC <= 0xFDFF) {
             //Debug.Log("Writing to internal ram/ echo ram");
             memory[PC] = data;
+        } else if(PC >= 0xFF01 && PC <= 0xFF02) {
+            Debug.Log("Link Port");
+        } else if(PC >= 0xFF10 && PC <= 0xFF26) {
+            //Debug.Log("APU registers");
         } else if(PC == GameBoyGraphic.STATAddr) {
             memory[PC] = (byte)((memory[PC] & 0x7) | (data & 0xF8));
         } else {

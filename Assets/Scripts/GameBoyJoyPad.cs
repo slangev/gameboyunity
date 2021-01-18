@@ -12,16 +12,16 @@ public class GameBoyJoyPad {
         bool highToLow = false; // High to low mean we went from 1(released) to 0(pressed)
 
         // Buttons down (b,a,select,start) 0 = pressed 1 = released
-        if(Input.GetKey(KeyCode.S)) {
+        if(Input.GetKeyDown(KeyCode.S)) {
             highToLow = memory.ResetJoyPadBit(5);
         }
-        if(Input.GetKey(KeyCode.A)) {
+        if(Input.GetKeyDown(KeyCode.A)) {
             highToLow = memory.ResetJoyPadBit(4);
         }
-        if(Input.GetKey(KeyCode.Space)) {
+        if(Input.GetKeyDown(KeyCode.Space)) {
             highToLow = memory.ResetJoyPadBit(6);
         }
-        if(Input.GetKey(KeyCode.Return)) {
+        if(Input.GetKeyDown(KeyCode.Return)) {
             highToLow = memory.ResetJoyPadBit(7);
         }
 
@@ -40,17 +40,21 @@ public class GameBoyJoyPad {
         }
 
         // Directional down (b,a,select,start)
-        if(Input.GetKey(KeyCode.UpArrow)) {
+        if(Input.GetKeyDown(KeyCode.UpArrow)) {
             highToLow = memory.ResetJoyPadBit(2);
+            interrupts.RequestInterrupt(4); // joypad interrupts
         }
-        if(Input.GetKey(KeyCode.DownArrow)) {
+        if(Input.GetKeyDown(KeyCode.DownArrow)) {
             highToLow = memory.ResetJoyPadBit(3);
+            interrupts.RequestInterrupt(4); // joypad interrupts
         }
-        if(Input.GetKey(KeyCode.LeftArrow)) {
+        if(Input.GetKeyDown(KeyCode.LeftArrow)) {
             highToLow = memory.ResetJoyPadBit(1);
+            interrupts.RequestInterrupt(4); // joypad interrupts
         }
-        if(Input.GetKey(KeyCode.RightArrow)) {
+        if(Input.GetKeyDown(KeyCode.RightArrow)) {
             highToLow = memory.ResetJoyPadBit(0);
+            interrupts.RequestInterrupt(4); // joypad interrupts
         }
 
         // Directional up (b,a,select,start)
