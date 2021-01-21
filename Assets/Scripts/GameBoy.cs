@@ -13,7 +13,7 @@ public class GameBoy : MonoBehaviour
     GameObject GogbGraphic;
     ushort width = 160;
     ushort height = 144;
-    const uint MAXCYCLES = 69905*2;
+    const uint MAXCYCLES = 69905;
     public string pathToRom;
     public string pathToBios;
  

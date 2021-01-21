@@ -79,10 +79,10 @@ public class GameBoyCartiridge
                 mbc = new GameBoyMBC2(romMemory,ramMemory,RomSize,true);
                 break;
             case (byte)(MBCType.MBC3RAMBATT):
-                mbc = new GameBoyMBC3(romMemory,ramMemory,RomSize,RamSize,false,true);
+                mbc = new GameBoyMBC3(romMemory,ramMemory,RomSize,RamSize,false,true,false);
                 break;
             case (byte)(MBCType.MBC3RAMTIMERBATT):
-                mbc = new GameBoyMBC3(romMemory,ramMemory,RomSize,RamSize,false,true);
+                mbc = new GameBoyMBC3(romMemory,ramMemory,RomSize,RamSize,false,true,true);
                 break;
             case (byte)(MBCType.MBC5):
                 mbc = new GameBoyMBC5(romMemory,ramMemory,RomSize,RamSize,false,false);

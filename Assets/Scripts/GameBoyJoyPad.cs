@@ -42,19 +42,15 @@ public class GameBoyJoyPad {
         // Directional down (b,a,select,start)
         if(Input.GetKeyDown(KeyCode.UpArrow)) {
             highToLow = memory.ResetJoyPadBit(2);
-            interrupts.RequestInterrupt(4); // joypad interrupts
         }
         if(Input.GetKeyDown(KeyCode.DownArrow)) {
             highToLow = memory.ResetJoyPadBit(3);
-            interrupts.RequestInterrupt(4); // joypad interrupts
         }
         if(Input.GetKeyDown(KeyCode.LeftArrow)) {
             highToLow = memory.ResetJoyPadBit(1);
-            interrupts.RequestInterrupt(4); // joypad interrupts
         }
         if(Input.GetKeyDown(KeyCode.RightArrow)) {
             highToLow = memory.ResetJoyPadBit(0);
-            interrupts.RequestInterrupt(4); // joypad interrupts
         }
 
         // Directional up (b,a,select,start)

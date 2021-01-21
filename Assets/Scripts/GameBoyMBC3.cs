@@ -8,29 +8,47 @@ using UnityEngine;
 public class GameBoyMBC3 : GameBoyMBC {
     private List<byte> romMemory;
     private List<byte> ramMemory;
+    private List<byte> RTCRegisters;
     private byte romBankSize;
     private byte ramBankSize;
     private uint romSize;
     private uint ramSize;
     private bool ramEnable = false;
+    private bool RTCenable = false;
+    private bool ramTimerEnable = false;
     private byte bank1 = 1;
     private byte bank2 = 0;
+    private byte RTCSelect = 0;
     private uint ROM_BANK_SIZE = 0x4000;
     private uint RAM_BANK_SIZE = 0x2000;
     private bool battery = false;
+    private bool timer = false;
+    private bool latched = false;
     private string fileName;
     
-    public GameBoyMBC3(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize, bool multicart, bool battery) {
+    public GameBoyMBC3(List<byte> romMemory, List<byte> ramMemory, uint romSize, uint ramSize, bool multicart, bool battery, bool timer) {
         this.romMemory = romMemory;
         this.ramMemory = ramMemory;
         this.romSize = romSize;
         this.ramSize = ramSize;
         this.battery = battery;
+        this.timer = timer;
         this.fileName = Application.persistentDataPath + getFileName();
         load();
         ramEnable = false;
         romBankSize = setRomBankSize(this.romSize);
         ramBankSize = setRamBankSize(this.ramSize);
+        //TODO INITIALIZE RTC REGISTER 0C default value is 0x3E
+        /*
+            08h  RTC S   Seconds   0-59 (0-3Bh)
+            09h  RTC M   Minutes   0-59 (0-3Bh)
+            0Ah  RTC H   Hours     0-23 (0-17h)
+            0Bh  RTC DL  Lower 8 bits of Day Counter (0-FFh)
+            0Ch  RTC DH  Upper 1 bit of Day Counter, Carry Bit, Halt Flag
+                Bit 0  Most significant bit of Day Counter (Bit 8)
+                Bit 6  Halt (0=Active, 1=Stop Timer)
+                Bit 7  Day Counter Carry Bit (1=Counter Overflow)
+        */
     }
 
     ~GameBoyMBC3() {
@@ -99,7 +117,7 @@ public class GameBoyMBC3 : GameBoyMBC {
     }
 
     private (uint,uint) rom_offsets(bool multicart) {
-        uint lower_bank = 0b00;
+        uint lower_bank = 0x0;
         uint upper_bank = (uint)(bank1);
         return ((ROM_BANK_SIZE * lower_bank),(ROM_BANK_SIZE * upper_bank));
     }
@@ -132,23 +150,40 @@ public class GameBoyMBC3 : GameBoyMBC {
         if(PC >= 0x0000 && PC <= 0x1FFF) {
             // Practically any value with 0Ah in the lower 4 bits enables RAM and any other value disables RAM.
             byte mask = (byte)(data & 0xF);
-            ramEnable = (mask == 0xA) ? true : false;
+            ramTimerEnable = (mask == 0xA) ? true : false;
         } 
         //ROM BANK Number Write
         else if(PC >= 0x2000 && PC <= 0x3FFF) {
             bank1 = ((byte)(data & 0x7F) == 0) ? (byte)(1) : (byte)(data & 0x7F);
         }
         // RAM BANK NUMBER(32kB Ram carts only) or Upper Bits of ROM Bank Number
-        else if(PC >= 0x4000 && PC <= 0x5FFF) { 
-            bank2 = (byte)(data & 0b11);
+        else if(PC >= 0x4000 && PC <= 0x5FFF) {
+            // Ram bank number 
+            if(data >= 0x00 && data <= 0x03) {
+                bank2 = (byte)(data & 0b11);
+                ramEnable = true;
+                RTCenable = false;
+            // RTC Register Select
+            } else if(data >= 0x08 && data <= 0x0C) {
+                RTCSelect = data;
+                ramEnable = false;
+                RTCenable = true;
+            }
         }
 
         //Latch Clock Data
         else if(PC >= 0x6000 && PC <= 0x7FFF) {
+            if(timer && (byte)(data & 0x01) == 0x01 && !latched) {
+                //latch Timer
+            }
+            latched = (byte)(data & 0x01) == 0x01;
         } 
+
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
-            if(ramEnable) {
-                write_ram(PC,data);
+            if(ramTimerEnable) {
+                if(ramEnable) {
+                    write_ram(PC,data);
+                } 
             }
         }
     }
@@ -172,8 +207,10 @@ public class GameBoyMBC3 : GameBoyMBC {
         }
         // RAM BANK 00-03 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
-            if(ramEnable) {
-                return read_ram(PC);
+            if(ramTimerEnable) {
+                if(ramEnable) {
+                    return read_ram(PC);
+                } 
             }
         }
         //Default value from read. 
@@ -196,11 +233,16 @@ public class GameBoyMBC3 : GameBoyMBC {
             try {
                 FileStream fs = new FileStream(fileName, FileMode.Create);
                 BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(fs, ramMemory);
+                List<List<byte>> savedData = new List<List<byte>>();
+                savedData.Add(ramMemory);
+                if(timer) {
+                    savedData.Add(RTCRegisters);
+                }
+                bf.Serialize(fs, savedData);
                 Debug.Log("Done saving");
                 fs.Close();
             } catch (Exception e) {
-                Debug.Log("Error: " + e.ToString());
+                Debug.Log("Error: " + e.ToString() + " filename " + fileName);
             } 
         }
     }
@@ -212,7 +254,11 @@ public class GameBoyMBC3 : GameBoyMBC {
                 FileStream fs = new FileStream(fileName, FileMode.Open);
                 BinaryFormatter bf = new BinaryFormatter();
                 try {
-                    ramMemory = (List<byte>)bf.Deserialize(fs);
+                    List<List<byte>> savedData = (List<List<byte>>)bf.Deserialize(fs);
+                    ramMemory = savedData[0];
+                    if(timer) {
+                        RTCRegisters = savedData[1];
+                    }
                 }
                 catch {
                     Debug.Log("Failed to deserialize game files");
