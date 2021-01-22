@@ -9,12 +9,14 @@ public class GameBoyMBC3 : GameBoyMBC {
     private List<byte> romMemory;
     private List<byte> ramMemory;
     private List<byte> RTCRegisters;
+    private List<byte> LatchRegisters;
+    DateTime start;
     private byte romBankSize;
     private byte ramBankSize;
     private uint romSize;
     private uint ramSize;
     private bool ramEnable = false;
-    private bool RTCenable = false;
+    private bool RTCEnable = false;
     private bool ramTimerEnable = false;
     private byte bank1 = 1;
     private byte bank2 = 0;
@@ -49,10 +51,25 @@ public class GameBoyMBC3 : GameBoyMBC {
                 Bit 6  Halt (0=Active, 1=Stop Timer)
                 Bit 7  Day Counter Carry Bit (1=Counter Overflow)
         */
+        if(this.timer) {
+            //Init RTC DATA
+            start = System.DateTime.Now;
+            RTCRegisters = initializeRTC();
+            LatchRegisters = initializeRTC();
+        }
     }
 
     ~GameBoyMBC3() {
        save();
+    }
+
+    private List<byte> initializeRTC() {
+        List<byte> result = new List<byte>();
+        byte numOfRTCRegs = 5;
+        for(int i = 0; i < numOfRTCRegs; i++) {
+            result.Add(0);
+        }
+        return result;
     }
 
     private string getFileName() {
@@ -162,26 +179,30 @@ public class GameBoyMBC3 : GameBoyMBC {
             if(data >= 0x00 && data <= 0x03) {
                 bank2 = (byte)(data & 0b11);
                 ramEnable = true;
-                RTCenable = false;
+                RTCEnable = false;
             // RTC Register Select
             } else if(data >= 0x08 && data <= 0x0C) {
                 RTCSelect = data;
                 ramEnable = false;
-                RTCenable = true;
+                RTCEnable = true;
             }
         }
 
         //Latch Clock Data
         else if(PC >= 0x6000 && PC <= 0x7FFF) {
+            UpdateTimer();
             if(timer && (byte)(data & 0x01) == 0x01 && !latched) {
                 //latch Timer
+                LatchTimer();
             }
             latched = (byte)(data & 0x01) == 0x01;
         } 
 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
             if(ramTimerEnable) {
-                if(ramEnable) {
+                if(RTCEnable && timer && RTCSelect <= 4) {
+                    //write to latched AND real register with value
+                } else if(ramEnable) {
                     write_ram(PC,data);
                 } 
             }
@@ -208,6 +229,12 @@ public class GameBoyMBC3 : GameBoyMBC {
         // RAM BANK 00-03 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
             if(ramTimerEnable) {
+                UpdateTimer();
+                if(RTCEnable && !latched) {
+                    return RTCRegisters[RTCSelect-8]; // seconds
+                } else if(RTCEnable && latched) {
+                    return LatchRegisters[RTCSelect-8];
+                }
                 if(ramEnable) {
                     return read_ram(PC);
                 } 
@@ -215,6 +242,22 @@ public class GameBoyMBC3 : GameBoyMBC {
         }
         //Default value from read. 
         return 0xFF;
+    }
+
+    private void UpdateTimer() {
+        DateTime curr = System.DateTime.Now;
+        TimeSpan currSpan = curr - start;
+        RTCRegisters[0] = (byte)(currSpan.Seconds);
+        RTCRegisters[1] = (byte)(currSpan.Minutes);
+        RTCRegisters[2] = (byte)(currSpan.Hours);
+        RTCRegisters[3] = (byte)(currSpan.Days);
+    }
+
+    private void LatchTimer() {
+        LatchRegisters[0] = RTCRegisters[0];
+        LatchRegisters[1] = RTCRegisters[1];
+        LatchRegisters[2] = RTCRegisters[2];
+        LatchRegisters[3] = RTCRegisters[3];
     }
 
     private void save() {
