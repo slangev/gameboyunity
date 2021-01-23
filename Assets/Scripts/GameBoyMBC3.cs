@@ -190,18 +190,30 @@ public class GameBoyMBC3 : GameBoyMBC {
 
         //Latch Clock Data
         else if(PC >= 0x6000 && PC <= 0x7FFF) {
-            UpdateTimer();
+            updateTimer();
             if(timer && (byte)(data & 0x01) == 0x01 && !latched) {
-                //latch Timer
-                LatchTimer();
+                latchTimer();
             }
             latched = (byte)(data & 0x01) == 0x01;
         } 
 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
             if(ramTimerEnable) {
-                if(RTCEnable && timer && RTCSelect <= 4) {
-                    //write to latched AND real register with value
+                if(RTCEnable && timer) {
+                    // write to latched AND real register with value
+                    if(RTCSelect == 0x08) {
+                        updateSeconds(data);
+                    } else if(RTCSelect == 0x09) {
+                        updateMinutes(data);
+                    } else if(RTCSelect == 0x0A) {
+                        updateHours(data);
+                    } else if(RTCSelect == 0x0B) {
+                        updateDays(data);
+                    } else if(RTCSelect == 0x0C) {
+                        updateControl(data);
+                    }
+                    updateTimer();
+                    latchTimer();
                 } else if(ramEnable) {
                     write_ram(PC,data);
                 } 
@@ -229,9 +241,9 @@ public class GameBoyMBC3 : GameBoyMBC {
         // RAM BANK 00-03 
         else if(PC >= 0xA000 && PC <= 0xBFFF) {
             if(ramTimerEnable) {
-                UpdateTimer();
+                updateTimer();
                 if(RTCEnable && !latched) {
-                    return RTCRegisters[RTCSelect-8]; // seconds
+                    return RTCRegisters[RTCSelect-8];
                 } else if(RTCEnable && latched) {
                     return LatchRegisters[RTCSelect-8];
                 }
@@ -244,16 +256,71 @@ public class GameBoyMBC3 : GameBoyMBC {
         return 0xFF;
     }
 
-    private void UpdateTimer() {
-        DateTime curr = System.DateTime.Now;
-        TimeSpan currSpan = curr - start;
-        RTCRegisters[0] = (byte)(currSpan.Seconds);
-        RTCRegisters[1] = (byte)(currSpan.Minutes);
-        RTCRegisters[2] = (byte)(currSpan.Hours);
-        RTCRegisters[3] = (byte)(currSpan.Days);
+    private void updateTimer() {
+        if(GameBoyCPU.getBit(6,RTCRegisters[4]) == 0) {
+            DateTime curr = System.DateTime.Now;
+            TimeSpan currSpan = curr - start;
+            RTCRegisters[0] = (byte)(currSpan.Seconds);
+            RTCRegisters[1] = (byte)(currSpan.Minutes);
+            RTCRegisters[2] = (byte)(currSpan.Hours);
+            RTCRegisters[3] = (byte)(currSpan.Days);
+        }
     }
 
-    private void LatchTimer() {
+    private void updateSeconds(byte secondReset) {
+        DateTime e = System.DateTime.Now;
+        TimeSpan diff = e - start;
+        if(secondReset < diff.Seconds) {
+			byte diffSeconds = (byte)(diff.Seconds - secondReset);
+			start = start.AddSeconds(diffSeconds);
+		} else if(secondReset > diff.Days) {
+			byte diffSeconds = (byte)(secondReset - diff.Seconds);
+			start = start.AddSeconds(-diffSeconds);
+		}
+    }
+
+    private void updateMinutes(byte minutesReset) {
+        DateTime e = System.DateTime.Now;
+        TimeSpan diff = e - start;
+        if(minutesReset < diff.Minutes) {
+			byte diffMinutes = (byte)(diff.Minutes - minutesReset);
+			start = start.AddMinutes(diffMinutes);
+		} else if(minutesReset > diff.Minutes) {
+			byte diffMinutes = (byte)(minutesReset - diff.Minutes);
+			start = start.AddMinutes(-diffMinutes);
+		}
+    }
+
+    private void updateHours(byte hoursReset) {
+        DateTime e = System.DateTime.Now;
+        TimeSpan diff = e - start;
+        if(hoursReset < diff.Hours) {
+			byte diffHours = (byte)(diff.Hours - hoursReset);
+			start = start.AddHours(diffHours);
+		} else if(hoursReset > diff.Hours) {
+			byte diffHours = (byte)(hoursReset - diff.Hours);
+			start = start.AddHours(-diffHours);
+		}
+    }
+
+    private void updateDays(byte dayReset) {
+        //TODO: ERROR HANDLE
+        DateTime e = System.DateTime.Now;
+        TimeSpan diff = e - start;
+        if(dayReset < diff.Days) {
+			byte diffDays = (byte)(diff.Days - dayReset);
+			start = start.AddDays(diffDays);
+		} else if(dayReset > diff.Days) {
+			byte diffDays = (byte)(dayReset - diff.Days);
+			start = start.AddDays(-diffDays);
+		}
+    }
+
+    private void updateControl(byte data) {
+        LatchRegisters[4] = RTCRegisters[4] = data;
+    }
+
+    private void latchTimer() {
         LatchRegisters[0] = RTCRegisters[0];
         LatchRegisters[1] = RTCRegisters[1];
         LatchRegisters[2] = RTCRegisters[2];
