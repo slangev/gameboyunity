@@ -201,19 +201,22 @@ public class GameBoyMBC3 : GameBoyMBC {
             if(ramTimerEnable) {
                 if(RTCEnable && timer) {
                     // write to latched AND real register with value
+                    updateTimer();
                     if(RTCSelect == 0x08) {
                         updateSeconds(data);
+                        LatchRegisters[0] = data;
                     } else if(RTCSelect == 0x09) {
                         updateMinutes(data);
+                        LatchRegisters[1] = data;
                     } else if(RTCSelect == 0x0A) {
                         updateHours(data);
+                        LatchRegisters[2] = data;
                     } else if(RTCSelect == 0x0B) {
                         updateDays(data);
+                        LatchRegisters[3] = data;
                     } else if(RTCSelect == 0x0C) {
                         updateControl(data);
                     }
-                    updateTimer();
-                    latchTimer();
                 } else if(ramEnable) {
                     write_ram(PC,data);
                 } 
@@ -264,6 +267,14 @@ public class GameBoyMBC3 : GameBoyMBC {
             RTCRegisters[1] = (byte)(currSpan.Minutes);
             RTCRegisters[2] = (byte)(currSpan.Hours);
             RTCRegisters[3] = (byte)(currSpan.Days);
+            if(currSpan.Days > 255) {
+                //Rollover
+                RTCRegisters[4] = GameBoyCPU.setBit(0,RTCRegisters[4]);
+            }
+            if(currSpan.Days > 511) {
+                //Set overflow bit.
+                RTCRegisters[4] = GameBoyCPU.setBit(7,RTCRegisters[4]);
+            }
         }
     }
 
@@ -273,7 +284,7 @@ public class GameBoyMBC3 : GameBoyMBC {
         if(secondReset < diff.Seconds) {
 			byte diffSeconds = (byte)(diff.Seconds - secondReset);
 			start = start.AddSeconds(diffSeconds);
-		} else if(secondReset > diff.Days) {
+		} else if(secondReset > diff.Seconds) {
 			byte diffSeconds = (byte)(secondReset - diff.Seconds);
 			start = start.AddSeconds(-diffSeconds);
 		}
@@ -303,15 +314,17 @@ public class GameBoyMBC3 : GameBoyMBC {
 		}
     }
 
-    private void updateDays(byte dayReset) {
-        //TODO: ERROR HANDLE
+    private void updateDays(ushort dayReset) {
         DateTime e = System.DateTime.Now;
         TimeSpan diff = e - start;
+        if(GameBoyCPU.getBit(0,RTCRegisters[4]) == 1) {
+            dayReset += 256;
+        }
         if(dayReset < diff.Days) {
-			byte diffDays = (byte)(diff.Days - dayReset);
+			ushort diffDays = (ushort)(diff.Days - dayReset);
 			start = start.AddDays(diffDays);
 		} else if(dayReset > diff.Days) {
-			byte diffDays = (byte)(dayReset - diff.Days);
+			ushort diffDays = (ushort)(dayReset - diff.Days);
 			start = start.AddDays(-diffDays);
 		}
     }
