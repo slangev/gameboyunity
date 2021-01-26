@@ -248,9 +248,6 @@ public class GameBoyMBC3 : GameBoyMBC {
                 if(RTCEnable && !latched) {
                     return RTCRegisters[RTCSelect-8];
                 } else if(RTCEnable && latched) {
-                    if(RTCSelect == 0x0c){
-                        Debug.Log("HERE");
-                    }
                     return LatchRegisters[RTCSelect-8];
                 }
                 if(ramEnable) {
