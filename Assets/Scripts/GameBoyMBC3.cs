@@ -248,6 +248,9 @@ public class GameBoyMBC3 : GameBoyMBC {
                 if(RTCEnable && !latched) {
                     return RTCRegisters[RTCSelect-8];
                 } else if(RTCEnable && latched) {
+                    if(RTCSelect == 0x0c){
+                        Debug.Log("HERE");
+                    }
                     return LatchRegisters[RTCSelect-8];
                 }
                 if(ramEnable) {
@@ -330,6 +333,14 @@ public class GameBoyMBC3 : GameBoyMBC {
     }
 
     private void updateControl(byte data) {
+        DateTime e = System.DateTime.Now;
+        TimeSpan diff = e - start;
+        byte dayBit = GameBoyCPU.getBit(0,RTCRegisters[4]);
+        if(dayBit == 1 && (data & 0x1) == 0) {
+			start = start.AddDays(256);
+        } else if(dayBit == 0 && (data & 0x1) == 1) {
+			start = start.AddDays(-256);
+        }
         LatchRegisters[4] = RTCRegisters[4] = data;
     }
 
@@ -338,6 +349,7 @@ public class GameBoyMBC3 : GameBoyMBC {
         LatchRegisters[1] = RTCRegisters[1];
         LatchRegisters[2] = RTCRegisters[2];
         LatchRegisters[3] = RTCRegisters[3];
+        LatchRegisters[4] = RTCRegisters[4];
     }
 
     private void save() {
@@ -373,7 +385,7 @@ public class GameBoyMBC3 : GameBoyMBC {
     private void load() {
         if(battery) {
             if (File.Exists(fileName)) {
-                Debug.Log("Found file");
+                Debug.Log("Found file at " + fileName);
                 FileStream fs = new FileStream(fileName, FileMode.Open);
                 BinaryFormatter bf = new BinaryFormatter();
                 try {
