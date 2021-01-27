@@ -36,6 +36,11 @@ public class GameBoyMBC3 : GameBoyMBC {
         this.battery = battery;
         this.timer = timer;
         this.fileName = Application.persistentDataPath + getFileName();
+        if(this.timer) {
+            //Init RTC DATA
+            RTCRegisters = initializeRTC();
+            LatchRegisters = initializeRTC();
+        }
         load();
         ramEnable = false;
         romBankSize = setRomBankSize(this.romSize);
@@ -51,12 +56,6 @@ public class GameBoyMBC3 : GameBoyMBC {
                 Bit 6  Halt (0=Active, 1=Stop Timer)
                 Bit 7  Day Counter Carry Bit (1=Counter Overflow)
         */
-        if(this.timer) {
-            //Init RTC DATA
-            start = System.DateTime.Now;
-            RTCRegisters = initializeRTC();
-            LatchRegisters = initializeRTC();
-        }
     }
 
     ~GameBoyMBC3() {
@@ -352,6 +351,45 @@ public class GameBoyMBC3 : GameBoyMBC {
         LatchRegisters[4] = RTCRegisters[4];
     }
 
+    private List<byte> saveTimeData() {
+        List<byte> result = new List<byte>();
+        int year = start.Year;
+        byte lowByte = (byte)(year & 0x00FF);
+        byte lowerByte = (byte)((year & 0xFF00) >> 8);
+        byte highByte = (byte)((year & 0xFF0000) >> 16);
+        byte higherByte = (byte)((year & 0xFF000000) >> 24);
+        result.Add(lowByte);
+        result.Add(lowerByte);
+        result.Add(highByte);
+        result.Add(higherByte);
+        byte month = (byte)(start.Month);
+        byte day = (byte)(start.Day);
+        byte hour = (byte)(start.Hour);
+        byte minutes = (byte)(start.Minute);
+        byte seconds = (byte)(start.Second);
+        result.Add(month);
+        result.Add(day);
+        result.Add(hour);
+        result.Add(minutes);
+        result.Add(seconds);
+        return result;
+    }
+
+    private void loadTimeData(List<byte> dataForStart) {
+        int year = 0;
+        year = (int)((year | dataForStart[3]) << 24);
+        year = (int)((year | dataForStart[2]) << 16);
+        year = (int)((year | dataForStart[1]) << 8);
+        year = (int)((year | dataForStart[0]));
+        int month = dataForStart[4];
+        int day = dataForStart[5];
+        int hour = dataForStart[6];
+        int minutes = dataForStart[7];
+        int seconds = dataForStart[8];
+        Debug.Log("YEAR: " + year + " month: " + month + " day: " + day + " hour: " + hour + " minutes: " + minutes + " seconds: " + seconds);
+        start = new DateTime(year,month,day,hour,minutes,seconds); //Need MS
+    }
+
     private void save() {
         if(battery) {
             string t = "";
@@ -366,15 +404,16 @@ public class GameBoyMBC3 : GameBoyMBC {
             }
             
             try {
-                FileStream fs = new FileStream(fileName, FileMode.Create);
+                FileStream fs = new FileStream(fileName+"test", FileMode.Create);
                 BinaryFormatter bf = new BinaryFormatter();
                 List<List<byte>> savedData = new List<List<byte>>();
                 savedData.Add(ramMemory);
                 if(timer) {
                     savedData.Add(RTCRegisters);
+                    List<byte> startTimerData = saveTimeData();
+                    savedData.Add(startTimerData);
                 }
                 bf.Serialize(fs, savedData);
-                Debug.Log("Done saving");
                 fs.Close();
             } catch (Exception e) {
                 Debug.Log("Error: " + e.ToString() + " filename " + fileName);
@@ -384,22 +423,27 @@ public class GameBoyMBC3 : GameBoyMBC {
 
     private void load() {
         if(battery) {
-            if (File.Exists(fileName)) {
-                FileStream fs = new FileStream(fileName, FileMode.Open);
+            if (File.Exists(fileName+"test")) {
+                FileStream fs = new FileStream(fileName+"test", FileMode.Open);
                 BinaryFormatter bf = new BinaryFormatter();
                 try {
                     List<List<byte>> savedData = (List<List<byte>>)bf.Deserialize(fs);
                     ramMemory = savedData[0];
                     if(timer) {
                         RTCRegisters = savedData[1];
+                        start = System.DateTime.Now;
+                        loadTimeData(savedData[2]);
                     }
                 }
-                catch {
-                    Debug.Log("Failed to deserialize game files");
+                catch (Exception e){
+                    Debug.Log("Failed to deserialize game files: " + e);
                 }
                 finally {
                     fs.Close();
                 }
+            } else {
+                if(this.timer)
+                start = System.DateTime.Now;
             }
         }
     }
