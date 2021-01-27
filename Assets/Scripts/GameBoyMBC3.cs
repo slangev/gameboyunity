@@ -274,6 +274,9 @@ public class GameBoyMBC3 : GameBoyMBC {
             if(currSpan.Days > 511) {
                 //Set overflow bit.
                 RTCRegisters[4] = GameBoyCPU.setBit(7,RTCRegisters[4]);
+                //Unset rollover
+                RTCRegisters[4] = GameBoyCPU.resetBit(0,RTCRegisters[4]);
+                start = start.AddDays(512);
             }
         }
     }
@@ -382,7 +385,6 @@ public class GameBoyMBC3 : GameBoyMBC {
     private void load() {
         if(battery) {
             if (File.Exists(fileName)) {
-                Debug.Log("Found file at " + fileName);
                 FileStream fs = new FileStream(fileName, FileMode.Open);
                 BinaryFormatter bf = new BinaryFormatter();
                 try {
