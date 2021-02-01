@@ -34,11 +34,6 @@ public class GameBoy : MonoBehaviour
         gbCart = new GameBoyCartiridge(0);
         try {
             gbCart.LoadRom(pathToRom);
-            //Debug.Log(GameBoyCartiridge.Title);
-            //Debug.Log("Rom: " + gbCart.RomSize);
-            //Debug.Log("Ram: " + gbCart.RamSize);
-            //Debug.Log("GBC?: " + gbCart.IsGameBoyColor);
-            //Debug.Log("CartiridgeType: " + gbCart.CartiridgeType.ToString("X2"));
         } catch {
             Debug.Log("NO ROM LOADED");
         }
@@ -62,8 +57,11 @@ public class GameBoy : MonoBehaviour
 
         //Create CPU
         gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);
-        if(reset) {
-            gbCPU.ResetNoBios();
+        if(reset && !gbCart.IsGameBoyColor) {
+            gbCPU.ResetGBNoBios();
+        } else {
+            //gbCPU.ResetCGBNoBios();
+            gbCPU.ResetGBNoBios();
         }
         //Create GPU
         gbGraphic = new GameBoyGraphic(width, height, texture, gbInterrupts, gbMemory);

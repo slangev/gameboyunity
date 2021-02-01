@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\GameBoy.cs" />
+     <Compile Include="Assets\Scripts\GameBoyAudio.cs" />
      <Compile Include="Assets\Scripts\GameBoyCPU.cs" />
      <Compile Include="Assets\Scripts\GameBoyCartridge.cs" />
      <Compile Include="Assets\Scripts\GameBoyGraphics.cs" />
