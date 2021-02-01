@@ -3,6 +3,7 @@
 public class GameBoy : MonoBehaviour
 {
     GameBoyGraphic gbGraphic;
+    GameBoyAudio gbAudio;
     GameBoyMemory gbMemory;
     GameBoyTimer gbTimer;
     GameBoyInterrupts gbInterrupts;
@@ -69,6 +70,9 @@ public class GameBoy : MonoBehaviour
 
         //Create Keyboard
         gbJoyPad = new GameBoyJoyPad(gbInterrupts,gbMemory);
+
+        //Create Audio
+        gbAudio = new GameBoyAudio();
     }
 
     void Start() {

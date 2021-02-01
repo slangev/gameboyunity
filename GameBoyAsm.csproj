@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\GameBoyMBCInterface.cs" />
      <Compile Include="Assets\Scripts\GameBoyMemory.cs" />
      <Compile Include="Assets\Scripts\GameBoyNoMBC.cs" />
+     <Compile Include="Assets\Scripts\GameBoySquareChannel.cs" />
      <Compile Include="Assets\Scripts\GameBoyTimer.cs" />
      <None Include="Assets\Scripts\GameBoyAsm.asmdef" />
     <Reference Include="UnityEngine">

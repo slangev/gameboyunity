@@ -386,7 +386,7 @@ public class GameBoyMBC3 : GameBoyMBC {
         int hour = dataForStart[6];
         int minutes = dataForStart[7];
         int seconds = dataForStart[8];
-        Debug.Log("YEAR: " + year + " month: " + month + " day: " + day + " hour: " + hour + " minutes: " + minutes + " seconds: " + seconds);
+        //Debug.Log("YEAR: " + year + " month: " + month + " day: " + day + " hour: " + hour + " minutes: " + minutes + " seconds: " + seconds);
         start = new DateTime(year,month,day,hour,minutes,seconds); //Need MS
     }
 
