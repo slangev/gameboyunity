@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class GameBoy : MonoBehaviour
 {
@@ -60,19 +61,21 @@ public class GameBoy : MonoBehaviour
         gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);
         if(reset && !gbCart.IsGameBoyColor) {
             gbCPU.ResetGBNoBios();
-        } else {
+        } else if(reset) {
             //gbCPU.ResetCGBNoBios();
             gbCPU.ResetGBNoBios();
         }
         //Create GPU
         gbGraphic = new GameBoyGraphic(width, height, texture, gbInterrupts, gbMemory);
+        //Create Audio
+        gbAudio = new GameBoyAudio();
         gbMemory.AddGraphics(gbGraphic);
+        gbMemory.AddAudio(gbAudio);
 
         //Create Keyboard
         gbJoyPad = new GameBoyJoyPad(gbInterrupts,gbMemory);
 
-        //Create Audio
-        gbAudio = new GameBoyAudio();
+        
     }
 
     void Start() {
@@ -87,6 +90,7 @@ public class GameBoy : MonoBehaviour
             cyclesThisUpdate+=cycles ;
             gbTimer.UpdateTimers(cycles);
             gbGraphic.UpdateGraphics(cycles);
+            gbAudio.UpdateAudioTimer(cycles);
         }
         gbGraphic.DrawScreen();
     }

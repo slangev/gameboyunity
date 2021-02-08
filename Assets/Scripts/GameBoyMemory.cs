@@ -12,6 +12,7 @@ public class GameBoyMemory
     private GameBoyCartiridge gbCart;
     private GameBoyTimer gbTimer;
     private GameBoyGraphic gbGraphic;
+    private GameBoyAudio gbAudio;
     public GameBoyMemory(GameBoyCartiridge gbCart) {
         this.gbCart = gbCart;
         memory = new List<byte>(new byte[memorySize]);
@@ -23,6 +24,10 @@ public class GameBoyMemory
 
     public void AddGraphics(GameBoyGraphic gbGraphic) {
         this.gbGraphic = gbGraphic;
+    }
+
+    public void AddAudio(GameBoyAudio gbAudio) {
+        this.gbAudio = gbAudio;
     }
 
     public void LoadBios(string bios) {
@@ -66,6 +71,8 @@ public class GameBoyMemory
         // Joypad register
         } else if(pos == 0xFF00) {
             return getJoyPadState();
+        } else if(pos >= 0xFF10 && pos <= 0xFF3F){
+            return gbAudio.Read(pos);
         }
         return memory[pos];
     }
@@ -104,8 +111,8 @@ public class GameBoyMemory
             memory[PC] = data;
         } else if(PC >= 0xFF01 && PC <= 0xFF02) {
             Debug.Log("Link Port");
-        } else if(PC >= 0xFF10 && PC <= 0xFF26) {
-            //Debug.Log("APU registers");
+        } else if(PC >= 0xFF10 && PC <= 0xFF3F) {
+            gbAudio.Write(PC,data);
         } else if(PC == GameBoyGraphic.STATAddr) {
             memory[PC] = (byte)((memory[PC] & 0x7) | (data & 0xF8));
         } else {
