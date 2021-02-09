@@ -331,6 +331,50 @@ public class GameBoyAudio {
         // ignore 0x15 since sweep doesn't exist
         else if (apuRegister >= 0x16 && apuRegister <= 0x19) {
             squareTwo.writeRegister(apuRegister, data);
+        } else if (apuRegister >= 0x24 && apuRegister <= 0x26) {
+            switch (apuRegister) {
+                case 0x24:
+                    // Vin bits don't do anything right now. It has something to do with cartridge mixing.
+                    // Right
+                    rightVol = (byte)(data & 0x7);
+                    vinRightEnable = (data & 0x8) == 0x8;
+                    // left
+                    leftVol = (byte)((data >> 4) & 0x7);
+                    vinLeftEnable = (data & 0x80) == 0x80;
+                    break;
+                case 0x25:
+                    // Adjusts the enables on left and right
+                    for (int i = 0; i < 4; i++) {
+                        rightEnables[i] = ((data >> i) & 0x1) == 0x1;
+                    }
+                    for (int i = 0; i < 4; i++) {
+                        leftEnables[i] = ((data >> (i+4)) & 0x1) == 0x1;
+                    }
+                    break;
+                case 0x26:
+                    // I don't think writing to length statues does anything
+                    // Power control
+                    
+                    // Shut off event loop
+                    // Writes 0 to every register besides this one
+                    if ((data & 0x80) != 0x80) {
+                        for (int i = 0xFF10; i <= 0xFF25; i++) {
+                            //sendData(i, 0);
+                        }
+                        powerControl = false;
+                    }
+                    // Only turn on if powerControl was previously off
+                    else if (!powerControl) {
+                        // Turn on event resets channels, probably do that later.
+                        frameSequencer = 0;
+                        // Reset wave table
+                        for (int i = 0; i < 16; i++) {
+                            //waveChannel.writeRegister(0xFF30 | i, 0);
+                        }
+                        powerControl = true;
+                    }
+                    break;
+            }
         }
     }
 
@@ -378,6 +422,7 @@ public class GameBoyAudio {
                 int volume = (128*leftVol)/7;
                 if (leftEnables[0]) {
 				    bufferin1 = ((float)squareOne.getOutputVol()) / 100;
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
 				    //SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
 			    }
                 /*if (leftEnables[1]) {
@@ -393,7 +438,37 @@ public class GameBoyAudio {
                     //SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
                 }*/
 			    mainBuffer[bufferFillAmount] = bufferin0;
+                bufferin0 = 0;
+                volume = (128 * rightVol) / 7;
+                if (rightEnables[0]) {
+                    bufferin1 = ((float)squareOne.getOutputVol()) / 100;
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
+                }
+                /*if (rightEnables[1]) {
+                    bufferin1 = ((float)squareTwo.getOutputVol()) / 100;
+                    SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
+                }
+                if (rightEnables[2]) {
+                    bufferin1 = ((float)waveChannel.getOutputVol()) / 100;
+                    SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
+                }
+                if (rightEnables[3]) {
+                    bufferin1 = ((float)noiseChannel.getOutputVol()) / 100;
+                    SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
+                }*/
+			    mainBuffer[bufferFillAmount + 1] = bufferin0;
+
+			    bufferFillAmount += 2;
             }
+                if (bufferFillAmount >= sample) {
+                    bufferFillAmount = 0;
+                    // Delay execution and the let queue drain to about a frame's worth
+                    /*while ((SDL_GetQueuedAudioSize(1)) > sample * sizeof(float)) {
+                        SDL_Delay(1);
+                    }*/
+                audio.clip.SetData(mainBuffer,0);
+                audio.Play();
+		    }
         }
     }
 }
