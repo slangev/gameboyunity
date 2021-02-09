@@ -288,19 +288,6 @@ public class GameBoyAudio {
         initializeAPU();
     }
 
-    private void dummyCode() {
-        /*
-            float[] samples = new float[samplerate];
-            for(int i = 0; i < samples.Length; i++)
-            {
-                samples[i] = Mathf.Sin(Mathf.PI*2*i*freq/samplerate);
-            }
-            myClip.SetData(samples,0);
-            audio.loop = true;
-            audio.Play();
-        */
-    }
-
     private void initializeAPU() {
         GameObject gb = GameObject.Find("GameBoyCamera");
         gb.AddComponent(typeof(AudioListener));
@@ -312,7 +299,7 @@ public class GameBoyAudio {
         squareTwo = new SquareChannel();
         waveChannel = new WaveChannel();
         noiseChannel = new NoiseChannel();
-        
+        audio.volume = 0.01f;
     }
 
     public byte Read(ushort address) {
@@ -323,7 +310,7 @@ public class GameBoyAudio {
     public void Write(ushort address, byte data) {
         byte apuRegister = (byte)(address & 0xFF);
         // Pulse 1 redirect
-        Debug.Log("WRITE Address: " + apuRegister.ToString("X2") + " " + data.ToString("X2"));
+        //Debug.Log("WRITE Address: " + apuRegister.ToString("X2") + " " + data.ToString("X2"));
         if (apuRegister >= 0x10 && apuRegister <= 0x14) {
             squareOne.writeRegister(apuRegister, data);
         }
@@ -387,24 +374,31 @@ public class GameBoyAudio {
                 switch (frameSequencer) {
                     case 0:
                         squareOne.lengthClck();
+					    squareTwo.lengthClck();
                         break;
                     case 1:
                         break;
                     case 2:
                         squareOne.sweepClck();
+					    squareOne.lengthClck();
+					    squareTwo.lengthClck();
                         break;
                     case 3:
                         break;
                     case 4:
                         squareOne.lengthClck();
+					    squareTwo.lengthClck();
                         break;
                     case 5:
                         break;
                     case 6:
                         squareOne.sweepClck();
+					    squareOne.lengthClck();
+					    squareTwo.lengthClck();
                         break;
                     case 7:
                         squareOne.envClck();
+					    squareTwo.envClck();
                         break;
                 }
                 frameSequencer++;
@@ -413,6 +407,7 @@ public class GameBoyAudio {
                 }
             }
             squareOne.step();
+            squareTwo.step();
             if(--downSampleCount <= 0) {
                 downSampleCount = 95;
 
@@ -423,13 +418,12 @@ public class GameBoyAudio {
                 if (leftEnables[0]) {
 				    bufferin1 = ((float)squareOne.getOutputVol()) / 100;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
-				    //SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
 			    }
-                /*if (leftEnables[1]) {
+                if (leftEnables[1]) {
                     bufferin1 = ((float)squareTwo.getOutputVol()) / 100;
-                    //SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
-                if (leftEnables[2]) {
+                /*if (leftEnables[2]) {
                     bufferin1 = ((float)waveChannel.getOutputVol()) / 100;
                     //SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
                 }
@@ -444,11 +438,11 @@ public class GameBoyAudio {
                     bufferin1 = ((float)squareOne.getOutputVol()) / 100;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
-                /*if (rightEnables[1]) {
+                if (rightEnables[1]) {
                     bufferin1 = ((float)squareTwo.getOutputVol()) / 100;
-                    SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
-                if (rightEnables[2]) {
+                /*if (rightEnables[2]) {
                     bufferin1 = ((float)waveChannel.getOutputVol()) / 100;
                     SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
                 }
@@ -457,18 +451,17 @@ public class GameBoyAudio {
                     SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
                 }*/
 			    mainBuffer[bufferFillAmount + 1] = bufferin0;
-
 			    bufferFillAmount += 2;
             }
-                if (bufferFillAmount >= sample) {
-                    bufferFillAmount = 0;
-                    // Delay execution and the let queue drain to about a frame's worth
-                    /*while ((SDL_GetQueuedAudioSize(1)) > sample * sizeof(float)) {
-                        SDL_Delay(1);
-                    }*/
+            if (bufferFillAmount >= sample) {
+                bufferFillAmount = 0;
+                // Delay execution and the let queue drain to about a frame's worth
+                /*while ((SDL_GetQueuedAudioSize(1)) > sample * sizeof(float)) {
+                    SDL_Delay(1);
+                }*/
                 audio.clip.SetData(mainBuffer,0);
                 audio.Play();
-		    }
+            }
         }
     }
 }
