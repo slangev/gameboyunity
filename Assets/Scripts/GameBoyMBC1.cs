@@ -206,7 +206,6 @@ public class GameBoyMBC1 : GameBoyMBC {
                 FileStream fs = new FileStream(fileName, FileMode.Create);
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(fs, ramMemory);
-                Debug.Log("Done saving");
                 fs.Close();
             } catch (Exception e) {
                 Debug.Log("Error: " + e.ToString());
@@ -217,7 +216,6 @@ public class GameBoyMBC1 : GameBoyMBC {
     private void load() {
         if(battery) {
             if (File.Exists(fileName)) {
-                Debug.Log("Found file");
                 FileStream fs = new FileStream(fileName, FileMode.Open);
                 BinaryFormatter bf = new BinaryFormatter();
                 try {

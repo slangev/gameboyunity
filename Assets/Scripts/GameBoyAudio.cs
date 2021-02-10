@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 //https://stackoverflow.com/questions/376036/algorithm-to-mix-sound
@@ -18,7 +16,7 @@ public class GameBoyAudio {
 
         uint outputVol = 0;
         uint sequencePointer = 0;
-        uint duty = 0;
+        byte duty = 0;
         int timer = 0;	// AKA frequency
         ushort timerLoad = 0;	// Reloads the timer
         bool lengthEnable = false;
@@ -165,6 +163,40 @@ public class GameBoyAudio {
             return (byte)(outputVol); 
         }
 
+        public byte readRegister(ushort address) {
+            byte returnData = 0;
+	        byte squareRegister = (byte)((address & 0xF) % 0x5);
+            switch (squareRegister) {
+                // Sweep. Only on Square 1
+            case 0x0:
+                byte sweepNegateValue = sweepNegate ? (byte) 1 : (byte) 0;
+                returnData = (byte)((sweepShift) | (byte)((sweepNegateValue) << 3) | (sweepPeriodLoad << 4));
+                break;
+                // Duty, Length Load
+            case 0x1:
+                returnData = (byte)((lengthLoad & 0x3F) | ((duty & 0x3) << 6));
+                break;
+                // Envelope
+            case 0x2:
+                byte envelopeAddModeValue = envelopeAddMode ? (byte) 1 : (byte) 0;
+                returnData = (byte)((envelopePeriodLoad & 0x7) | (envelopeAddModeValue << 3) | ((volumeLoad & 0xF) << 4));
+                break;
+            case 0x3:
+                returnData = (byte)(timerLoad & 0xFF);
+                break;
+                // Trigger, length enable, frequency MSB
+            case 0x4:
+                byte lengthEnableValue = lengthEnable ? (byte) 1 : (byte) 0;
+                byte triggerBitValue = triggerBit ? (byte) 1 : (byte) 0;
+
+                returnData = (byte)(((timerLoad >> 8) & 0x7) | (lengthEnableValue << 6) | (triggerBitValue << 7));	// Trigger bit probably?
+                // Trigger is on 0x80, bit 7.
+                break;
+            }
+
+            return returnData;
+        }
+
         public void writeRegister(ushort address, byte data) {
             byte squareRegister = (byte)((address & 0xF) % 0x5);
             //Debug.Log("HERE: " + squareRegister.ToString("X2") + " DATA: " + data.ToString("X2"));
@@ -214,38 +246,151 @@ public class GameBoyAudio {
             }
         }
 
+    internal class WaveChannel {
+        // Wave Table ram, 16 entries, 32 samples in total (4 bits per sample).
+        byte[] waveTable = new byte[16];
+        // Registers
+        byte lengthLoad = 0;
+        byte volumeCode = 0;
+        // Timer aka Frequency
+        ushort timerLoad = 0;
+        bool lengthEnable = false;
+        bool triggerBit = false;
+        // Internal
+        byte positionCounter = 0;
+        ushort lengthCounter = 0;
+        int timer = 0;
+        byte outputVol = 0;
+        bool enabled = false;
+        bool dacEnabled = false;
+        public WaveChannel () {
+            
+        }
+
         public byte readRegister(ushort address) {
+            // Eh
             byte returnData = 0;
-	        byte squareRegister = (byte)((address & 0xF) % 0x5);
-            switch (squareRegister) {
-                // Sweep. Only on Square 1
-            case 0x0:
-                //returnData = (sweepShift) | ((sweepNegate) << 3) | (sweepPeriodLoad << 4);
-                break;
-                // Duty, Length Load
-            case 0x1:
-                //returnData = (lengthLoad & 0x3F) | ((duty & 0x3) << 6);
-                break;
-                // Envelope
-            case 0x2:
-                //returnData = (envelopePeriodLoad & 0x7) | (envelopeAddMode << 3) | ((volumeLoad & 0xF) << 4);
-                break;
-            case 0x3:
-                //returnData = timerLoad & 0xFF;
-                break;
-                // Trigger, length enable, frequency MSB
-            case 0x4:
-                //returnData = ((timerLoad >> 8) & 0x7) | (lengthEnable << 6) | (triggerBit << 7);	// Trigger bit probably?
-                // Trigger is on 0x80, bit 7.
-                break;
+
+            byte registerVal = (byte)(address & 0xF);
+            if (address >= 0xFF1A && address <= 0xFF1E) {
+                switch (registerVal) {
+                case 0xA:
+                    byte dacEnabledValue = dacEnabled ? (byte) 1 : (byte) 0;
+                    returnData = (byte)((dacEnabledValue) << 7);
+                    break;
+                case 0xB:
+                    returnData = lengthLoad;
+                    break;
+                case 0xC:
+                    returnData = (byte)(volumeCode << 5);
+                    break;
+                case 0xD:
+                    returnData = (byte)(timerLoad & 0xFF);
+                    break;
+                case 0xE:
+                    byte lengthEnableValue = lengthEnable ? (byte) 1 : (byte) 0;
+                    byte triggerBitValue = triggerBit ? (byte) 1 : (byte) 0;
+                    returnData = (byte)(((timerLoad >> 8) & 0x7) | (lengthEnableValue << 6) | (triggerBitValue << 7));	// Trigger bit probably?
+                    break;
+                }
+            }
+            // wave ram
+            else if (address >= 0xFF30 && address <= 0xFF3F) {
+                returnData = waveTable[registerVal];
             }
 
             return returnData;
         }
 
-    internal class WaveChannel {
-        public WaveChannel () {
-            
+        public void writeRegister(ushort address, byte data) {
+            byte registerVal = (byte)(address & 0xF);
+            //Debug.Log("HERE: " + registerVal.ToString("X2") + " DATA: " + data.ToString("X2"));
+            if(address >= 0xFF1A && address <= 0xFF1E){
+                switch (registerVal) {
+                    case 0xA:
+                        dacEnabled = (data & 0x80) == 0x80;
+                        break;
+                    case 0xB:
+                        lengthLoad = data;
+                        lengthCounter = (ushort)(256 - lengthLoad);
+                        break;
+                    case 0xC:
+                        volumeCode = (byte)((data >> 5) & 0x3);
+                        break;
+                    case 0xD:
+                        timerLoad = (ushort)((timerLoad & 0x700) | data);
+                        break;
+                    case 0xE:
+                        timerLoad = (ushort)((timerLoad & 0xFF) | ((data & 0x7) << 8));
+                        lengthEnable = (data & 0x40) == 0x40;
+                        triggerBit = (data & 0x80) == 0x80;
+                        if (triggerBit) {
+                            trigger();	// Trigger event
+                        }
+                        break;
+                }
+            }
+            // wave ram
+            else if (address >= 0xFF30 && address <= 0xFF3F) {
+                waveTable[registerVal] = data;
+                Debug.Log("register " + registerVal + " data: " + data);
+            }
+        }
+
+        public void lengthClck() {
+            if (lengthCounter > 0 && lengthEnable) {
+                lengthCounter--;
+                if (lengthCounter == 0) {
+                    enabled = false;	// Disable channel
+                }
+            }
+        }
+
+        public byte getOutputVol() {
+            return outputVol;
+        }
+
+        public bool getRunning() {
+            return lengthCounter > 0;
+        }
+
+        public void trigger() {
+            enabled = true;
+            if (lengthCounter == 0) {
+                lengthCounter = 256;
+            }
+            timer = (2048 - timerLoad) * 2;
+            positionCounter = 0;
+        }
+
+        public void step() {
+            if (--timer <= 0) {
+                timer = (2048 - timerLoad) * 2;
+                // Should increment happen before or after?
+                positionCounter = (byte)((positionCounter + 1) & 0x1F);
+                // Decide output volume
+                if (enabled && dacEnabled) {
+                    // Decide what byte it should be first
+                    int position = positionCounter / 2;
+                    byte outputByte = waveTable[position];
+                    bool highBit = (positionCounter & 0x1) == 0;
+                    if (highBit) {
+                        outputByte >>= 4;
+                    }
+                    outputByte &= 0xF;
+                    // Handle volume code. 0 shouldn't occur.
+                    if (volumeCode > 0) {
+                        outputByte >>= volumeCode - 1;
+                    }
+                    else {
+                        outputByte = 0;
+                    }
+                    outputVol = outputByte;
+                }
+                else {
+                    outputVol = 0;
+                }
+            }
         }
     }
 
@@ -299,12 +444,24 @@ public class GameBoyAudio {
         squareTwo = new SquareChannel();
         waveChannel = new WaveChannel();
         noiseChannel = new NoiseChannel();
-        audio.volume = 0.01f;
     }
 
     public byte Read(ushort address) {
-        Debug.Log("READ Address: " + address.ToString("X2"));
-        return 0;
+        //Debug.Log("READ Address: " + address.ToString("X2"));
+        byte returnData = 0;
+	    ushort apuRegister = (ushort)(address & 0xFF);
+	    if (apuRegister >= 0x10 && apuRegister <= 0x14) {
+		    returnData = squareOne.readRegister(apuRegister);
+	    } else if (apuRegister >= 0x16 && apuRegister <= 0x19) {
+		    returnData = squareTwo.readRegister(apuRegister);
+	    }
+	    else if (apuRegister >= 0x1A && apuRegister <= 0x1E) {
+		    returnData = waveChannel.readRegister(address);
+	    }
+	    else if (apuRegister >= 0x1F && apuRegister <= 0x23) {
+		    //returnData = noiseChannel.readRegister(address);
+	    }
+        return returnData;
     }
 
     public void Write(ushort address, byte data) {
@@ -318,7 +475,9 @@ public class GameBoyAudio {
         // ignore 0x15 since sweep doesn't exist
         else if (apuRegister >= 0x16 && apuRegister <= 0x19) {
             squareTwo.writeRegister(apuRegister, data);
-        } else if (apuRegister >= 0x24 && apuRegister <= 0x26) {
+        } else if (apuRegister >= 0x1A && apuRegister <= 0x1E) {
+		    waveChannel.writeRegister(address, data);
+	    } else if (apuRegister >= 0x24 && apuRegister <= 0x26) {
             switch (apuRegister) {
                 case 0x24:
                     // Vin bits don't do anything right now. It has something to do with cartridge mixing.
@@ -346,7 +505,7 @@ public class GameBoyAudio {
                     // Writes 0 to every register besides this one
                     if ((data & 0x80) != 0x80) {
                         for (int i = 0xFF10; i <= 0xFF25; i++) {
-                            //sendData(i, 0);
+                            Write((ushort)(i), 0);
                         }
                         powerControl = false;
                     }
@@ -356,7 +515,7 @@ public class GameBoyAudio {
                         frameSequencer = 0;
                         // Reset wave table
                         for (int i = 0; i < 16; i++) {
-                            //waveChannel.writeRegister(0xFF30 | i, 0);
+                            waveChannel.writeRegister((ushort)(0xFF30 | i), 0);
                         }
                         powerControl = true;
                     }
@@ -375,6 +534,7 @@ public class GameBoyAudio {
                     case 0:
                         squareOne.lengthClck();
 					    squareTwo.lengthClck();
+                        waveChannel.lengthClck();
                         break;
                     case 1:
                         break;
@@ -382,12 +542,14 @@ public class GameBoyAudio {
                         squareOne.sweepClck();
 					    squareOne.lengthClck();
 					    squareTwo.lengthClck();
+                        waveChannel.lengthClck();
                         break;
                     case 3:
                         break;
                     case 4:
                         squareOne.lengthClck();
 					    squareTwo.lengthClck();
+                        waveChannel.lengthClck();
                         break;
                     case 5:
                         break;
@@ -395,6 +557,7 @@ public class GameBoyAudio {
                         squareOne.sweepClck();
 					    squareOne.lengthClck();
 					    squareTwo.lengthClck();
+                        waveChannel.lengthClck();
                         break;
                     case 7:
                         squareOne.envClck();
@@ -406,59 +569,58 @@ public class GameBoyAudio {
                     frameSequencer = 0;
                 }
             }
+
             squareOne.step();
             squareTwo.step();
+            waveChannel.step();
+
             if(--downSampleCount <= 0) {
                 downSampleCount = 95;
 
                 // Left
                 float bufferin0 = 0;
                 float bufferin1 = 0;
-                int volume = (128*leftVol)/7;
+                float volume = leftVol/10.0f;
                 if (leftEnables[0]) {
-				    bufferin1 = ((float)squareOne.getOutputVol()) / 100;
-                    bufferin0 = (bufferin0 + bufferin1) * volume;
+				    bufferin1 = ((float)squareOne.getOutputVol()) / 100.0f;
+                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
 			    }
                 if (leftEnables[1]) {
-                    bufferin1 = ((float)squareTwo.getOutputVol()) / 100;
-                    bufferin0 = (bufferin0 + bufferin1) * volume;
+                    bufferin1 = ((float)squareTwo.getOutputVol()) / 100.0f;
+                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
                 }
-                /*if (leftEnables[2]) {
-                    bufferin1 = ((float)waveChannel.getOutputVol()) / 100;
-                    //SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
+                if (leftEnables[2]) {
+                    bufferin1 = ((float)waveChannel.getOutputVol()) / 100.0f;
+                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
                 }
-                if (leftEnables[3]) {
-                    bufferin1 = ((float)noiseChannel.getOutputVol()) / 100;
-                    //SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
+                /*if (leftEnables[3]) {
+                    bufferin1 = ((float)noiseChannel.getOutputVol()) / 100.0f;
+                    bufferin0 = ((bufferin0 + bufferin1)/2) * volume;
                 }*/
 			    mainBuffer[bufferFillAmount] = bufferin0;
                 bufferin0 = 0;
-                volume = (128 * rightVol) / 7;
+                volume = rightVol/10.0f;
                 if (rightEnables[0]) {
-                    bufferin1 = ((float)squareOne.getOutputVol()) / 100;
-                    bufferin0 = (bufferin0 + bufferin1) * volume;
+                    bufferin1 = ((float)squareOne.getOutputVol()) / 100.0f;
+                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
                 }
                 if (rightEnables[1]) {
-                    bufferin1 = ((float)squareTwo.getOutputVol()) / 100;
-                    bufferin0 = (bufferin0 + bufferin1) * volume;
+                    bufferin1 = ((float)squareTwo.getOutputVol()) / 100.0f;
+                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
                 }
-                /*if (rightEnables[2]) {
-                    bufferin1 = ((float)waveChannel.getOutputVol()) / 100;
-                    SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
+                if (rightEnables[2]) {
+                    bufferin1 = ((float)waveChannel.getOutputVol()) / 100.0f;
+                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
                 }
-                if (rightEnables[3]) {
-                    bufferin1 = ((float)noiseChannel.getOutputVol()) / 100;
-                    SDL_MixAudioFormat((Uint8*)&bufferin0, (Uint8*)&bufferin1, AUDIO_F32SYS, sizeof(float), volume);
+                /*if (rightEnables[3]) {
+                    bufferin1 = ((float)noiseChannel.getOutputVol()) / 100.0f;
+                    bufferin0 = ((bufferin0 + bufferin1)/2) * volume;
                 }*/
 			    mainBuffer[bufferFillAmount + 1] = bufferin0;
 			    bufferFillAmount += 2;
             }
             if (bufferFillAmount >= sample) {
                 bufferFillAmount = 0;
-                // Delay execution and the let queue drain to about a frame's worth
-                /*while ((SDL_GetQueuedAudioSize(1)) > sample * sizeof(float)) {
-                    SDL_Delay(1);
-                }*/
                 audio.clip.SetData(mainBuffer,0);
                 audio.Play();
             }
