@@ -627,6 +627,45 @@ public class GameBoyAudio {
 	    else if (apuRegister >= 0x1F && apuRegister <= 0x23) {
 		    returnData = noiseChannel.readRegister(address);
 	    }
+        else if (apuRegister >= 0x24 && apuRegister <= 0x26) {
+		switch (apuRegister) {
+			case 0x24:
+                byte vinRightValue = vinRightEnable ? (byte) 1 : (byte) 0;
+                byte vinLeftValue = vinLeftEnable ? (byte) 1 : (byte) 0;
+				returnData = (byte)((rightVol) | (vinRightValue << 3) | (leftVol << 4) | (vinLeftValue << 7));
+				break;
+			case 0x25:
+				// Adjusts the enables on left and right
+				for (int i = 0; i < 4; i++) {
+                    byte rightEnablesValue = rightEnables[i] ? (byte) 1 : (byte) 0;
+					returnData |= (byte)((rightEnablesValue << i));
+				}
+				for (int i = 0; i < 4; i++) {
+                    byte leftEnablesValue = leftEnables[i] ? (byte) 1 : (byte) 0;
+					returnData |= (byte)((leftEnablesValue << (i+4)));
+				}
+				break;
+			case 0x26:
+				// Power Control
+                byte powerControlValue = powerControl ? (byte) 1 : (byte) 0;
+                byte squareOneValue = squareOne.getRunning() ? (byte) 1 : (byte) 0;
+                byte squareTwoValue = squareTwo.getRunning() ? (byte) 1 : (byte) 0;
+                byte waveChannelValue = waveChannel.getRunning() ? (byte) 1 : (byte) 0;
+                byte noiseChannelValue = noiseChannel.getRunning() ? (byte) 1 : (byte) 0;
+				returnData |= (byte)(powerControlValue << 7);
+				returnData |= (byte)(squareOneValue << 0);
+				returnData |= (byte)(squareTwoValue << 1);
+				returnData |= (byte)(waveChannelValue << 2);
+				returnData |= (byte)(noiseChannelValue << 3);
+				break;
+		}
+	}
+	else if (apuRegister >= 0x30 && apuRegister <= 0x3F) {
+		returnData = waveChannel.readRegister(address);
+	}
+	if (apuRegister <= 0x26) {
+		returnData |= readOrValues[apuRegister - 0x10];
+	}
         return returnData;
     }
 
