@@ -304,7 +304,6 @@ public class GameBoyAudio {
 
         public void writeRegister(ushort address, byte data) {
             byte registerVal = (byte)(address & 0xF);
-            //Debug.Log("HERE: " + registerVal.ToString("X2") + " DATA: " + data.ToString("X2"));
             if(address >= 0xFF1A && address <= 0xFF1E){
                 switch (registerVal) {
                     case 0xA:
@@ -333,7 +332,6 @@ public class GameBoyAudio {
             // wave ram
             else if (address >= 0xFF30 && address <= 0xFF3F) {
                 waveTable[registerVal] = data;
-                Debug.Log("register " + registerVal + " data: " + data);
             }
         }
 
@@ -395,13 +393,182 @@ public class GameBoyAudio {
     }
 
     internal class NoiseChannel {
+        
+        byte lengthLoad = 0;
+        byte volumeLoad = 0;
+        bool envelopeAddMode = false;
+        byte envelopePeriodLoad = 0;
+        // Noise specific stuff
+        byte clockShift = 0;
+        bool widthMode = false;
+        byte divisorCode = 0;
+        bool triggerBit = false;
+        bool lengthEnable = false;
+
+        // Internal
+        // Divisor table, for divisor codes
+        readonly int[] divisors = new int[] { 8, 16, 32, 48, 64, 80, 96, 112 };
+        int timer = 0;
+        bool enabled = false;
+        bool dacEnabled = false;
+        byte lengthCounter = 0;
+        byte volume = 0;
+        int envelopePeriod = 0;
+        ushort lfsr = 0;	// Linear feedback shift register
+        bool envelopeRunning = false;
+        byte outputVol = 0;
         public NoiseChannel () {
             
+        }
+
+        public byte readRegister(ushort address) {
+            byte returnData = 0;
+
+            switch (address) {
+                case 0xFF1F:
+                    // Not used
+                    break;
+                case 0xFF20:
+                    returnData = (byte)(lengthLoad & 0x3F);
+                    break;
+                case 0xFF21:
+                    byte envelopeAddModeValue = envelopeAddMode ? (byte) 1 : (byte) 0;
+                    returnData = (byte)((envelopePeriodLoad & 0x7) | (envelopeAddModeValue << 3) | ((volumeLoad & 0xF) << 4));
+                    break;
+                case 0xFF22:
+                    byte widthModeValue = widthMode ? (byte) 1 : (byte) 0;
+                    returnData = (byte)((divisorCode) | (widthModeValue << 3) | (clockShift << 4));
+                    break;
+                case 0xFF23:
+                    byte lengthEnableValue = lengthEnable ? (byte) 1 : (byte) 0;
+                    byte triggerBitValue = triggerBit ? (byte) 1 : (byte) 0;
+
+                    returnData = (byte)((lengthEnableValue << 6) | (triggerBitValue << 7));	// Trigger bit probably?
+                    break;
+            }
+
+            return returnData;
+        }
+        public void writeRegister(ushort address, byte data) {
+            switch (address) {
+                case 0xFF1F:
+                    // Not used
+                    break;
+                case 0xFF20:
+                    lengthLoad = (byte)(data & 0x3F);
+                    //lengthCounter = 64 - lengthLoad;
+                    break;
+                case 0xFF21:
+                    // See if dac is enabled, if all high 5 bits are not 0
+                    dacEnabled = (data & 0xF8) != 0;
+                    // Starting Volume
+                    volumeLoad = (byte)((data >> 4) & 0xF);
+                    // Add mode
+                    envelopeAddMode = (data & 0x8) == 0x8;
+                    // Period
+                    envelopePeriodLoad = (byte)((data & 0x7));
+                    //envelopePeriod = envelopePeriodLoad;
+                    // TEMP?
+                    //volume = volumeLoad;
+                    break;
+                case 0xFF22:
+                    divisorCode = (byte)(data & 0x7);
+                    widthMode = (data & 0x8) == 0x8;
+                    clockShift = (byte)((data >> 4) & 0xF);
+                    break;
+                case 0xFF23:
+                    lengthEnable = (data & 0x40) == 0x040;
+                    triggerBit = (data & 0x80) == 0x80;
+                    if (triggerBit) {
+                        //trigger();
+                    }
+                    break;
+
+	        }
+        }
+
+        public void envClck() {
+            // Envelope tick when it's zero
+            if (--envelopePeriod <= 0) {
+                // Reload period
+                // does this loop or?
+                envelopePeriod = envelopePeriodLoad;
+                if (envelopePeriod == 0) {
+                    envelopePeriod = 8;		// Some obscure behavior, But I don't understand this behavior at all..
+                }
+                // Should envelopePeriod > 0 be here?
+                if (envelopeRunning && envelopePeriodLoad > 0) {
+                    if (envelopeAddMode && volume < 15) {
+                        volume++;
+                    }
+                    else if (!envelopeAddMode && volume > 0) {
+                        volume--;
+                    }
+                }
+                if (volume == 0 || volume == 15) {
+                    envelopeRunning = false;
+                }
+            }
+        }
+
+        public void lengthClck() {
+            if (lengthCounter > 0 && lengthEnable) {
+                lengthCounter--;
+                if (lengthCounter == 0) {
+                    enabled = false;	// Disable channel
+                }
+            }
+        }
+
+        public byte getOutputVol() {
+            return outputVol;
+        }
+
+        public bool getRunning() {
+            return lengthCounter > 0;
+        }
+
+        public void trigger() {
+            enabled = true;
+            if (lengthCounter == 0) {
+                lengthCounter = 64;
+            }
+            timer = divisors[divisorCode] << clockShift;
+            envelopePeriod = envelopePeriodLoad;
+            envelopeRunning = true;
+            volume = volumeLoad;
+            lfsr = 0x7FFF;
+        }
+
+        public void step() {
+            if (--timer <= 0) {
+                timer = divisors[divisorCode] << clockShift;	// odd
+
+                //It has a 15 - bit shift register with feedback.When clocked by the frequency timer, the low two bits(0 and 1) are XORed, 
+                //all bits are shifted right by one, and the result of the XOR is put into the now - empty high bit.If width mode is 1 (NR43), 
+                //the XOR result is ALSO put into bit 6 AFTER the shift, resulting in a 7 - bit LFSR.
+                //The waveform output is bit 0 of the LFSR, INVERTED.
+                byte result = (byte)((lfsr & 0x1) ^ ((lfsr >> 1) & 0x1));
+                lfsr >>= 1;
+                lfsr |= (ushort)(result << 14);
+                if (widthMode) {
+                    unchecked{
+			            lfsr &= (ushort)(~0x40);
+		            }
+                    lfsr |= (ushort)(result << 6);
+                }
+                if (enabled && dacEnabled && (lfsr & 0x1) == 0) {
+                    outputVol = volume;
+                }
+                else {
+                    outputVol = 0;
+                }
+            }
         }
     }
 
     private int channels = 2;
-    private int freq = 44100;
+    private int freq = 48000;
     private static readonly int sample = 4096;
     private AudioSource audio;
     private int frameSequenceCountDown = 8192;
@@ -459,7 +626,7 @@ public class GameBoyAudio {
 		    returnData = waveChannel.readRegister(address);
 	    }
 	    else if (apuRegister >= 0x1F && apuRegister <= 0x23) {
-		    //returnData = noiseChannel.readRegister(address);
+		    returnData = noiseChannel.readRegister(address);
 	    }
         return returnData;
     }
@@ -477,6 +644,10 @@ public class GameBoyAudio {
             squareTwo.writeRegister(apuRegister, data);
         } else if (apuRegister >= 0x1A && apuRegister <= 0x1E) {
 		    waveChannel.writeRegister(address, data);
+	    } else if (apuRegister >= 0x30 && apuRegister <= 0x3F) {
+		    waveChannel.writeRegister(address, data);
+	    } else if (apuRegister >= 0x1F && apuRegister <= 0x23) {
+		    noiseChannel.writeRegister(address, data);
 	    } else if (apuRegister >= 0x24 && apuRegister <= 0x26) {
             switch (apuRegister) {
                 case 0x24:
@@ -520,7 +691,7 @@ public class GameBoyAudio {
                         powerControl = true;
                     }
                     break;
-            }
+            } 
         }
     }
 
@@ -535,6 +706,7 @@ public class GameBoyAudio {
                         squareOne.lengthClck();
 					    squareTwo.lengthClck();
                         waveChannel.lengthClck();
+                        noiseChannel.lengthClck();
                         break;
                     case 1:
                         break;
@@ -543,6 +715,7 @@ public class GameBoyAudio {
 					    squareOne.lengthClck();
 					    squareTwo.lengthClck();
                         waveChannel.lengthClck();
+                        noiseChannel.lengthClck();
                         break;
                     case 3:
                         break;
@@ -550,6 +723,7 @@ public class GameBoyAudio {
                         squareOne.lengthClck();
 					    squareTwo.lengthClck();
                         waveChannel.lengthClck();
+                        noiseChannel.lengthClck();
                         break;
                     case 5:
                         break;
@@ -558,10 +732,12 @@ public class GameBoyAudio {
 					    squareOne.lengthClck();
 					    squareTwo.lengthClck();
                         waveChannel.lengthClck();
+                        noiseChannel.lengthClck();
                         break;
                     case 7:
                         squareOne.envClck();
 					    squareTwo.envClck();
+                        noiseChannel.envClck();
                         break;
                 }
                 frameSequencer++;
@@ -573,6 +749,7 @@ public class GameBoyAudio {
             squareOne.step();
             squareTwo.step();
             waveChannel.step();
+            noiseChannel.step();
 
             if(--downSampleCount <= 0) {
                 downSampleCount = 95;
@@ -583,39 +760,39 @@ public class GameBoyAudio {
                 float volume = leftVol/10.0f;
                 if (leftEnables[0]) {
 				    bufferin1 = ((float)squareOne.getOutputVol()) / 100.0f;
-                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
 			    }
                 if (leftEnables[1]) {
                     bufferin1 = ((float)squareTwo.getOutputVol()) / 100.0f;
-                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
                 if (leftEnables[2]) {
                     bufferin1 = ((float)waveChannel.getOutputVol()) / 100.0f;
-                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
-                /*if (leftEnables[3]) {
+                if (leftEnables[3]) {
                     bufferin1 = ((float)noiseChannel.getOutputVol()) / 100.0f;
-                    bufferin0 = ((bufferin0 + bufferin1)/2) * volume;
-                }*/
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
+                }
 			    mainBuffer[bufferFillAmount] = bufferin0;
                 bufferin0 = 0;
                 volume = rightVol/10.0f;
                 if (rightEnables[0]) {
                     bufferin1 = ((float)squareOne.getOutputVol()) / 100.0f;
-                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
                 if (rightEnables[1]) {
                     bufferin1 = ((float)squareTwo.getOutputVol()) / 100.0f;
-                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
                 if (rightEnables[2]) {
                     bufferin1 = ((float)waveChannel.getOutputVol()) / 100.0f;
-                    bufferin0 = ((bufferin0 + bufferin1)/2.0f) * volume;
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
-                /*if (rightEnables[3]) {
+                if (rightEnables[3]) {
                     bufferin1 = ((float)noiseChannel.getOutputVol()) / 100.0f;
-                    bufferin0 = ((bufferin0 + bufferin1)/2) * volume;
-                }*/
+                    bufferin0 = (bufferin0 + bufferin1) * volume;
+                }
 			    mainBuffer[bufferFillAmount + 1] = bufferin0;
 			    bufferFillAmount += 2;
             }
