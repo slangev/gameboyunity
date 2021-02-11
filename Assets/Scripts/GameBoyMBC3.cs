@@ -36,11 +36,8 @@ public class GameBoyMBC3 : GameBoyMBC {
         this.battery = battery;
         this.timer = timer;
         this.fileName = Application.persistentDataPath + getFileName();
-        if(this.timer) {
-            //Init RTC DATA
-            RTCRegisters = initializeRTC();
-            LatchRegisters = initializeRTC();
-        }
+        RTCRegisters = initializeRTC();
+        LatchRegisters = initializeRTC();
         load();
         ramEnable = false;
         romBankSize = setRomBankSize(this.romSize);

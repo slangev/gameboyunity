@@ -211,7 +211,7 @@ public class GameBoyAudio {
                 // Duty, Length Load
                 case 0x1:
                     lengthLoad = (byte)(data & 0x3F);
-                    //lengthCounter = 64 - (lengthLoad & 0x3F);
+                    lengthCounter = (byte)(64 - (lengthLoad & 0x3F));
                     duty = (byte)((data >> 6) & 0x3);
                     break;
                 // Envelope
@@ -456,7 +456,7 @@ public class GameBoyAudio {
                     break;
                 case 0xFF20:
                     lengthLoad = (byte)(data & 0x3F);
-                    //lengthCounter = 64 - lengthLoad;
+                    lengthCounter = (byte)(64 - lengthLoad);
                     break;
                 case 0xFF21:
                     // See if dac is enabled, if all high 5 bits are not 0
@@ -467,9 +467,8 @@ public class GameBoyAudio {
                     envelopeAddMode = (data & 0x8) == 0x8;
                     // Period
                     envelopePeriodLoad = (byte)((data & 0x7));
-                    //envelopePeriod = envelopePeriodLoad;
-                    // TEMP?
-                    //volume = volumeLoad;
+                    envelopePeriod = envelopePeriodLoad;
+                    volume = volumeLoad;
                     break;
                 case 0xFF22:
                     divisorCode = (byte)(data & 0x7);
@@ -588,7 +587,7 @@ public class GameBoyAudio {
 	bool[] leftEnables = new bool[]{ false,false,false,false };
 	bool[] rightEnables = new bool[]{ false,false,false,false };
 	bool powerControl = false;
-	int downSampleCount = 95;
+	int downSampleCount = 87;
 	int bufferFillAmount = 0;
 	float[] mainBuffer = new float[sample];
     private SquareChannel squareOne;
@@ -634,7 +633,6 @@ public class GameBoyAudio {
     public void Write(ushort address, byte data) {
         byte apuRegister = (byte)(address & 0xFF);
         // Pulse 1 redirect
-        //Debug.Log("WRITE Address: " + apuRegister.ToString("X2") + " " + data.ToString("X2"));
         if (apuRegister >= 0x10 && apuRegister <= 0x14) {
             squareOne.writeRegister(apuRegister, data);
         }
@@ -752,45 +750,46 @@ public class GameBoyAudio {
             noiseChannel.step();
 
             if(--downSampleCount <= 0) {
-                downSampleCount = 95;
+                downSampleCount = 87;
 
                 // Left
                 float bufferin0 = 0;
                 float bufferin1 = 0;
                 float volume = leftVol/10.0f;
+                float divider = 100.0f;
                 if (leftEnables[0]) {
-				    bufferin1 = ((float)squareOne.getOutputVol()) / 100.0f;
+				    bufferin1 = ((float)squareOne.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
 			    }
                 if (leftEnables[1]) {
-                    bufferin1 = ((float)squareTwo.getOutputVol()) / 100.0f;
+                    bufferin1 = ((float)squareTwo.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
                 if (leftEnables[2]) {
-                    bufferin1 = ((float)waveChannel.getOutputVol()) / 100.0f;
+                    bufferin1 = ((float)waveChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
                 if (leftEnables[3]) {
-                    bufferin1 = ((float)noiseChannel.getOutputVol()) / 100.0f;
+                    bufferin1 = ((float)noiseChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
 			    mainBuffer[bufferFillAmount] = bufferin0;
                 bufferin0 = 0;
                 volume = rightVol/10.0f;
                 if (rightEnables[0]) {
-                    bufferin1 = ((float)squareOne.getOutputVol()) / 100.0f;
+                    bufferin1 = ((float)squareOne.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
                 if (rightEnables[1]) {
-                    bufferin1 = ((float)squareTwo.getOutputVol()) / 100.0f;
+                    bufferin1 = ((float)squareTwo.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
                 if (rightEnables[2]) {
-                    bufferin1 = ((float)waveChannel.getOutputVol()) / 100.0f;
+                    bufferin1 = ((float)waveChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
                 if (rightEnables[3]) {
-                    bufferin1 = ((float)noiseChannel.getOutputVol()) / 100.0f;
+                    bufferin1 = ((float)noiseChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
 			    mainBuffer[bufferFillAmount + 1] = bufferin0;
