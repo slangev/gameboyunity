@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class GameBoyGraphic
 {
     Texture2D screen;
-    uint width;
-    uint height;
+    readonly private uint width;
+    readonly private uint height;
     private GameBoyInterrupts interrupts;
     private GameBoyMemory memory;
     private uint GPUCycleCount;
@@ -28,6 +28,17 @@ public class GameBoyGraphic
     public static readonly ushort WYAddr = 0xFF4A;
     public static readonly ushort WXAddr = 0xFF4B;
     private byte windowLine {get; set;} = 0;
+
+    bool CGBmode = false;
+    ushort HDMAsrc = 0;
+	ushort HDMAdst = 0;
+	ushort HDMAlen = 0xFF;	
+    byte cgbBGPaletteIndex = 0;
+	byte[] cgbBGPalette = new byte[0x40];
+	byte cgbSPRPaletteIndex = 0;
+	byte[] cgbSPRPalette = new byte[0x40];
+	byte VRAMBank = 0;
+    byte[] VRAM = new byte[0x4000];
 
     public GameBoyGraphic(uint width, uint height, Texture2D screen, GameBoyInterrupts interrupts, GameBoyMemory memory) {
         this.width = width;
@@ -443,5 +454,14 @@ public class GameBoyGraphic
 
     public void resetWindowLine() {
         windowLine = 0;
+    }
+
+    public byte Read(ushort address) {
+        Debug.Log("READING VRAM?");
+        return VRAM[0];
+    }
+
+    public void Write(ushort address, byte data) {
+        //Debug.Log("WRITE VRAM " + address.ToString("X2") + " " + data.ToString("X2"));
     }
 }

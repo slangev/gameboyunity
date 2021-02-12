@@ -144,7 +144,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         SP = 0xFFFE;
         m.WriteToMemory(0xFF40,0x91);
         m.WriteToMemory(0xFF41,0x81);
-        m.WriteToMemory(0xFF50,0x01); // Disable bootstrap
+        m.WriteToMemory(0xFF50,0x11); // Disable bootstrap
     }
 
 

@@ -59,12 +59,13 @@ public class GameBoy : MonoBehaviour
 
         //Create CPU
         gbCPU = new GameBoyCPU(gbMemory,gbInterrupts);
-        if(reset && !gbCart.IsGameBoyColor) {
+        if(reset && !GameBoyCartiridge.IsGameBoyColor) {
             gbCPU.ResetGBNoBios();
-        } else if(reset) {
+        } else if(reset && GameBoyCartiridge.IsGameBoyColor) {
             //gbCPU.ResetCGBNoBios();
-            gbCPU.ResetGBNoBios();
+            gbCPU.ResetGBNoBios();          
         }
+
         //Create GPU
         gbGraphic = new GameBoyGraphic(width, height, texture, gbInterrupts, gbMemory);
         //Create Audio
@@ -74,8 +75,7 @@ public class GameBoy : MonoBehaviour
 
         //Create Keyboard
         gbJoyPad = new GameBoyJoyPad(gbInterrupts,gbMemory);
-
-        
+        Debug.Log(GameBoyCartiridge.Title);
     }
 
     void Start() {

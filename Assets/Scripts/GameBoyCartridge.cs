@@ -23,7 +23,7 @@ public class GameBoyCartiridge
     private List<byte> romMemory;
     private List<byte> ramMemory;
     public static string Title {get;set;}
-    public bool IsGameBoyColor {get;set;}
+    public static bool IsGameBoyColor {get;set;}
     public byte highNibble {get;set;}
     public byte lowNibble {get;set;}
     public byte CartiridgeType {get;set;}

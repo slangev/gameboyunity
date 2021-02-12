@@ -712,8 +712,8 @@ public class GameBoyAudio {
                     // Shut off event loop
                     // Writes 0 to every register besides this one
                     if ((data & 0x80) != 0x80) {
-                        for (int i = 0xFF10; i <= 0xFF25; i++) {
-                            Write((ushort)(i), 0);
+                        for (ushort i = 0xFF10; i <= 0xFF25; i++) {
+                            Write(i, 0);
                         }
                         powerControl = false;
                     }

@@ -59,7 +59,9 @@ public class GameBoyMemory
             // 0xFF50 (bios/bootstrap) is disabled if 0xA0
 		    if (memory[0xFF50] == 0 && pos < 0x100) {
 			    return memory[pos];
-		    }
+		    } else if(memory[0xFF50] == 0 && GameBoyCartiridge.IsGameBoyColor) {
+                return memory[pos];
+            }
 			return gbCart.Read(pos);
 		} 
         else if(pos >= 0xA000 && pos <= 0xBFFF) {
