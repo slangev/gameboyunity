@@ -62,8 +62,8 @@ public class GameBoy : MonoBehaviour
         if(reset && !GameBoyCartiridge.IsGameBoyColor) {
             gbCPU.ResetGBNoBios();
         } else if(reset && GameBoyCartiridge.IsGameBoyColor) {
-            //gbCPU.ResetCGBNoBios();
-            gbCPU.ResetGBNoBios();          
+            gbCPU.ResetCGBNoBios();
+            //gbCPU.ResetGBNoBios();          
         }
 
         //Create GPU

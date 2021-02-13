@@ -41,7 +41,7 @@ public class GameBoyMemory
     public string PrintBios() {
         string result = "";
         for(ushort i = 0; i < biosSize; i++) {
-            result = result + "Pos: " + "[" +  i + "] " + " 0x" + memory[i].ToString("X2") + " ";
+            result = result + "address: " + "[" +  i + "] " + " 0x" + memory[i].ToString("X2") + " ";
         }
         return result.Substring(0, result.Length-1);
     }
@@ -49,40 +49,44 @@ public class GameBoyMemory
     public string PrintMemory() {
         string result = "";
         for(int i = 0; i < memory.Count; i++) {
-            result = result + "Pos: " + "[" +  i + "] " + " 0x" + memory[i].ToString("X2") + " ";
+            result = result + "address: " + "[" +  i + "] " + " 0x" + memory[i].ToString("X2") + " ";
         }
         return result.Substring(0, result.Length-1);
     }
 
-    public byte ReadFromMemory(ushort pos) {
-        if (pos >= 0x0000 && pos <= 0x7FFF) {
+    public byte ReadFromMemory(ushort address) {
+        if (address >= 0x0000 && address <= 0x7FFF) {
             // 0xFF50 (bios/bootstrap) is disabled if 0xA0
-		    if (memory[0xFF50] == 0 && pos < 0x100) {
-			    return memory[pos];
+		    if (memory[0xFF50] == 0 && address < 0x100) {
+			    return memory[address];
 		    } else if(memory[0xFF50] == 0 && GameBoyCartiridge.IsGameBoyColor) {
-                return memory[pos];
+                return memory[address];
             }
-			return gbCart.Read(pos);
-		} 
-        else if(pos >= 0xA000 && pos <= 0xBFFF) {
-            return gbCart.Read(pos);
+			return gbCart.Read(address);
+		} else if (address >= 0x8000 && address <= 0x9FFF) {
+		    return gbGraphic.Read(address);
+	    }
+        else if(address >= 0xA000 && address <= 0xBFFF) {
+            return gbCart.Read(address);
         }
-        else if(pos >= 0xE000 && pos <= 0xFDFF ) {
+        else if(address >= 0xE000 && address <= 0xFDFF ) {
             //Debug.Log("Read from internal ram/ echo ram");
-            return memory[pos];
+            return memory[address];
         // Joypad register
-        } else if(pos == 0xFF00) {
+        } else if(address == 0xFF00) {
             return getJoyPadState();
-        } else if(pos >= 0xFF10 && pos <= 0xFF3F){
-            return gbAudio.Read(pos);
+        } else if(address >= 0xFF10 && address <= 0xFF3F){
+            return gbAudio.Read(address);
         }
-        return memory[pos];
+        return memory[address];
     }
     
-    public bool WriteToMemory(ushort PC, byte data) {
-        if(PC >= 0x0000 && PC <= 0x7FFF) {
-            gbCart.Write(PC,data);
-        } else if(PC == GameBoyTimer.DIV) {
+    public bool WriteToMemory(ushort address, byte data) {
+        if(address >= 0x0000 && address <= 0x7FFF) {
+            gbCart.Write(address,data);
+        } else if (address >= 0x8000 && address <= 0x9FFF) {
+		    gbGraphic.Write(address,data);
+	    } else if(address == GameBoyTimer.DIV) {
             uint rate = (byte)(memory[GameBoyTimer.TAC] & 0x3);
             byte divValue = memory[GameBoyTimer.DIV];
             //Failing Edge detector... don't know if this is correct
@@ -97,28 +101,28 @@ public class GameBoyMemory
             }
             memory[GameBoyTimer.DIV] = 0;
             gbTimer.resetTimer();
-        } else if(PC == GameBoyTimer.TIMA) {
+        } else if(address == GameBoyTimer.TIMA) {
             //if(!gbTimer.isReloadingTIMA()) {
                 memory[GameBoyTimer.TIMA] = data;
             //}
-        } else if(PC >= 0xA000 && PC <= 0xBFFF) {
-            gbCart.Write(PC,data);
-        } else if(PC == GameBoyGraphic.LYAddr) {
-            memory[PC] = 0;
+        } else if(address >= 0xA000 && address <= 0xBFFF) {
+            gbCart.Write(address,data);
+        } else if(address == GameBoyGraphic.LYAddr) {
+            memory[address] = 0;
             gbGraphic.resetWindowLine();
-        } else if(PC == DMA){
+        } else if(address == DMA){
             DMATransfer(data);
-        } else if(PC >= 0xE000 && PC <= 0xFDFF) {
+        } else if(address >= 0xE000 && address <= 0xFDFF) {
             //Debug.Log("Writing to internal ram/ echo ram");
-            memory[PC] = data;
-        } else if(PC >= 0xFF01 && PC <= 0xFF02) {
+            memory[address] = data;
+        } else if(address >= 0xFF01 && address <= 0xFF02) {
             Debug.Log("Link Port");
-        } else if(PC >= 0xFF10 && PC <= 0xFF3F) {
-            gbAudio.Write(PC,data);
-        } else if(PC == GameBoyGraphic.STATAddr) {
-            memory[PC] = (byte)((memory[PC] & 0x7) | (data & 0xF8));
+        } else if(address >= 0xFF10 && address <= 0xFF3F) {
+            gbAudio.Write(address,data);
+        } else if(address == GameBoyGraphic.STATAddr) {
+            memory[address] = (byte)((memory[address] & 0x7) | (data & 0xF8));
         } else {
-            memory[PC] = data;
+            memory[address] = data;
         }
         return true;
     }
@@ -134,8 +138,8 @@ public class GameBoyMemory
         }
     }
 
-    public bool IncrementReg(ushort pos) {
-        memory[pos]++;
+    public bool IncrementReg(ushort address) {
+        memory[address]++;
         return true;
     }
 
