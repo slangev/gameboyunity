@@ -198,8 +198,6 @@ public class GameBoyGraphic
                     byte line = (byte)(yPos % 8);
                     line *= 2;
                     // Read two bytes of data. These bytes determine the color of the pixel
-                    //byte data1 = (byte)memory.ReadFromMemory((ushort)(tileLocation + line));
-                    //byte data2 = (byte)memory.ReadFromMemory((ushort)(tileLocation + line + 1));
                     byte data1 = (byte)(VRAM[tileLocation + line]);
                     byte data2 = (byte)(VRAM[tileLocation + line + 1]);
 
@@ -328,7 +326,6 @@ public class GameBoyGraphic
                         if(use8x16) {
                             tileID = GameBoyCPU.resetBit(0,tileID);
                         }
-                        //ushort tileLocation = (ushort)(0x8000 + tileID * 16);
                         ushort tileLocation = (ushort)(tileID * 16);
                         // Read two bytes of data. These bytes determine the color of the pixel
                         byte data1 = (byte)(VRAM[tileLocation + line]);
