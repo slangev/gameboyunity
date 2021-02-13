@@ -30,6 +30,7 @@ public class GameBoyGraphic
     private byte windowLine {get; set;} = 0;
 
     bool CGBmode = false;
+    bool HDMAActive = false;
     ushort HDMAsrc = 0;
 	ushort HDMAdst = 0;
 	ushort HDMAlen = 0xFF;	
@@ -126,6 +127,13 @@ public class GameBoyGraphic
                     }
 					// Render scanline before going to hblank
 					renderScanLine(lcdcEnabled);
+                    if (HDMAActive) {
+						if ((HDMAlen & 0x7F) == 0) {
+							HDMAActive = false;
+						}
+						HDMA();
+						HDMAlen--;
+					}
 				}
             }
         } else {
@@ -471,16 +479,133 @@ public class GameBoyGraphic
     }
 
     public byte Read(ushort address) {
+        byte returnData = 0;
         if (address >= 0x8000 && address <= 0x9FFF) {
 		    return VRAM[(address & 0x1FFF) | (VRAMBank << 13)];
-	    }
-        return 0;
+	    } // VRAM Bank
+        else if (address == 0xFF4F) {
+            return VRAMBank;
+        }
+        // CGB HDMA
+        else if (address >= 0xFF51 && address <= 0xFF55) {
+            switch (address) {
+                case 0xFF51:
+                    returnData = (byte)(HDMAsrc >> 8);
+                    break;
+                case 0xFF52:
+                    returnData = (byte)(HDMAsrc & 0xFF);
+                    break;
+                case 0xFF53:
+                    returnData = (byte)(HDMAdst >> 8);
+                    break;
+                case 0xFF54:
+                    returnData = (byte)(HDMAdst & 0xFF);
+                    break;
+                case 0xFF55:
+                    returnData = (byte)((HDMAlen & 0x7F) | (HDMAActive ? 0 : 1) << 7);
+                    break;
+            }
+        }
+        // CGB Palette Data
+        else if (address >= 0xFF68 && address <= 0xFF6B) {
+            switch (address) {
+                case 0xFF68:
+                    returnData = cgbBGPaletteIndex;
+                    break;
+                case 0xFF69:
+                    returnData = cgbBGPalette[cgbBGPaletteIndex & 0x3F];
+                    break;
+                case 0xFF6A:
+                    returnData = cgbSPRPaletteIndex;
+                    break;
+                case 0xFF6B:
+                    returnData = cgbSPRPalette[cgbSPRPaletteIndex & 0x3F];
+                    break;
+            }
+        }
+        return returnData;
     }
 
     public void Write(ushort address, byte data) {
         //Debug.Log("WRITE VRAM " + address.ToString("X2") + " " + data.ToString("X2"));
         if (address >= 0x8000 && address <= 0x9FFF) {
 		    VRAM[(address & 0x1FFF)|(VRAMBank << 13)] = data;
-	    }
+	    } // VRAM Bank
+        else if (address == 0xFF4F) {
+            VRAMBank = (byte)(data & 0x1);
+        }
+        // CGB HDMA
+        else if (address >= 0xFF51 && address <= 0xFF55) {
+            switch (address) {
+            case 0xFF51:
+                HDMAsrc = (byte)((HDMAsrc & 0xFF) | (data << 8));
+                break;
+            case 0xFF52:
+                HDMAsrc = (byte)((HDMAsrc & 0xFF00) | (data & 0xF0));
+                break;
+            case 0xFF53:
+                HDMAdst = (byte)((HDMAdst & 0xFF) | (((data & 0x1F)| 0x80) << 8));
+                break;
+            case 0xFF54:
+                HDMAdst = (byte)((HDMAdst & 0xFF00) | (data & 0xF0));
+                break;
+            case 0xFF55:
+                // START DMA
+                HDMAlen = (byte)(data & 0x7F);
+                if ((data & 0x80) != 0x80 && !HDMAActive) {
+                    // Instant DMA
+                    for (int i = 0; i <= (HDMAlen & 0x7F); i++) {
+                        HDMA();
+                    }
+                    HDMAlen = 0xFF;
+                    HDMAActive = false;
+                }
+                else if ((data & 0x80) != 0x80 && HDMAActive) {
+                    HDMAActive = false;
+                }
+                else {
+                    HDMAActive = true;
+                }
+                break;
+            }
+        }
+        // CGB Palette Data
+        else if (address >= 0xFF68 && address <= 0xFF6B) {
+            switch (address) {
+                case 0xFF68:
+                    cgbBGPaletteIndex = data;
+                    break;
+                case 0xFF69:
+                    cgbBGPalette[cgbBGPaletteIndex & 0x3F] = data;
+                    if ((cgbBGPaletteIndex & 0x80) == 0x80) {
+                        cgbBGPaletteIndex = (byte)((cgbBGPaletteIndex + 1) & 0xBF);
+                    }
+                    break;
+                case 0xFF6A:
+                    cgbSPRPaletteIndex = data;
+                    break;
+                case 0xFF6B:
+                    cgbSPRPalette[cgbSPRPaletteIndex & 0x3F] = data;
+                    if ((cgbSPRPaletteIndex & 0x80) == 0x80) {
+                        cgbSPRPaletteIndex = (byte)((cgbSPRPaletteIndex + 1) & 0xBF);
+                    }
+                    break;
+            }
+        }
+    }
+
+    public void HDMA() {
+	    // CGB HDMA transfer
+        for (int j = 0; j < 0x10; j++) {
+            // I'm assuming this is affected by VRAM bank?
+            if (HDMAsrc < 0xC000) {
+                //Write(HDMAdst, gbCart->recieveData(HDMAsrc));
+            }
+            else {
+                //Write(HDMAdst, wram->recieveData(HDMAsrc));
+            }
+            HDMAdst++;
+            HDMAsrc++;
+        }
     }
 }
