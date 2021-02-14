@@ -197,7 +197,7 @@ public class GameBoyGraphic
                         tileNum = (byte)(VRAM[(tileAddress - 0x8000)]);
                     else
                         tileNum = (sbyte)(VRAM[(tileAddress - 0x8000)]);
-                    ushort tileLocation = (ushort)(tileData - 0x8000);
+                    ushort tileLocation = (ushort)(tileData);
                     if(!signed)
                         tileLocation += (ushort) (tileNum * 16);
                     else
@@ -206,8 +206,10 @@ public class GameBoyGraphic
                     byte line = (byte)(yPos % 8);
                     line *= 2;
                     // Read two bytes of data. These bytes determine the color of the pixel
-                    byte data1 = (byte)(VRAM[tileLocation + line]);
-                    byte data2 = (byte)(VRAM[tileLocation + line + 1]);
+                    ushort bankOffSet = 0x8000;
+
+                    byte data1 = (byte)(VRAM[tileLocation + line - bankOffSet]);
+                    byte data2 = (byte)(VRAM[tileLocation + line + 1 - bankOffSet]);
 
                     byte colorBit = (byte)(((xPos % 8) -7) * -1);
 
@@ -229,7 +231,6 @@ public class GameBoyGraphic
                     videoMemory[LY][pixel]=c;
                 }
             }
-            
         }
     }
 
@@ -265,7 +266,7 @@ public class GameBoyGraphic
                     else
                         tileNum = (sbyte)(VRAM[(tileAddress - 0x8000)]);
                     
-                    ushort tileLocation = (ushort)(tileData - 0x8000);
+                    ushort tileLocation = (ushort)(tileData);
                     if(!signed)
                         tileLocation += (ushort) (tileNum * 16);
                     else
@@ -274,8 +275,11 @@ public class GameBoyGraphic
                     byte line = (byte)(yPos % 8);
                     line *= 2;
                     // Read two bytes of data. These bytes determine the color of the pixel
-                    byte data1 = (byte)(VRAM[tileLocation + line]);
-                    byte data2 = (byte)(VRAM[tileLocation + line + 1]);
+
+                    ushort bankOffSet = 0x8000;
+                    
+                    byte data1 = (byte)(VRAM[tileLocation + line - bankOffSet]);
+                    byte data2 = (byte)(VRAM[tileLocation + line + 1 - bankOffSet]);
 
                     byte colorBit = (byte)(((xPos % 8) -7) * -1);
 
@@ -327,17 +331,17 @@ public class GameBoyGraphic
                         byte paletteNumberBit = GameBoyCPU.getBit(4,attributes);
                         int line = LY - PosY;
                         if(yFlipBit == 1) {
-                            line -= ysize - 1;
-                            line *= -1;
+                            line = ysize - line - 1;
                         }
-                        line *=2;
                         if(use8x16) {
                             tileID = GameBoyCPU.resetBit(0,tileID);
                         }
-                        ushort tileLocation = (ushort)(tileID * 16);
+                        //fixme:
+                        ushort bank = 0;
+                        ushort tileLocation = (ushort)((ushort)(tileID * 16) + (ushort)(line*2) + (bank * 0x2000));
                         // Read two bytes of data. These bytes determine the color of the pixel
-                        byte data1 = (byte)(VRAM[tileLocation + line]);
-                        byte data2 = (byte)(VRAM[tileLocation + line + 1]);
+                        byte data1 = (byte)(VRAM[tileLocation]);
+                        byte data2 = (byte)(VRAM[tileLocation + 1]);
                         
                         for (int tilePixel = 7; tilePixel >= 0; tilePixel--) {
                             int colorBit = tilePixel;
@@ -595,11 +599,13 @@ public class GameBoyGraphic
     }
 
     public void HDMA() {
+        Debug.Log("HDMA CALL");
 	    // CGB HDMA transfer
         for (int j = 0; j < 0x10; j++) {
             // I'm assuming this is affected by VRAM bank?
             if (HDMAsrc < 0xC000) {
                 //Write(HDMAdst, gbCart->recieveData(HDMAsrc));
+                Write(HDMAdst, memory.ReadFromMemory(HDMAsrc));
             }
             else {
                 //Write(HDMAdst, wram->recieveData(HDMAsrc));
