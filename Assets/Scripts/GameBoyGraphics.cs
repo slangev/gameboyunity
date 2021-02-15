@@ -284,7 +284,7 @@ public class GameBoyGraphic
 
                     byte colorBit = (byte)(((xPos % 8) -7) * -1);
 
-                    /*byte bitFromData1 = GameBoyCPU.getBit(colorBit,data1);
+                    byte bitFromData1 = GameBoyCPU.getBit(colorBit,data1);
                     byte bitFromData2 = GameBoyCPU.getBit(colorBit,data2);
                     byte colorNum = 0;
                     if(bitFromData1 == 1) {
@@ -292,11 +292,14 @@ public class GameBoyGraphic
                     }
                     if(bitFromData2 == 1) {
                         colorNum = GameBoyCPU.setBit(1,colorNum);
-                    }*/
+                    }
 
                     // Go through color template
                     byte cgbPalette = (byte)(tileAttr & 0x7);
                     int index =  (cgbPalette << 2) | 0x20;
+                    index = (int)(index | colorNum);
+                    index = index & 0x1F;
+                    index = index << 1;
 		            int colorData = cgbBGPalette[index]|((cgbBGPalette[index|1]) << 8); // Combine two bytes into one int
                     colorData &= 0x7FFF; // Mask out the unneeded bits after bit 14
                     Color c = getRGBColors(colorData);
