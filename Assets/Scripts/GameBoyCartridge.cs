@@ -55,7 +55,7 @@ public class GameBoyCartiridge
         for(ushort b = 0x134; b < 0x143; b++) {
             Title = Title + (char)(romMemory[b]);
         }
-        IsGameBoyColor = romMemory[0x143] == 0x80;
+        IsGameBoyColor = romMemory[0x143] == 0x80 || romMemory[0x143] == 0xC0;
         CartiridgeType = romMemory[0x147];
         RomSize = romMemory[0x148];
         RamSize = romMemory[0x149];

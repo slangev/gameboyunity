@@ -76,6 +76,8 @@ public class GameBoy : MonoBehaviour
         //Create Keyboard
         gbJoyPad = new GameBoyJoyPad(gbInterrupts,gbMemory);
         Debug.Log(GameBoyCartiridge.Title);
+        Debug.Log(GameBoyCartiridge.IsGameBoyColor);
+        Debug.Log(gbCart.CartiridgeType.ToString("X2"));
     }
 
     void Start() {

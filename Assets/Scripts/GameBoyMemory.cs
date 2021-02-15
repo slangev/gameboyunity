@@ -77,7 +77,10 @@ public class GameBoyMemory
             return getJoyPadState();
         } else if(address >= 0xFF10 && address <= 0xFF3F){
             return gbAudio.Read(address);
-        }
+        } else if ((address == 0xFF4F || (address >= 0xFF51 && address <= 0xFF55) || 
+		    (address >= 0xFF68 && address <= 0xFF6B)) & GameBoyCartiridge.IsGameBoyColor) {
+		    return gbGraphic.Read(address);
+	    }
         return memory[address];
     }
     
@@ -112,7 +115,10 @@ public class GameBoyMemory
             gbGraphic.resetWindowLine();
         } else if(address == DMA){
             DMATransfer(data);
-        } else if(address >= 0xE000 && address <= 0xFDFF) {
+        } else if ((address == 0xFF4F || (address >= 0xFF51 && address <= 0xFF55) || 
+		    (address >= 0xFF68 && address <= 0xFF6B)) & GameBoyCartiridge.IsGameBoyColor) {
+		    gbGraphic.Write(address,data);
+	    } else if(address >= 0xE000 && address <= 0xFDFF) {
             //Debug.Log("Writing to internal ram/ echo ram");
             memory[address] = data;
         } else if(address >= 0xFF01 && address <= 0xFF02) {
