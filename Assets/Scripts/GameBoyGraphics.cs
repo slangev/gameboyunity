@@ -433,18 +433,92 @@ public class GameBoyGraphic
 
     private void renderSprites() {
         bool spritesEnabled = ((memory.ReadFromMemory(LCDCAddr) & 0x2) != 0) ? true : false;
-        bool use8x16 = ((memory.ReadFromMemory(LCDCAddr) & 0x4) != 0) ? true : false;
-        int ysize = (use8x16) ? 16 : 8;
         if(spritesEnabled) {
+            bool use8x16 = ((memory.ReadFromMemory(LCDCAddr) & 0x4) != 0) ? true : false;
+            int ysize = (use8x16) ? 16 : 8;
+            byte LY = memory.ReadFromMemory(LYAddr);
+            int spritecount = 0;
+            List<int> set = new List<int>(new int[160]);
+            for(int i = 0; i < 160; i++) {
+                set[i] = -1;
+            }
             if(CGBmode) {
+                for(int i = 0; i < 40 && spritecount < 10; i++) {
+                    int PosY = (int)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4))) - 16);
+                    byte PosX = (byte)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 1)) - 8);
+                    byte tileID = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 2));
+                    byte attributes = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 3));
+                    if((LY >= PosY) && (LY < (PosY+ysize))) {
+                        spritecount++;
+                        byte spritePriorityBit = GameBoyCPU.getBit(7,attributes);
+                        byte yFlipBit = GameBoyCPU.getBit(6,attributes);
+                        byte xFlipBit = GameBoyCPU.getBit(5,attributes);
+                        int line = LY - PosY;
+                        if(yFlipBit == 1) {
+                            line = ysize - line - 1;
+                        }
+                        if(use8x16) {
+                            tileID = GameBoyCPU.resetBit(0,tileID);
+                        }
+                        ushort bankOffSet = 0;
+                        if(GameBoyCartiridge.IsGameBoyColor && GameBoyCPU.getBit(3,attributes) == 1) {
+                            bankOffSet = 1;
+                        }
+                        ushort tileLocation = (ushort)((ushort)(tileID * 16) + (ushort)(line*2) + (bankOffSet * 0x2000));
+                        // Read two bytes of data. These bytes determine the color of the pixel
+                        byte data1 = (byte)(VRAM[tileLocation]);
+                        byte data2 = (byte)(VRAM[tileLocation + 1]);
+                        for (int tilePixel = 7; tilePixel >= 0; tilePixel--) {
+                            int colorBit = tilePixel;
+                            if (xFlipBit == 1) {
+                                colorBit -= 7;
+                                colorBit *= -1;
+                            }
+                            byte bitFromData1 = GameBoyCPU.getBit((byte)(colorBit),data1);
+                            byte bitFromData2 = GameBoyCPU.getBit((byte)(colorBit),data2);
+                            byte colorNum = 0;
+                            if(bitFromData1 == 1) {
+                                colorNum = GameBoyCPU.setBit(0,colorNum);
+                            }
+                            if(bitFromData2 == 1) {
+                                colorNum = GameBoyCPU.setBit(1,colorNum);
+                            }
+                            // If the pixel is 0 before template is applied, ignore it. White pixels(0) are transparent.
+                            if(colorNum == 0) {
+                                continue;
+                            }
+                            byte cgbPalette = (byte)(attributes & 0x7);
+                            int index =  (cgbPalette << 2);
+                            index = (int)(index | colorNum);
+                            index = index & 0x1F;
+                            index = index << 1;
+                            int colorData = cgbSPRPalette[index]|((cgbSPRPalette[index|1]) << 8); // Combine two bytes into one int
+                            colorData &= 0x7FFF; // Mask out the unneeded bits after bit 14
+                            Color c = getRGBColors(colorData);
+                            int xPix = 0 - tilePixel;
+                            xPix += 7 ;
+                            byte pixel = (byte)(PosX+xPix);
+                            if ((LY<0)||(LY>143)||(pixel<0)||(pixel>159)) {
+                                continue;
+                            }
+
+                            if(spritePriorityBit == 1) {
+                                if(bgWinPriority[pixel] != 0) {
+                                    continue;
+                                }
+                            }
+                            
+                            if(set[pixel] == -1 || set[pixel] > PosX) {
+                                set[pixel] = PosX;
+                                videoMemory[LY][pixel]=c;
+                            }
+                        }
+                    }
+                }
+                                    
                                                 
             } else {
-                List<int> set = new List<int>(new int[160]);
-                for(int i = 0; i < 160; i++) {
-                    set[i] = -1;
-                }
-                byte LY = memory.ReadFromMemory(LYAddr);
-                int spritecount = 0;
+                
                 for(int i = 0; i < 40 && spritecount < 10; i++) {
                     int PosY = (int)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4))) - 16);
                     byte PosX = (byte)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 1)) - 8);
