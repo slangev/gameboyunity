@@ -13,6 +13,7 @@ public class GameBoyGraphic
     // Frame Buffer
     public List<List<Color>> videoMemory;
     private List<int> bgWinPriority; 
+    private List<int> bgWinColorResult;
 
     public static readonly ushort LCDCAddr = 0xFF40;
     public static readonly ushort OAMStartAdress = 0xFE00;
@@ -52,8 +53,10 @@ public class GameBoyGraphic
             videoMemory.Add(new List<Color>(new Color[this.width]));
         }
         bgWinPriority = new List<int>();
+        bgWinColorResult = new List<int>(); 
         for(int i = 0; i < width; i++) {
             bgWinPriority.Add(0);
+            bgWinColorResult.Add(0);
         }
         this.CGBmode = GameBoyCartiridge.IsGameBoyColor;
     }
@@ -151,14 +154,13 @@ public class GameBoyGraphic
         if (lcdcEnabled) {
             renderBackground();
             renderWindow();
-            renderSprites();
+            //renderSprites();
         }
     }
 
     private void renderWindow() {
         bool windowEnabled = ((memory.ReadFromMemory(LCDCAddr) & 0x20) != 0) ? true : false;
         bool windowTileSelect = ((memory.ReadFromMemory(LCDCAddr) & 0x40) != 0) ? true : false;
-
         if(windowEnabled) {
             if(CGBmode) {
                 byte windowX = (byte)(memory.ReadFromMemory(WXAddr));
@@ -201,8 +203,7 @@ public class GameBoyGraphic
                     else
                         tileLocation += (ushort) ((tileNum+128) * 16);
 
-                    byte line = (byte)(yPos % 8);
-                    line *= 2;
+                    ushort line = (ushort)((yPos % 8));
                     // Read two bytes of data. These bytes determine the color of the pixel
                     ushort bankOffSet = 0x8000;
                     byte tileAttr = (byte)(VRAM[tileAddress-0x6000]);
@@ -210,8 +211,21 @@ public class GameBoyGraphic
                         bankOffSet = 0x6000;
                     }
 
+                    //v-flip
+                    if(GameBoyCPU.getBit(6,tileAttr) == 1) {
+                        line = (ushort)(7 - line) ;
+                        line = (ushort)(line * 2);
+                    } else {
+                        line = (ushort)((yPos % 8) * 2);
+                    }
+
                     byte data1 = (byte)(VRAM[tileLocation + line - bankOffSet]);
                     byte data2 = (byte)(VRAM[tileLocation + line + 1 - bankOffSet]);
+
+                    //x-flip
+                    if(GameBoyCPU.getBit(5,tileAttr) == 1) {
+                        xPos = (byte)(7 - xPos);
+                    }
 
                     byte colorBit = (byte)(((xPos % 8) -7) * -1);
 
@@ -234,7 +248,8 @@ public class GameBoyGraphic
 		            int colorData = cgbBGPalette[index]|((cgbBGPalette[index|1]) << 8); // Combine two bytes into one int
                     colorData &= 0x7FFF; // Mask out the unneeded bits after bit 14
                     Color c = getRGBColors(colorData);
-                    bgWinPriority[pixel] = GameBoyCPU.getBit(tileAttr, 7); // either 0 or 1 hopefully.
+                    bgWinPriority[pixel] = GameBoyCPU.getBit(7, tileAttr); // either 0 or 1 hopefully.
+                    bgWinColorResult[pixel] = colorNum;
                     videoMemory[LY][pixel]=c;
                 }
 
@@ -326,10 +341,10 @@ public class GameBoyGraphic
             backgroundMemory = 0x9800;
         }
         byte yPos = (byte)(scrollY + LY); // yPos equals the current tile row/pixel
-        short tileRow = (short)((yPos/8) * 32); // There are 32 rows and each row has 32 tiles. Each tile is 8 pixel tall. 
         if(backgroundEnabled) {
             if(CGBmode) {
                 for(int pixel = 0; pixel < 160; pixel++) {
+                    short tileRow = (short)((yPos/8) * 32); // There are 32 rows and each row has 32 tiles. Each tile is 8 pixel tall. 
                     byte xPos = (byte)(pixel+scrollX); // xPos equals the current pixel we are working on. It's part of the calculation for tileCol. Same idea as tileRow.
                     short tileCol = (short)(xPos/8);
                     ushort tileAddress = (ushort)(backgroundMemory + tileRow + tileCol); //index into VRAM
@@ -345,8 +360,7 @@ public class GameBoyGraphic
                     else
                         tileLocation += (ushort) ((tileNum+128) * 16);
 
-                    byte line = (byte)(yPos % 8);
-                    line *= 2;
+                    ushort line = (ushort)((yPos % 8));
                     // Read two bytes of data. These bytes determine the color of the pixel
 
                     ushort bankOffSet = 0x8000;
@@ -354,11 +368,23 @@ public class GameBoyGraphic
 		            if(GameBoyCartiridge.IsGameBoyColor && GameBoyCPU.getBit(3,tileAttr) == 1) {
                         bankOffSet = 0x6000;
                     }
+                    //v-flip
+                    if(GameBoyCPU.getBit(6,tileAttr) == 1) {
+                        line = (ushort)(7 - line) ;
+                        line = (ushort)(line * 2);
+                    } else {
+                        line = (ushort)((yPos % 8) * 2);
+                    }
                     
                     byte data1 = (byte)(VRAM[tileLocation + line - bankOffSet]);
                     byte data2 = (byte)(VRAM[tileLocation + line + 1 - bankOffSet]);
 
+                    //x-flip
+                    if(GameBoyCPU.getBit(5,tileAttr) == 1) {
+                        xPos = (byte)(7 - xPos);
+                    }
                     byte colorBit = (byte)(((xPos % 8) -7) * -1);
+                    
 
                     byte bitFromData1 = GameBoyCPU.getBit(colorBit,data1);
                     byte bitFromData2 = GameBoyCPU.getBit(colorBit,data2);
@@ -379,11 +405,13 @@ public class GameBoyGraphic
 		            int colorData = cgbBGPalette[index]|((cgbBGPalette[index|1]) << 8); // Combine two bytes into one int
                     colorData &= 0x7FFF; // Mask out the unneeded bits after bit 14
                     Color c = getRGBColors(colorData);
-                    bgWinPriority[pixel] = GameBoyCPU.getBit(tileAttr, 7); // either 0 or 1 hopefully.
+                    bgWinPriority[pixel] = GameBoyCPU.getBit(7, tileAttr); // either 0 or 1 hopefully.
+                    bgWinColorResult[pixel] = colorNum;
                     videoMemory[LY][pixel]=c;
                 }
             } else {
                 for(int pixel = 0; pixel < 160; pixel++) {
+                    short tileRow = (short)((yPos/8) * 32);
                     byte xPos = (byte)(pixel+scrollX); // xPos equals the current pixel we are working on. It's part of the calculation for tileCol. Same idea as tileRow.
                     short tileCol = (short)(xPos/8);
                     ushort tileAddress = (ushort)(backgroundMemory + tileRow + tileCol); //index into VRAM
@@ -502,23 +530,24 @@ public class GameBoyGraphic
                                 continue;
                             }
 
+                            byte LCDCBit = GameBoyCPU.getBit(0,memory.ReadFromMemory(LCDCAddr));
+                            if(bgWinPriority[pixel] == 1 && LCDCBit == 1) {
+                                if(bgWinColorResult[pixel] != 0) {
+                                    continue;
+                                }
+                            }
+
                             if(spritePriorityBit == 1) {
-                                if(bgWinPriority[pixel] != 0) {
+                                if(bgWinColorResult[pixel] != 0) {
                                     continue;
                                 }
                             }
                             
-                            if(set[pixel] == -1 || set[pixel] > PosX) {
-                                set[pixel] = PosX;
-                                videoMemory[LY][pixel]=c;
-                            }
+                            videoMemory[LY][pixel]=c;
                         }
                     }
-                }
-                                    
-                                                
+                }      
             } else {
-                
                 for(int i = 0; i < 40 && spritecount < 10; i++) {
                     int PosY = (int)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4))) - 16);
                     byte PosX = (byte)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 1)) - 8);
@@ -537,7 +566,6 @@ public class GameBoyGraphic
                         if(use8x16) {
                             tileID = GameBoyCPU.resetBit(0,tileID);
                         }
-                        //fixme:
                         ushort bank = 0;
                         ushort tileLocation = (ushort)((ushort)(tileID * 16) + (ushort)(line*2) + (bank * 0x2000));
                         // Read two bytes of data. These bytes determine the color of the pixel
@@ -811,17 +839,15 @@ public class GameBoyGraphic
     }
 
     public void HDMA() {
-        Debug.Log("HDMA CALL");
 	    // CGB HDMA transfer
         for (int j = 0; j < 0x10; j++) {
-            // I'm assuming this is affected by VRAM bank?
             if (HDMAsrc < 0xC000) {
-                //Write(HDMAdst, gbCart->recieveData(HDMAsrc));
                 byte data = memory.ReadFromMemory(HDMAsrc);
                 Write(HDMAdst, data);
             }
             else {
-                //Write(HDMAdst, wram->recieveData(HDMAsrc));
+                byte data = memory.ReadFromMemory(HDMAsrc);
+                Write(HDMAdst, data);
             }
             HDMAdst++;
             HDMAsrc++;

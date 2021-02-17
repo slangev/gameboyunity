@@ -18,6 +18,7 @@ public class GameBoyCPU {
     private GameBoyMemory m;
     private GameBoyInterrupts interrupts;
     bool halt = false; 
+    bool doubleSpeed = false;
 
 private static readonly uint[] cycleCount = new uint[] {
 	4,12,8,8,4,4,8,4,20,8,8,8,4,4,8,4,
@@ -185,6 +186,12 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 separatedBytes = separateWordToBytes(SP);
                 m.WriteToMemory((ushort)(word),separatedBytes.Item2); //Low byte
                 m.WriteToMemory((ushort)(word+1),separatedBytes.Item1); //High byte
+                break;
+            case 0x10:
+                //halt=false;
+                //m.WriteToMemory((ushort)(word),separatedBytes.Item2); //Low byte
+                //PC++;
+                Debug.Log("CALLED STOPPED");
                 break;
             case 0x0F:
                 A = RRC(A);
