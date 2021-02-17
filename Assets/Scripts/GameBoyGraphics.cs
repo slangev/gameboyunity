@@ -154,7 +154,7 @@ public class GameBoyGraphic
         if (lcdcEnabled) {
             renderBackground();
             renderWindow();
-            //renderSprites();
+            renderSprites();
         }
     }
 
@@ -385,7 +385,6 @@ public class GameBoyGraphic
                     }
                     byte colorBit = (byte)(((xPos % 8) -7) * -1);
                     
-
                     byte bitFromData1 = GameBoyCPU.getBit(colorBit,data1);
                     byte bitFromData2 = GameBoyCPU.getBit(colorBit,data2);
                     byte colorNum = 0;
