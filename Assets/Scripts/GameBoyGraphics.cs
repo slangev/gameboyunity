@@ -541,8 +541,10 @@ public class GameBoyGraphic
                                     continue;
                                 }
                             }
-                            
-                            videoMemory[LY][pixel]=c;
+                            if(set[pixel] == -1) {
+                                videoMemory[LY][pixel]=c;
+                                set[pixel] = pixel;
+                            }
                         }
                     }
                 }      
