@@ -17,7 +17,8 @@ public class GameBoyCartiridge
         MBC3TIMERBATT = 0xF,
         MBC3RAMBATT = 19,
         MBC5 = 0x19,
-        MBC5RAMBATT = 0x1B
+        MBC5RAMBATT = 0x1B,
+        MBC5RAMBATTRum = 0x1E
     }
 
     private List<byte> romMemory;
@@ -92,6 +93,9 @@ public class GameBoyCartiridge
                 mbc = new GameBoyMBC5(romMemory,ramMemory,RomSize,RamSize,false,false);
                 break;
             case (byte)(MBCType.MBC5RAMBATT):
+                mbc = new GameBoyMBC5(romMemory,ramMemory,RomSize,RamSize,false,true);
+                break;
+            case (byte)(MBCType.MBC5RAMBATTRum):
                 mbc = new GameBoyMBC5(romMemory,ramMemory,RomSize,RamSize,false,true);
                 break;
         }
