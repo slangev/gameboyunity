@@ -161,7 +161,6 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     private uint handleInstructions(byte opcode) {
         uint lastCycleCount = cycleCount[opcode];
-        
         switch(opcode) {
             case 0x00:
                 NOP();
@@ -188,8 +187,8 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 m.WriteToMemory((ushort)(word+1),separatedBytes.Item1); //High byte
                 break;
             case 0x10:
-                //halt=false;
-                //m.WriteToMemory((ushort)(word),separatedBytes.Item2); //Low byte
+                //halt=true;
+                //m.WriteToMemory(0xFF4D,0x01); //Low byte
                 //PC++;
                 Debug.Log("CALLED STOPPED");
                 break;

@@ -119,12 +119,15 @@ public class GameBoyMemory
             return getJoyPadState();
         } else if(address >= 0xFF10 && address <= 0xFF3F){
             return gbAudio.Read(address);
-        } else if ((address == 0xFF4F || (address >= 0xFF51 && address <= 0xFF55) || 
+        } else if((address == 0xFF4F || (address >= 0xFF51 && address <= 0xFF55) || 
 		    (address >= 0xFF68 && address <= 0xFF6B)) & GameBoyCartiridge.IsGameBoyColor) {
 		    return gbGraphic.Read(address);
-	    } else if (address == 0xFF70) {
+	    } else if(address == 0xFF70) {
 		    return workRam.Read(address);
-	    }
+	    } else if(address == 0xFF4D) {
+            Debug.Log("READ FROM DOUBLE: " );
+            return 0x81;
+        }
         return memory[address];
     }
     
@@ -172,7 +175,9 @@ public class GameBoyMemory
             memory[address] = (byte)((memory[address] & 0x7) | (data & 0xF8));
         } else if (address == 0xFF70 && GameBoyCartiridge.IsGameBoyColor) {
             workRam.Write(address,data);
-	    } else {
+	    } else if (address == 0xFF4D) {
+            Debug.Log("Double speed: " + data.ToString("X2"));
+        } else {
             memory[address] = data;
         }
         return true;
