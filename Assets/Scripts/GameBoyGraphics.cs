@@ -341,7 +341,7 @@ public class GameBoyGraphic
             backgroundMemory = 0x9800;
         }
         byte yPos = (byte)(scrollY + LY); // yPos equals the current tile row/pixel
-        if(backgroundEnabled) {
+        if(backgroundEnabled || CGBmode) {
             if(CGBmode) {
                 for(int pixel = 0; pixel < 160; pixel++) {
                     short tileRow = (short)((yPos/8) * 32); // There are 32 rows and each row has 32 tiles. Each tile is 8 pixel tall. 
