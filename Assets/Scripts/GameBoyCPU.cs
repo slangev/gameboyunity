@@ -17,9 +17,7 @@ public class GameBoyCPU {
     public static uint ClockCycle {get;set;}
     private GameBoyMemory m;
     private GameBoyInterrupts interrupts;
-    bool halt = false; 
-    bool doubleSpeed = false;
-
+    bool halt = false;
 private static readonly uint[] cycleCount = new uint[] {
 	4,12,8,8,4,4,8,4,20,8,8,8,4,4,8,4,
 	4,12,8,8,4,4,8,4,12,8,8,8,4,4,8,4,
@@ -187,10 +185,14 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 m.WriteToMemory((ushort)(word+1),separatedBytes.Item1); //High byte
                 break;
             case 0x10:
-                //halt=true;
-                //m.WriteToMemory(0xFF4D,0x01); //Low byte
-                //PC++;
-                Debug.Log("CALLED STOPPED");
+                halt=true; // Hopefully keyboard input will change this to false through joypad interrupt
+                if(GameBoyCartiridge.IsGameBoyColor) {
+                    if(m.isPrepared()) {
+                        m.setSpeed();
+                        m.unSetPrepared();
+                        halt = false;
+                    }
+                }
                 break;
             case 0x0F:
                 A = RRC(A);

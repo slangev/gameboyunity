@@ -47,6 +47,7 @@ public class GameBoyMemory
     }
     private uint memorySize = 0x10000;
     private ushort DMA = 0xFF46;
+    private ushort KEY1 = 0xFF4D;
     private static byte joypadState = 0xFF; // All buttons are up
     private ushort biosSize;
     private List<byte> memory {get; set;}
@@ -55,6 +56,7 @@ public class GameBoyMemory
     private GameBoyGraphic gbGraphic;
     private GameBoyAudio gbAudio;
     private WorkRam workRam;
+    private uint speed = 1; //1 == normal, 2 == double
     public GameBoyMemory(GameBoyCartiridge gbCart) {
         this.gbCart = gbCart;
         this.workRam = new WorkRam();
@@ -124,9 +126,8 @@ public class GameBoyMemory
 		    return gbGraphic.Read(address);
 	    } else if(address == 0xFF70) {
 		    return workRam.Read(address);
-	    } else if(address == 0xFF4D) {
-            Debug.Log("READ FROM DOUBLE: " );
-            return 0x81;
+	    } else if(address == KEY1) {
+            return memory[address];
         }
         return memory[address];
     }
@@ -175,12 +176,29 @@ public class GameBoyMemory
             memory[address] = (byte)((memory[address] & 0x7) | (data & 0xF8));
         } else if (address == 0xFF70 && GameBoyCartiridge.IsGameBoyColor) {
             workRam.Write(address,data);
-	    } else if (address == 0xFF4D) {
+	    } else if (address == KEY1) {
             Debug.Log("Double speed: " + data.ToString("X2"));
+            memory[address] = data;
         } else {
             memory[address] = data;
         }
         return true;
+    }
+
+    public bool isPrepared() {
+        return (byte)(memory[KEY1] & 0x01) == 1 ? true : false;
+    }
+
+    public void unSetPrepared() {
+       memory[KEY1] = GameBoyCPU.resetBit(0,memory[KEY1]);
+    }
+
+    public void setSpeed() {
+        speed = (uint)((GameBoyCPU.getBit(7,memory[KEY1])) == 1 ? 2 : 1);
+    }
+
+    public uint GetSpeed() {
+        return speed;
     }
 
     public void WriteDirectly(ushort addr, byte data) {

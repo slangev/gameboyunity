@@ -63,7 +63,6 @@ public class GameBoy : MonoBehaviour
             gbCPU.ResetGBNoBios();
         } else if(reset && GameBoyCartiridge.IsGameBoyColor) {
             gbCPU.ResetCGBNoBios();
-            //gbCPU.ResetGBNoBios();          
         }
 
         //Create GPU
@@ -86,7 +85,7 @@ public class GameBoy : MonoBehaviour
 
     void Update() {
         uint cyclesThisUpdate = 0 ; 
-        while (cyclesThisUpdate < MAXCYCLES) {
+        while (cyclesThisUpdate < MAXCYCLES * gbMemory.GetSpeed()) {
             gbJoyPad.HandleKeyEvents();
             uint cycles = gbCPU.Tick();
             cyclesThisUpdate+=cycles ;

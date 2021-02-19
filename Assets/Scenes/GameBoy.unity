@@ -235,8 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab9c6f5b698546c79f78089183ee279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathToRom: Assets/Roms/GamesRoms/Pokemon Pinball (USA) (SGB Enhanced).gbc
-  pathToBios: Assets/Roms/gbc_bios.bin
+  pathToRom: Assets/Roms/GamesRoms/Wario Land 3 (World) (En,Ja).gbc
+  pathToBios: Assets/Roms/gbc_bios2.bin
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
