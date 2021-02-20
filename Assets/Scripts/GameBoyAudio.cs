@@ -349,7 +349,7 @@ public class GameBoyAudio {
         }
 
         public bool getRunning() {
-            return lengthCounter > 0;
+            return lengthCounter > 0 && dacEnabled;
         }
 
         public void trigger() {

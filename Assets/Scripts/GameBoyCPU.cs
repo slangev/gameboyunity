@@ -185,11 +185,12 @@ private static readonly uint[] cycleCount_CB = new uint[] {
                 m.WriteToMemory((ushort)(word+1),separatedBytes.Item1); //High byte
                 break;
             case 0x10:
-                halt=true; // Hopefully keyboard input will change this to false through joypad interrupt
+                halt = true; // Hopefully keyboard input will change this to false through joypad interrupt
                 if(GameBoyCartiridge.IsGameBoyColor) {
                     if(m.isPrepared()) {
                         m.setSpeed();
                         m.unSetPrepared();
+                        m.WriteToMemory(m.DMA,0);
                         halt = false;
                     }
                 }

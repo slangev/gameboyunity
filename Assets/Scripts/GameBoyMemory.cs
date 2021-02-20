@@ -46,7 +46,7 @@ public class GameBoyMemory
         }
     }
     private uint memorySize = 0x10000;
-    private ushort DMA = 0xFF46;
+    public readonly ushort DMA = 0xFF46;
     private ushort KEY1 = 0xFF4D;
     private static byte joypadState = 0xFF; // All buttons are up
     private ushort biosSize;
@@ -177,7 +177,7 @@ public class GameBoyMemory
         } else if (address == 0xFF70 && GameBoyCartiridge.IsGameBoyColor) {
             workRam.Write(address,data);
 	    } else if (address == KEY1) {
-            Debug.Log("Double speed: " + data.ToString("X2"));
+            data = (byte)(data & 0x7f);
             memory[address] = data;
         } else {
             memory[address] = data;
@@ -193,8 +193,26 @@ public class GameBoyMemory
        memory[KEY1] = GameBoyCPU.resetBit(0,memory[KEY1]);
     }
 
+    private void setSpeedBit() {
+        memory[KEY1] = GameBoyCPU.setBit(7,memory[KEY1]);
+    }
+
+    private void resetSpeedBit() {
+        memory[KEY1] = GameBoyCPU.resetBit(7,memory[KEY1]);
+    }
+
+    private byte getSpeedBit() {
+        return GameBoyCPU.getBit(7,memory[KEY1]);
+    }
+
     public void setSpeed() {
-        speed = (uint)((GameBoyCPU.getBit(7,memory[KEY1])) == 1 ? 2 : 1);
+        byte speedBit = getSpeedBit();
+        if(speedBit == 0) {
+            setSpeedBit();
+        } else {
+            resetSpeedBit();
+        }
+        speed = (uint)((GameBoyCPU.getBit(7,memory[KEY1])) == 1 ? 2 : 1); // if 1 we switch to normal speed (1) and if 0 we switch to double speed (2)
     }
 
     public uint GetSpeed() {
