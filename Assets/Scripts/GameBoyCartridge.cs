@@ -18,7 +18,8 @@ public class GameBoyCartiridge
         MBC3RAMBATT = 19,
         MBC5 = 0x19,
         MBC5RAMBATT = 0x1B,
-        MBC5RAMBATTRum = 0x1E
+        MBC5RAMBATTRum = 0x1E,
+        TESTCARTNOMBC = 0xFF
     }
 
     private List<byte> romMemory;
@@ -42,6 +43,16 @@ public class GameBoyCartiridge
         ramMemory = new List<byte>(new byte[maxRamSize]);
     }
 
+    public GameBoyCartiridge(uint size, byte mbcType) {
+        romMemory = new List<byte>(new byte[size]);
+        ramMemory = new List<byte>(new byte[maxRamSize]);
+        switch(mbcType) {
+            case (byte)(MBCType.TESTCARTNOMBC):
+                mbc = new GameBoyTestCartNoMBC(romMemory);
+                break;
+        }
+    }
+
     public void Write(ushort PC, byte data) {
         mbc.Write(PC, data);
     }
@@ -62,6 +73,9 @@ public class GameBoyCartiridge
         RamSize = romMemory[0x149];
         IsNonJapanese = romMemory[0x014A];
         switch(CartiridgeType) {
+            case (byte)(MBCType.TESTCARTNOMBC): // Use 0xFF to indicate test cartridge
+                mbc = new GameBoyTestCartNoMBC(romMemory);
+                break;
             case (byte)(MBCType.NoMBC):
                 mbc = new GameBoyNoMBC(romMemory);
                 break;
