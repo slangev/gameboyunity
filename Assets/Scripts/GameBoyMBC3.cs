@@ -401,7 +401,7 @@ public class GameBoyMBC3 : GameBoyMBC {
             }
             
             try {
-                FileStream fs = new FileStream(fileName+"test", FileMode.Create);
+                FileStream fs = new FileStream(fileName, FileMode.Create);
                 BinaryFormatter bf = new BinaryFormatter();
                 List<List<byte>> savedData = new List<List<byte>>();
                 savedData.Add(ramMemory);
@@ -420,8 +420,8 @@ public class GameBoyMBC3 : GameBoyMBC {
 
     private void load() {
         if(battery) {
-            if (File.Exists(fileName+"test")) {
-                FileStream fs = new FileStream(fileName+"test", FileMode.Open);
+            if (File.Exists(fileName)) {
+                FileStream fs = new FileStream(fileName, FileMode.Open);
                 BinaryFormatter bf = new BinaryFormatter();
                 try {
                     List<List<byte>> savedData = (List<List<byte>>)bf.Deserialize(fs);

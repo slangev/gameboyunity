@@ -25,6 +25,22 @@ public class GameBoyJoyPad {
             highToLow = memory.ResetJoyPadBit(7);
         }
 
+        if(Input.GetKeyDown(KeyCode.Alpha1)) {
+            memory.WriteToMemory(0xD347,0x99);
+            memory.WriteToMemory(0xD348,0x99);
+            memory.WriteToMemory(0xD349,0x99);
+        }
+        
+        //https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_index_number_(Generation_I)
+        if(Input.GetKeyDown(KeyCode.Alpha2)) {
+            memory.WriteToMemory(0xD889,0x0E);
+            memory.WriteToMemory(0xD88B,0x0E);
+            memory.WriteToMemory(0xD88D,0x0E);
+            memory.WriteToMemory(0xD88F,0x0E);
+        }
+
+        
+
         // Buttons up (b,a,select,start)
         if(Input.GetKeyUp(KeyCode.S)) {
             memory.SetJoyPadBit(5);
