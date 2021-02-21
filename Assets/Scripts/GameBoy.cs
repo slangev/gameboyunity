@@ -23,7 +23,7 @@ public class GameBoy : MonoBehaviour
 
         //Create display
         texture = new Texture2D(width,height);
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, Screen.width, Screen.height), Vector2.zero,1);
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), Vector2.zero,1);
         sprite.name = "Screen";
         GogbGraphic = GameObject.Find("GameBoyScreen");
         GogbGraphic.GetComponent<SpriteRenderer>().sprite = sprite;
