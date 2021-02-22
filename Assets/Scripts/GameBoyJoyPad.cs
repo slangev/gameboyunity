@@ -1,11 +1,26 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 public class GameBoyJoyPad {
     private GameBoyInterrupts interrupts;
     private GameBoyMemory memory;
-
+    private GameObject UIPanel;
     public GameBoyJoyPad(GameBoyInterrupts interrupts, GameBoyMemory memory) {
         this.interrupts = interrupts;
         this.memory = memory;
+        this.UIPanel = GameObject.Find("UI");
+    }
+
+    //https://datacrystal.romhacking.net/wiki/Pok%C3%A9mon_Red/Blue:RAM_map
+    //https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_index_number_(Generation_I)
+    public void Submit() {
+        var Texts = UIPanel.GetComponentsInChildren<Text>();
+        string addrStr = Texts[0].text;
+        string valueStr = Texts[1].text;
+        ushort addr = ushort.Parse(addrStr,System.Globalization.NumberStyles.HexNumber);
+        byte value = byte.Parse(valueStr,System.Globalization.NumberStyles.HexNumber);
+        Debug.Log(addr);
+        Debug.Log(value);
+        memory.WriteToMemory(addr,value);
     }
 
     public void HandleKeyEvents() {
@@ -25,21 +40,13 @@ public class GameBoyJoyPad {
             highToLow = memory.ResetJoyPadBit(7);
         }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1)) {
-            memory.WriteToMemory(0xD347,0x99);
-            memory.WriteToMemory(0xD348,0x99);
-            memory.WriteToMemory(0xD349,0x99);
+        if(Input.GetKeyDown(KeyCode.Tab)) {
+            if(UIPanel.activeSelf) {
+                UIPanel.SetActive(false);
+            } else {
+                UIPanel.SetActive(true);
+            }
         }
-        
-        //https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_index_number_(Generation_I)
-        if(Input.GetKeyDown(KeyCode.Alpha2)) {
-            memory.WriteToMemory(0xD889,0x0E);
-            memory.WriteToMemory(0xD88B,0x0E);
-            memory.WriteToMemory(0xD88D,0x0E);
-            memory.WriteToMemory(0xD88F,0x0E);
-        }
-
-        
 
         // Buttons up (b,a,select,start)
         if(Input.GetKeyUp(KeyCode.S)) {

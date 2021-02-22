@@ -94,4 +94,8 @@ public class GameBoy : MonoBehaviour
         }
         gbGraphic.DrawScreen();
     }
+
+    public void Submit() {
+        gbJoyPad.Submit();
+    }
 }
