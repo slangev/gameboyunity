@@ -12,6 +12,7 @@ public class GameBoyJoyPad {
 
     //https://datacrystal.romhacking.net/wiki/Pok%C3%A9mon_Red/Blue:RAM_map
     //https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_index_number_(Generation_I)
+    //https://bulbapedia.bulbagarden.net/wiki/List_of_items_by_index_number_(Generation_I)
     public void Submit() {
         var Texts = UIPanel.GetComponentsInChildren<Text>();
         string addrStr = Texts[0].text;
