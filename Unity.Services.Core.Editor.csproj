@@ -11,10 +11,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{8F309640-F1A6-0533-FA7A-17E455336975}</ProjectGuid>
+    <ProjectGuid>{DABC761D-7F55-FF72-D36F-C1F212B375D7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Tests</AssemblyName>
+    <AssemblyName>Unity.Services.Core.Editor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -47,8 +47,96 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Tests\GameBoyTest.cs" />
-     <None Include="Assets\Scripts\Tests\Tests.asmdef" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Networking\IHttpClient.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ProjectStateManagement\IServiceFlagRequest.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\ExceptionVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\ServiceActivationPopupVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ProjectStateManagement\ProjectStateRequest.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ProjectStateManagement\ServiceFlagRequest.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UserRoleManagement\IUserRoleHandler.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Networking\HttpRequestExtensions.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Networking\HttpServiceConfig.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\ServiceFlagEndpoint.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\AsyncOperation\IAsyncOperation.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\ProjectBindVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ProjectStateManagement\IProjectStateRequest.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\AsyncOperation\AsyncOperation.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\InsufficientPermissionVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\EditorGameServiceRegistry.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\ExceptionHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Networking\ReadOnlyHttpRequest.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UserRoleManagement\IUserRoleRequest.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Networking\ReadOnlyHttpResponse.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ProjectStateManagement\ProjectStateHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\ServiceInstallationListener.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\AsyncOperation\AsyncOperationAwaiter.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\EditorGameServiceFlagEnabler.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\IProjectEditorDrawerFactory.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\AsyncOperation\AsyncOperationStatus.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\IEditorGameServiceEnabler.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\VisualElementHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\BackendHelpers\JsonHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\ServiceActivationPopupWindow.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\AsyncOperation\AsyncOperationExtensions.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UserRoleManagement\UserRoleHandler.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ProjectStateManagement\IProjectStateHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\OfflineUiHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\UserRequestVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Networking\HttpResponse.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UserRoleManagement\UserRole.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\SettingsCommonHeaderUiHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\ProjectBindAndUserRequestVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\LoggedOutVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ProjectStateManagement\ServiceFlags.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\SliderToggleUiHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\DefaultCdnConfiguredEndpoint.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\EditorGameServiceSettingsProvider.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\AccessTokenErrorUiHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\EditorGameServiceDashboardHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\IEditorGameServiceIdentifier.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\AsyncOperation\IAsyncOperationAwaiter.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\IEditorGameService.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\LoggedOutUiHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Networking\UnityWebRequestClient.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Utils\MiniJson.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\UserRoleRequestUiHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UserRoleManagement\UserRoleRequest.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\IEditorGameServiceRegistry.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ProjectStateManagement\IServiceFlags.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\Analytics\EditorGameServiceAnalyticsSender.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\BackendHelpers\UnityWebRequestHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ProjectStateManagement\ProjectState.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\IActivationPopupVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\ServiceActivationConfirmationVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\CoppaVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Networking\HttpOptions.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\PlatformSupportUiHelper.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\OfflineVisual.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\Networking\HttpRequest.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\AssemblyInfo.cs" />
+     <Compile Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\EditorGameServiceRemoteConfiguration.cs" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\UXML\ExceptionVisual.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\UXML\CoppaCompliance.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\UXML\EndConfirmation.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\UXML\ProjectBind.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\USS\PlatformSupportVisualDark.uss" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\USS\PlatformSupportVisualLight.uss" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\UXML\PleaseWait.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\UXML\ProjectSettingsCommonHeader.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\USS\SliderToggleCommon.uss" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\USS\PlatformSupportVisualCommon.uss" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\USS\ServiceActivationWindow.uss" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\USS\ServicesProjectSettingsCommon.uss" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\UXML\AccessTokenError.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\USS\ServicesProjectSettingsLight.uss" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\Unity.Services.Core.Editor.asmdef" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\UXML\InsufficientPermission.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\EditorGameService\USS\ServicesProjectSettingsDark.uss" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\UXML\LoggedOut.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\UXML\PlatformSupportVisual.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\UXML\ProjectBindingAndUserRequest.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\ServiceActivationPopup\Visuals\UXML\General.uxml" />
+     <None Include="Packages\com.unity.services.core\Editor\Core\UiHelpers\UXML\Offline.uxml" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -279,6 +367,18 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Plastic.Newtonsoft.Json">
+ <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.collab-proxy@1.15.13/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Plastic.Antlr3.Runtime">
+ <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.collab-proxy@1.15.13/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
+ </Reference>
+ <Reference Include="unityplastic">
+ <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.collab-proxy@1.15.13/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
+ </Reference>
+ <Reference Include="log4netPlastic">
+ <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.collab-proxy@1.15.13/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
  <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
@@ -631,23 +731,26 @@
  <Reference Include="netstandard">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/netstandard.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.TestRunner">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.UI">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UI">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
- </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="GameBoyAsm.csproj">
-      <Project>{2436FB33-174D-9CA8-FEEB-48BE1BF796E0}</Project>
-      <Name>GameBoyAsm</Name>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{B3357F63-271F-2700-C68F-894E55E33F3C}</Project>
+      <Name>UnityEditor.UI</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{08CAF873-2679-98E7-1EBD-CF16342DC6E0}</Project>
+      <Name>UnityEngine.UI</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.TestRunner.csproj">
+      <Project>{CAC39B6A-0FEE-F681-56AA-4F1D91196388}</Project>
+      <Name>UnityEngine.TestRunner</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.TestRunner.csproj">
+      <Project>{38EC8112-52F6-0C3B-029E-63B7D09CC093}</Project>
+      <Name>UnityEditor.TestRunner</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

@@ -11,10 +11,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{8F309640-F1A6-0533-FA7A-17E455336975}</ProjectGuid>
+    <ProjectGuid>{CD84CE5F-ED17-B17D-4538-0268D781C1DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Tests</AssemblyName>
+    <AssemblyName>UnityEditor.UI.EditorTests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -47,8 +47,23 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Tests\GameBoyTest.cs" />
-     <None Include="Assets\Scripts\Tests\Tests.asmdef" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\Text\FontCreatedByScript.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\EventSystem\InterceptedEventsPreviewTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\UnityEvent\UnityEventInvoke.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\CanvasRenderer\ParentCanvasIsSane.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\Canvas\CanvasWidthAssertionErrorWithRectTransform.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\InputField\ContentValidation.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\RectMask2D\RectTransformPosition.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\Canvas\AssertionFailureOnOutputVertexCount.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\RectMask2D\RectMask2DCulling.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\CanvasRenderer\ChangingHierarchyOfCanvasRenderer.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\InputField\CharacterLimitValidation.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\Slider\SliderRectReferences.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\Canvas\UISystemProfilerAddMarkerWithNullObjectDoesNotCrash.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\Canvas\RootCanvasTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\TestBehaviourBase.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Editor\Canvas\CanvasElementsMaintainValidPositionsWhenCameraOrthoSizeIsZero.cs" />
+     <None Include="Packages\com.unity.ugui\Tests\Editor\UnityEditor.UI.EditorTests.asmdef" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -631,23 +646,26 @@
  <Reference Include="netstandard">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/netstandard.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.TestRunner">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.UI">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UI">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
- </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="GameBoyAsm.csproj">
-      <Project>{2436FB33-174D-9CA8-FEEB-48BE1BF796E0}</Project>
-      <Name>GameBoyAsm</Name>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{B3357F63-271F-2700-C68F-894E55E33F3C}</Project>
+      <Name>UnityEditor.UI</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{08CAF873-2679-98E7-1EBD-CF16342DC6E0}</Project>
+      <Name>UnityEngine.UI</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.TestRunner.csproj">
+      <Project>{CAC39B6A-0FEE-F681-56AA-4F1D91196388}</Project>
+      <Name>UnityEngine.TestRunner</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.TestRunner.csproj">
+      <Project>{38EC8112-52F6-0C3B-029E-63B7D09CC093}</Project>
+      <Name>UnityEditor.TestRunner</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

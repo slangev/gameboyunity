@@ -11,10 +11,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{8F309640-F1A6-0533-FA7A-17E455336975}</ProjectGuid>
+    <ProjectGuid>{85C26B0C-3A66-350C-2089-B22DE27A1B37}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Tests</AssemblyName>
+    <AssemblyName>Unity.PlasticSCM.EditorTests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -47,8 +47,22 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Tests\GameBoyTest.cs" />
-     <None Include="Assets\Scripts\Tests\Tests.asmdef" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Mock\PlasticApiMock.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\AssetMenu\SelectedAssetGroupInfoTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\ProjectDownloader\ParseArgumentsTest.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Views\IncomingChanges\Developer\IsCurrentTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Views\IncomingChanges\Developer\UnityIncomingChangesTreeTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Mock\BuildWorkspaceTreeNode.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Views\Diff\UnityDiffTreeTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\UI\EditorVersionTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Views\IncomingChanges\Gluon\UnityIncomingChangesTreeTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\UI\TextureLoadTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\ProjectDownloader\CommandLineArgumentsTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Views\IncomingChanges\Developer\IsResolvedTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Views\PendingChanges\UnityPendingChangesTreeTests.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Views\IncomingChanges\Developer\MergetTreeResultMock.cs" />
+     <Compile Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\AssetMenu\AssetMenuUpdaterTests.cs" />
+     <None Include="Packages\com.unity.collab-proxy\Tests\Editor\PlasticSCM\Unity.PlasticSCM.EditorTests.asmdef" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -279,6 +293,9 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="unityplastic">
+ <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.collab-proxy@1.15.13/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
  <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
@@ -631,23 +648,31 @@
  <Reference Include="netstandard">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/netstandard.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.TestRunner">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.UI">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UI">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
- </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="GameBoyAsm.csproj">
-      <Project>{2436FB33-174D-9CA8-FEEB-48BE1BF796E0}</Project>
-      <Name>GameBoyAsm</Name>
+    <ProjectReference Include="Unity.PlasticSCM.Editor.csproj">
+      <Project>{BB8D3400-9C44-9DD0-299F-4BB834BA2C4B}</Project>
+      <Name>Unity.PlasticSCM.Editor</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.TestRunner.csproj">
+      <Project>{CAC39B6A-0FEE-F681-56AA-4F1D91196388}</Project>
+      <Name>UnityEngine.TestRunner</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.TestRunner.csproj">
+      <Project>{38EC8112-52F6-0C3B-029E-63B7D09CC093}</Project>
+      <Name>UnityEditor.TestRunner</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{B3357F63-271F-2700-C68F-894E55E33F3C}</Project>
+      <Name>UnityEditor.UI</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{08CAF873-2679-98E7-1EBD-CF16342DC6E0}</Project>
+      <Name>UnityEngine.UI</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

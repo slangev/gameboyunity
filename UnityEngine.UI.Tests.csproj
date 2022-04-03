@@ -11,10 +11,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{2436FB33-174D-9CA8-FEEB-48BE1BF796E0}</ProjectGuid>
+    <ProjectGuid>{9F71053D-BEA3-0B59-F170-ADCC5804E6FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>GameBoyAsm</AssemblyName>
+    <AssemblyName>UnityEngine.UI.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -47,24 +47,77 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\GameBoyAudio.cs" />
-     <Compile Include="Assets\Scripts\GameBoyJoyPad.cs" />
-     <Compile Include="Assets\Scripts\GameBoyCPU.cs" />
-     <Compile Include="Assets\Scripts\GameBoyMBC1.cs" />
-     <Compile Include="Assets\Scripts\GameBoyTimer.cs" />
-     <Compile Include="Assets\Scripts\GameBoyTestCartNoMBC.cs" />
-     <Compile Include="Assets\Scripts\GameBoyCartridge.cs" />
-     <Compile Include="Assets\Scripts\GameBoyMBC5.cs" />
-     <Compile Include="Assets\Scripts\GameBoyMBCInterface.cs" />
-     <Compile Include="Assets\Scripts\GameBoySquareChannel.cs" />
-     <Compile Include="Assets\Scripts\GameBoyMBC2.cs" />
-     <Compile Include="Assets\Scripts\GameBoyInterrupts.cs" />
-     <Compile Include="Assets\Scripts\GameBoyMBC3.cs" />
-     <Compile Include="Assets\Scripts\GameBoyNoMBC.cs" />
-     <Compile Include="Assets\Scripts\GameBoyGraphics.cs" />
-     <Compile Include="Assets\Scripts\GameBoyMemory.cs" />
-     <Compile Include="Assets\Scripts\GameBoy.cs" />
-     <None Include="Assets\Scripts\GameBoyAsm.asmdef" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\NoActiveCameraInSceneDoesNotCrashEditor.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\RaycastSortingTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\NestedCanvas.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Util\UIBehaviourExtensions.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\SelectableTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\ScrollRect\ScrollRectTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Util\ImageHook.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\InputModuleTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\InputField\GenericInputFieldTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\TextEditor\TextEditorTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\GraphicRaycasterWorldSpaceCanvasTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\RectMask2DWithNestedCanvasCullsUsingCorrectCanvasRect.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Graphic\MaskTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\CanvasScalerWithChildTextObjectDoesNotCrash.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Util\GraphicTestHelper.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\BridgeScriptForRetainingObjects.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\CanvasSizeCorrectInAwakeAndStartScript.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\ScrollBar\ScrollBarClamp.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Layout\VerticalLayoutGroupTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Toggle\ToggleGroupTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Graphic\NavigationTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Layout\HorizonalLayoutGroupTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Graphic\ImageTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\CanvasGroupInheritedAlpha.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\InputModuleTests\PointerClickCallbackCheck.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\LayoutGroup\LayoutGroupArrangement.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\ScrollRect\ScrollRectStableLayout.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\PhysicsRaycasterTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Graphic\RawImageTest.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\ScrollRect\ScrollRectClamp.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Button\TestButton.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\CreateSceneUtility.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\InputField\InputFieldTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Layout\GridLayoutGroupTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\CanvasSizeCorrectInAwakeAndStart.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\InputModuleTests\FakeBaseInput.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Layout\AspectRatioFitterTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\NestedLayout\SceneWithNestedLayoutElementsLoads.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\NestedCanvasMaintainsCorrectSize.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\CoroutineWorksIfUIObjectIsAttached.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\ScrollRect\ScrollRectScale.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Slider\SliderTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Graphic\GraphicTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Toggle\TestableToggleGroup.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\InputField\DesktopInputFieldTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Graphic\ToggleTestImageHook.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Graphic\RawImageTestHook.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\InputModuleTests\DragCallbackCheck.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\NestedLayout\SceneWithNestedLayoutElementsLoadScript.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Image\ImageTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Layout\ContentSizeFitterTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\RectTransformValidAfterEnable.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\InputModuleTests\MouseUpdate.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\EventSystem\GraphicRaycasterTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Toggle\ToggleTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\MaskClipping\RectMask2DClipping.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Layout\LayoutGroupScaling.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\ScrollBar\ScrollBarTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Util\PrivateFieldSetter.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Button\ButtonTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\SiblingOrderChangesLayout.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Util\ConcreteGraphic.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Image\TestableImage.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Canvas\CheckMeshColorsAndColors32Match.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Dropdown\DropdownTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\InputField\TouchInputFieldTests.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\TextEditor\TextEditorBackspaceDelete.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\InputField\FakeInputModule.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Util\ExceptionUtils.cs" />
+     <Compile Include="Packages\com.unity.ugui\Tests\Runtime\Image\ImageFilledGenerateWork.cs" />
+     <None Include="Packages\com.unity.ugui\Tests\Runtime\UnityEngine.UI.Tests.asmdef" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -287,26 +340,8 @@
  <Reference Include="UnityEditor.UnityConnectModule">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.Graphs">
- <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/Managed/UnityEditor.Graphs.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.WebGL.Extensions">
- <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.OSXStandalone.Extensions">
- <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Plastic.Newtonsoft.Json">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.collab-proxy@1.15.13/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Plastic.Antlr3.Runtime">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.collab-proxy@1.15.13/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
- </Reference>
- <Reference Include="unityplastic">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.collab-proxy@1.15.13/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
- </Reference>
- <Reference Include="log4netPlastic">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.collab-proxy@1.15.13/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
+ <Reference Include="nunit.framework">
+ <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -653,14 +688,28 @@
  <Reference Include="mscorlib">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.32f1/Unity.app/Contents/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.UI">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UI">
- <HintPath>/Users/slangev/Unity3D/gameboyunity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
- </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{08CAF873-2679-98E7-1EBD-CF16342DC6E0}</Project>
+      <Name>UnityEngine.UI</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.TestRunner.csproj">
+      <Project>{CAC39B6A-0FEE-F681-56AA-4F1D91196388}</Project>
+      <Name>UnityEngine.TestRunner</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.TestRunner.csproj">
+      <Project>{38EC8112-52F6-0C3B-029E-63B7D09CC093}</Project>
+      <Name>UnityEditor.TestRunner</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{B3357F63-271F-2700-C68F-894E55E33F3C}</Project>
+      <Name>UnityEditor.UI</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
