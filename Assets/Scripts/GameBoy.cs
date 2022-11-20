@@ -12,14 +12,13 @@ public class GameBoy : MonoBehaviour
     GameBoyJoyPad gbJoyPad;
     Texture2D texture;
     GameObject GogbGraphic;
-    ushort width = 160;
-    ushort height = 144;
+    private readonly ushort width = 160;
+    private readonly ushort height = 144;
     const uint MAXCYCLES = 69905;
     public string pathToRom;
     public string pathToBios;
  
     void InitalizeComponent() {
-        Application.targetFrameRate = 60;
 
         //Create display
         texture = new Texture2D(width,height);
@@ -92,6 +91,7 @@ public class GameBoy : MonoBehaviour
             gbGraphic.UpdateGraphics(cycles);
             gbAudio.UpdateAudioTimer(cycles);
         }
+ 
         gbGraphic.DrawScreen();
     }
 

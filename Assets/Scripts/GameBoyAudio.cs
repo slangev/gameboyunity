@@ -45,7 +45,7 @@ public class GameBoyAudio {
         }
 
         public bool getRunning() {
-            return lengthCounter > 0;
+            return lengthCounter > 0 && enabled;
         }
 
         public void step() {
@@ -137,7 +137,9 @@ public class GameBoyAudio {
         }
 
         private void trigger() {
-            enabled = true;
+            if(dacEnabled){
+                enabled = true;
+            }
             if (lengthCounter == 0) {
                 lengthCounter = 64;	// It's a little large
             }
@@ -218,6 +220,9 @@ public class GameBoyAudio {
                 case 0x2:
                     // See if dac is enabled, if all high 5 bits are not 0
                     dacEnabled = (data & 0xF8) != 0;
+                    if(!dacEnabled) {
+                        enabled = false;
+                    }
                     // Starting Volume
                     volumeLoad = (byte)((data >> 4) & 0xF);
                     // Add mode
@@ -308,6 +313,9 @@ public class GameBoyAudio {
                 switch (registerVal) {
                     case 0xA:
                         dacEnabled = (data & 0x80) == 0x80;
+                        if(!dacEnabled) {
+                            enabled = false;
+                        }
                         break;
                     case 0xB:
                         lengthLoad = data;
@@ -349,11 +357,13 @@ public class GameBoyAudio {
         }
 
         public bool getRunning() {
-            return lengthCounter > 0 && dacEnabled;
+            return lengthCounter > 0 && enabled;
         }
 
         public void trigger() {
-            enabled = true;
+            if(dacEnabled) {
+                enabled = true;
+            }
             if (lengthCounter == 0) {
                 lengthCounter = 256;
             }
@@ -461,6 +471,9 @@ public class GameBoyAudio {
                 case 0xFF21:
                     // See if dac is enabled, if all high 5 bits are not 0
                     dacEnabled = (data & 0xF8) != 0;
+                    if(!dacEnabled) {
+                        enabled = false;
+                    }
                     // Starting Volume
                     volumeLoad = (byte)((data >> 4) & 0xF);
                     // Add mode
@@ -479,10 +492,9 @@ public class GameBoyAudio {
                     lengthEnable = (data & 0x40) == 0x040;
                     triggerBit = (data & 0x80) == 0x80;
                     if (triggerBit) {
-                        //trigger();
+                        trigger();
                     }
                     break;
-
 	        }
         }
 
@@ -524,11 +536,13 @@ public class GameBoyAudio {
         }
 
         public bool getRunning() {
-            return lengthCounter > 0;
+            return lengthCounter > 0 && enabled;
         }
 
         public void trigger() {
-            enabled = true;
+            if(dacEnabled) {
+                enabled = true;
+            }
             if (lengthCounter == 0) {
                 lengthCounter = 64;
             }
@@ -567,11 +581,13 @@ public class GameBoyAudio {
     }
 
     private int channels = 2;
-    private int freq = 48000;
-    private static readonly int sample = 4096;
+    private int freq = 44100;
+    private static readonly int sample = 8192;
     private AudioSource audio;
     private int frameSequenceCountDown = 8192;
     private int frameSequencer = 8;
+
+    // private int cpuSpeed = 4194304;
 
     // Values OR'd into register reads.
 	readonly byte[] readOrValues = new byte[] { 0x80,0x3f,0x00,0xff,0xbf,
@@ -587,7 +603,7 @@ public class GameBoyAudio {
 	bool[] leftEnables = new bool[]{ false,false,false,false };
 	bool[] rightEnables = new bool[]{ false,false,false,false };
 	bool powerControl = false;
-	int downSampleCount = 87;
+	int downSampleCount = 95;
 	int bufferFillAmount = 0;
 	float[] mainBuffer = new float[sample];
     private SquareChannel squareOne;
@@ -603,9 +619,10 @@ public class GameBoyAudio {
         GameObject gb = GameObject.Find("GameBoyCamera");
         gb.AddComponent(typeof(AudioListener));
         gb.AddComponent(typeof(AudioSource));
-        AudioClip myClip = AudioClip.Create("GameBoyAudio", sample, channels, freq, false);
+        AudioClip myClip = AudioClip.Create("GameBoyAudio", sample*2, channels, freq, false);
         audio = gb.GetComponent<AudioSource>();
         audio.clip = myClip;
+        audio.Play();
         squareOne = new SquareChannel();
         squareTwo = new SquareChannel();
         waveChannel = new WaveChannel();
@@ -789,13 +806,13 @@ public class GameBoyAudio {
             noiseChannel.step();
 
             if(--downSampleCount <= 0) {
-                downSampleCount = 87;
+                downSampleCount = 95;
 
                 // Left
                 float bufferin0 = 0;
                 float bufferin1 = 0;
                 float volume = leftVol/10.0f;
-                float divider = 100.0f;
+                float divider = 50.0f;
                 if (leftEnables[0]) {
 				    bufferin1 = ((float)squareOne.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
