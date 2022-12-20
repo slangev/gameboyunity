@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 235805943}
   - component: {fileID: 235805942}
   - component: {fileID: 235805947}
+  - component: {fileID: 235805949}
   m_Layer: 5
   m_Name: GameBoy
   m_TagString: Untagged
@@ -374,9 +375,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab9c6f5b698546c79f78089183ee279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Gain: 0.05
   pathToRom: /Users/slangev/Documents/Unreal_Projects/GBUnreal/Content/Data/Pokemon
     - Yellow Version - Special Pikachu Edition (USA, Europe) (GBC,SGB Enhanced).gb
   pathToBios: Assets/Roms/gbc_bios.bin
+--- !u!81 &235805949
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235805941}
+  m_Enabled: 1
 --- !u!1 &319006207
 GameObject:
   m_ObjectHideFlags: 0

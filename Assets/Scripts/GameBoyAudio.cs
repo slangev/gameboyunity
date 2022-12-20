@@ -602,15 +602,15 @@ public class GameBoyAudio {
 	bool[] rightEnables = new bool[]{ false,false,false,false };
 	bool powerControl = false;
     int APUBufferCount = 0;
-    float[] mainBuffer = new float[sample*channels];
+    public byte[] mainBuffer = new byte[sample*channels];
     //Queue<float> mainBuffer = new();
     private int frameSequenceCountDown = 8192;
     private int frameSequencer = 8;
     private static int AudioSampleRate = 44100;
     static float CPUSpeed = 4194304.0f; //4.19MHz
 	int downSampleCount = (int)(CPUSpeed / AudioSampleRate);
+    public bool WriteSamples = false;
     int Speed = (int)(CPUSpeed / AudioSampleRate);
-    bool WriteSamples = false;
     private SquareChannel squareOne;
     private SquareChannel squareTwo;
     private WaveChannel waveChannel;
@@ -621,15 +621,15 @@ public class GameBoyAudio {
         initializeAPU();
     }
     private void initializeAPU() {
-        GameObject gb = GameObject.Find("GameBoyCamera");
-        gb.AddComponent(typeof(AudioListener));
-        gb.AddComponent(typeof(AudioSource));
+        // GameObject gb = GameObject.Find("GameBoyCamera");
+        // gb.AddComponent(typeof(AudioListener));
+        // gb.AddComponent(typeof(AudioSource));
         // AudioClip myClip = AudioClip.Create(name: "GameBoyAudio", sample*channels, channels, AudioSampleRate, true, OnAudioRead, OnAudioSetPosition);
-        AudioClip myClip = AudioClip.Create("GameBoyAudio", sample*channels, channels, AudioSampleRate, false);
-        audio = gb.GetComponent<AudioSource>();
-        audio.clip = myClip;
-        audio.volume = 0.5f;
-        audio.Play();
+        // // AudioClip myClip = AudioClip.Create("GameBoyAudio", sample*channels, channels, AudioSampleRate, false);
+        // audio = gb.GetComponent<AudioSource>();
+        // audio.clip = myClip;
+        // audio.volume = 0.5f;
+        // audio.Play();
 
         squareOne = new SquareChannel();
         squareTwo = new SquareChannel();
@@ -639,6 +639,8 @@ public class GameBoyAudio {
 
     void OnAudioRead(float[] data)
     {
+        // Debug.Log("data: " + data.Length);
+        // Debug.Log("mainBuffer: " + mainBuffer.Length);
         if(WriteSamples) {
             for(int i = 0; i < data.Length; i++)
             {
@@ -646,6 +648,7 @@ public class GameBoyAudio {
             }
             WriteSamples = false;
         }
+
     }
 
     void OnAudioSetPosition(int newPosition)
@@ -842,8 +845,6 @@ public class GameBoyAudio {
             if(APUBufferCount/Speed >= mainBuffer.Length) {
                 APUBufferCount = 0;
                 WriteSamples = true;
-                audio.clip.SetData(mainBuffer,0);
-                audio.Play();
             }
     
             if(APUBufferCount % Speed == 0) {
@@ -851,46 +852,57 @@ public class GameBoyAudio {
 
                 // Left
                 float bufferin0 = 0;
+                byte buffer = 0;
                 float bufferin1 = 0;
                 float volume = leftVol/10.0f;
                 float divider = 50.0f;
                 if (leftEnables[0]) {
 				    bufferin1 = ((float)squareOne.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
+                    buffer = (byte)(buffer + squareOne.getOutputVol());
 			    }
                 if (leftEnables[1]) {
                     bufferin1 = ((float)squareTwo.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
+                    buffer = (byte)(buffer + squareTwo.getOutputVol());
                 }
                 if (leftEnables[2]) {
                     bufferin1 = ((float)waveChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
+                    buffer = (byte)(buffer + waveChannel.getOutputVol());
                 }
                 if (leftEnables[3]) {
                     bufferin1 = ((float)noiseChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
+                    buffer = (byte)(buffer + noiseChannel.getOutputVol());
                 }
-			    mainBuffer[APUBufferCount / Speed] = bufferin0;
+			    //mainBuffer[APUBufferCount / Speed] = bufferin0;
+                mainBuffer[APUBufferCount / Speed] =  buffer;
+                buffer = 0;
                 bufferin0 = 0;
                 volume = rightVol/10.0f;
                 if (rightEnables[0]) {
                     bufferin1 = ((float)squareOne.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
+                    buffer = (byte)(buffer + squareOne.getOutputVol());
                 }
                 if (rightEnables[1]) {
                     bufferin1 = ((float)squareTwo.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
+                    buffer = (byte)(buffer + squareTwo.getOutputVol());
                 }
                 if (rightEnables[2]) {
                     bufferin1 = ((float)waveChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
+                    buffer = (byte)(buffer + waveChannel.getOutputVol());
                 }
                 if (rightEnables[3]) {
                     bufferin1 = ((float)noiseChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
+                    buffer = (byte)(buffer + noiseChannel.getOutputVol());
                 }
-			    mainBuffer[(APUBufferCount + 1) / Speed] = bufferin0;
-            }
+			    mainBuffer[(APUBufferCount + 1) / Speed] = buffer;
+            } 
             APUBufferCount += 2;
         }
     }
