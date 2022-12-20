@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class GameBoy : MonoBehaviour
 {
@@ -15,11 +16,11 @@ public class GameBoy : MonoBehaviour
     private readonly ushort width = 160;
     private readonly ushort height = 144;
     const uint MAXCYCLES = 69905;
-    public string pathToRom;
-    public string pathToBios;
- 
+    public string pathToRom = "/Users/slangev/Documents/Unreal_Projects/GBUnreal/Content/Data/Pokemon - Yellow Version - Special Pikachu Edition (USA, Europe) (GBC,SGB Enhanced).gb";
+    public string pathToBios = "/Users/slangev/Unity3D/gameboyunity/Assets/Roms/gbc_bios.bin";
+    IEnumerator emu; 
     void InitalizeComponent() {
-
+        Application.targetFrameRate = 65;
         //Create display
         texture = new Texture2D(width,height);
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), Vector2.zero,1);
@@ -75,27 +76,51 @@ public class GameBoy : MonoBehaviour
         Debug.Log(GameBoyCartiridge.Title);
         Debug.Log(GameBoyCartiridge.IsGameBoyColor);
         Debug.Log(gbCart.CartiridgeType.ToString("X2"));
+        emu = Run();
+        StartCoroutine(emu);
     }
 
     void Start() {
         InitalizeComponent();
     }
 
-    void Update() {
-        uint cyclesThisUpdate = 0 ; 
-        while (cyclesThisUpdate < MAXCYCLES * gbMemory.GetSpeed()) {
-            gbJoyPad.HandleKeyEvents();
-            uint cycles = gbCPU.Tick();
-            cyclesThisUpdate+=cycles ;
-            gbTimer.UpdateTimers(cycles);
-            gbGraphic.UpdateGraphics(cycles);
-            gbAudio.UpdateAudioTimer(cycles);
+    IEnumerator Run() {
+        while(true) {
+            uint cyclesThisUpdate = 0 ; 
+
+            while (cyclesThisUpdate < MAXCYCLES * gbMemory.GetSpeed()) {
+                gbJoyPad.HandleKeyEvents();
+                uint cycles = gbCPU.Tick();
+                cyclesThisUpdate+=cycles ;
+                gbTimer.UpdateTimers(cycles);
+                gbGraphic.UpdateGraphics(cycles);
+                gbAudio.UpdateAudioTimer(cycles);
+            }
+
+            gbGraphic.DrawScreen();
+            yield return null;
         }
- 
-        gbGraphic.DrawScreen();
     }
+
+    // void Update() {
+    //     uint cyclesThisUpdate = 0 ; 
+    //     while (cyclesThisUpdate < MAXCYCLES * gbMemory.GetSpeed()) {
+    //         gbJoyPad.HandleKeyEvents();
+    //         uint cycles = gbCPU.Tick();
+    //         cyclesThisUpdate+=cycles ;
+    //         gbTimer.UpdateTimers(cycles);
+    //         gbGraphic.UpdateGraphics(cycles);
+    //         gbAudio.UpdateAudioTimer(cycles);
+    //     }
+ 
+    //     gbGraphic.DrawScreen();
+    // }
 
     public void Submit() {
         gbJoyPad.Submit();
+    }
+
+    void OnDestroy() {
+        StopCoroutine(emu);
     }
 }

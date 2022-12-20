@@ -18,6 +18,8 @@ public class GameBoyCPU {
     private GameBoyMemory m;
     private GameBoyInterrupts interrupts;
     bool halt = false;
+
+    uint LineNumber = 0;
 private static readonly uint[] cycleCount = new uint[] {
 	4,12,8,8,4,4,8,4,20,8,8,8,4,4,8,4,
 	4,12,8,8,4,4,8,4,12,8,8,8,4,4,8,4,
@@ -97,6 +99,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     }
 
     private byte getNFromID(byte id) {
+        //Debug.Log("Interrupt: " + LineNumber);
         if(id == 0) {
             return 0x40;
         } else if(id == 1) {
@@ -159,6 +162,11 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     private uint handleInstructions(byte opcode) {
         uint lastCycleCount = cycleCount[opcode];
+        // if(LineNumber > 200000 && LineNumber < 300000)
+        // {
+        //     PrintDebugLine(opcode);
+        // }
+        LineNumber++;
         switch(opcode) {
             case 0x00:
                 NOP();
@@ -1912,14 +1920,14 @@ private static readonly uint[] cycleCount_CB = new uint[] {
         }
     }
 
-    private void printDebugLine() {
+    private void PrintDebugLine(byte opcode) {
         string line = "";
-        line = "A: " +A.ToString("X2")+ " F: " +F.ToString("X2")+ " B: "+B.ToString("X2")+" C: "+C.ToString("X2")+" D: "+D.ToString("X2")+" E: "+E.ToString("X2")+" H: "+H.ToString("X2")+" L: "+L.ToString("X2")+" SP: "+SP.ToString("X4")+" PC: 00:" +PC.ToString("X4")+" ("+m.ReadFromMemory(PC).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+1)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+2)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+3)).ToString("X2") + ")";
-        using(StreamWriter writetext = File.AppendText(("Assets/write.txt")))
-        {
-            writetext.WriteLine(line);
-        }
-        //Debug.Log(line);
+        line = LineNumber + " A: " +A.ToString("X2")+ " F: " +F.ToString("X2")+ " B: "+B.ToString("X2")+" C: "+C.ToString("X2")+" D: "+D.ToString("X2")+" E: "+E.ToString("X2")+" H: "+H.ToString("X2")+" L: "+L.ToString("X2")+" SP: "+SP.ToString("X4")+" PC: 00:" +PC.ToString("X4")+" ("+opcode.ToString("X2") + " " + m.ReadFromMemory((ushort)(PC)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+1)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+2)).ToString("X2") + ")";
+        // using(StreamWriter writetext = File.AppendText(("Assets/write.txt")))
+        // {
+        //     writetext.WriteLine(line);
+        // }
+        Debug.Log(line);
     }
 
     private (byte,byte) separateWordToBytes(ushort word) {

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using UnityEngine;
 
 
 //https://stackoverflow.com/questions/376036/algorithm-to-mix-sound
@@ -580,14 +583,9 @@ public class GameBoyAudio {
         }
     }
 
-    private int channels = 2;
-    private int freq = 44100;
-    private static readonly int sample = 8192;
+    private static int channels = 2;
+    private static int sample = 2048;
     private AudioSource audio;
-    private int frameSequenceCountDown = 8192;
-    private int frameSequencer = 8;
-
-    // private int cpuSpeed = 4194304;
 
     // Values OR'd into register reads.
 	readonly byte[] readOrValues = new byte[] { 0x80,0x3f,0x00,0xff,0xbf,
@@ -597,42 +595,68 @@ public class GameBoyAudio {
 										0x00,0x00,0x70 };
 	// APU Universal registers
 	bool vinLeftEnable = false;
+    bool vinRightEnable = false;
 	byte leftVol = 0;
-	bool vinRightEnable = false;
 	byte rightVol = 0;
 	bool[] leftEnables = new bool[]{ false,false,false,false };
 	bool[] rightEnables = new bool[]{ false,false,false,false };
 	bool powerControl = false;
-	int downSampleCount = 95;
-	int bufferFillAmount = 0;
-	float[] mainBuffer = new float[sample];
+    int APUBufferCount = 0;
+    float[] mainBuffer = new float[sample*channels];
+    //Queue<float> mainBuffer = new();
+    private int frameSequenceCountDown = 8192;
+    private int frameSequencer = 8;
+    private static int AudioSampleRate = 44100;
+    static float CPUSpeed = 4194304.0f; //4.19MHz
+	int downSampleCount = (int)(CPUSpeed / AudioSampleRate);
+    int Speed = (int)(CPUSpeed / AudioSampleRate);
+    bool WriteSamples = false;
     private SquareChannel squareOne;
     private SquareChannel squareTwo;
     private WaveChannel waveChannel;
     private NoiseChannel noiseChannel;
+    public int position = 0;
     
     public GameBoyAudio() {
         initializeAPU();
     }
-
     private void initializeAPU() {
         GameObject gb = GameObject.Find("GameBoyCamera");
         gb.AddComponent(typeof(AudioListener));
         gb.AddComponent(typeof(AudioSource));
-        AudioClip myClip = AudioClip.Create("GameBoyAudio", sample*2, channels, freq, false);
+        // AudioClip myClip = AudioClip.Create(name: "GameBoyAudio", sample*channels, channels, AudioSampleRate, true, OnAudioRead, OnAudioSetPosition);
+        AudioClip myClip = AudioClip.Create("GameBoyAudio", sample*channels, channels, AudioSampleRate, false);
         audio = gb.GetComponent<AudioSource>();
         audio.clip = myClip;
+        audio.volume = 0.5f;
         audio.Play();
+
         squareOne = new SquareChannel();
         squareTwo = new SquareChannel();
         waveChannel = new WaveChannel();
         noiseChannel = new NoiseChannel();
     }
 
+    void OnAudioRead(float[] data)
+    {
+        if(WriteSamples) {
+            for(int i = 0; i < data.Length; i++)
+            {
+                data[i] = mainBuffer[i];
+            }
+            WriteSamples = false;
+        }
+    }
+
+    void OnAudioSetPosition(int newPosition)
+    {
+        position = newPosition;
+    }
+
     public byte Read(ushort address) {
-        //Debug.Log("READ Address: " + address.ToString("X2"));
-        byte returnData = 0;
+        byte returnData = 0xFF;
 	    ushort apuRegister = (ushort)(address & 0xFF);
+
 	    if (apuRegister >= 0x10 && apuRegister <= 0x14) {
 		    returnData = squareOne.readRegister(apuRegister);
 	    } else if (apuRegister >= 0x16 && apuRegister <= 0x19) {
@@ -652,6 +676,7 @@ public class GameBoyAudio {
 				returnData = (byte)((rightVol) | (vinRightValue << 3) | (leftVol << 4) | (vinLeftValue << 7));
 				break;
 			case 0x25:
+                returnData = 0;
 				// Adjusts the enables on left and right
 				for (int i = 0; i < 4; i++) {
                     byte rightEnablesValue = rightEnables[i] ? (byte) 1 : (byte) 0;
@@ -664,6 +689,7 @@ public class GameBoyAudio {
 				break;
 			case 0x26:
 				// Power Control
+                returnData = 0x00;
                 byte powerControlValue = powerControl ? (byte) 1 : (byte) 0;
                 byte squareOneValue = squareOne.getRunning() ? (byte) 1 : (byte) 0;
                 byte squareTwoValue = squareTwo.getRunning() ? (byte) 1 : (byte) 0;
@@ -683,15 +709,23 @@ public class GameBoyAudio {
 	if (apuRegister <= 0x26) {
 		returnData |= readOrValues[apuRegister - 0x10];
 	}
+        // Debug.Log("Read " + address.ToString("X4") + " data: " + returnData.ToString("X2"));
         return returnData;
     }
 
     public void Write(ushort address, byte data) {
+        if(!powerControl && address != 0xFF26) {
+            return;
+        }
+
         byte apuRegister = (byte)(address & 0xFF);
         // Pulse 1 redirect
+
+        // Debug.Log(message: "Write " + address.ToString("X4") + " " + data.ToString("X2"));
         if (apuRegister >= 0x10 && apuRegister <= 0x14) {
             squareOne.writeRegister(apuRegister, data);
         }
+
         // Pulse 2 redirect
         // ignore 0x15 since sweep doesn't exist
         else if (apuRegister >= 0x16 && apuRegister <= 0x19) {
@@ -720,7 +754,7 @@ public class GameBoyAudio {
                     }
                     for (int i = 0; i < 4; i++) {
                         leftEnables[i] = ((data >> (i+4)) & 0x1) == 0x1;
-                    }
+                    }                    
                     break;
                 case 0x26:
                     // I don't think writing to length statues does anything
@@ -805,8 +839,15 @@ public class GameBoyAudio {
             waveChannel.step();
             noiseChannel.step();
 
-            if(--downSampleCount <= 0) {
-                downSampleCount = 95;
+            if(APUBufferCount/Speed >= mainBuffer.Length) {
+                APUBufferCount = 0;
+                WriteSamples = true;
+                audio.clip.SetData(mainBuffer,0);
+                audio.Play();
+            }
+    
+            if(APUBufferCount % Speed == 0) {
+                downSampleCount = (int)(CPUSpeed / AudioSampleRate);
 
                 // Left
                 float bufferin0 = 0;
@@ -829,7 +870,7 @@ public class GameBoyAudio {
                     bufferin1 = ((float)noiseChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
-			    mainBuffer[bufferFillAmount] = bufferin0;
+			    mainBuffer[APUBufferCount / Speed] = bufferin0;
                 bufferin0 = 0;
                 volume = rightVol/10.0f;
                 if (rightEnables[0]) {
@@ -848,14 +889,9 @@ public class GameBoyAudio {
                     bufferin1 = ((float)noiseChannel.getOutputVol()) / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                 }
-			    mainBuffer[bufferFillAmount + 1] = bufferin0;
-			    bufferFillAmount += 2;
+			    mainBuffer[(APUBufferCount + 1) / Speed] = bufferin0;
             }
-            if (bufferFillAmount >= sample) {
-                bufferFillAmount = 0;
-                audio.clip.SetData(mainBuffer,0);
-                audio.Play();
-            }
+            APUBufferCount += 2;
         }
     }
 }

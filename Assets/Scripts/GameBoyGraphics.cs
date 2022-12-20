@@ -58,7 +58,7 @@ public class GameBoyGraphic
             bgWinPriority.Add(0);
             bgWinColorResult.Add(0);
         }
-        this.CGBmode = false;
+        this.CGBmode = GameBoyCartiridge.IsGameBoyColor;
     }
 
     //https://gbdev.io/pandocs/ Look at Pixel FIFO section
