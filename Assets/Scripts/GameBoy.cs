@@ -230,9 +230,7 @@ public class GameBoy : MonoBehaviour
                 gbAudio.UpdateAudioTimer(cycles);
                 if(gbAudio.WriteSamples){
                     _pipeStream.Write(gbAudio.mainBuffer,0,gbAudio.mainBuffer.Length);
-                    while(gbAudio.WriteSamples) {
-                        yield return new WaitForSeconds(0);
-                    }
+                    yield return new WaitUntil(() => !gbAudio.WriteSamples);
                 }
             }
 
