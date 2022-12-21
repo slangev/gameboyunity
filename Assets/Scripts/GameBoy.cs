@@ -140,11 +140,12 @@ public class GameBoy : MonoBehaviour
 			return;
 		}
        
-		int r = _pipeStream.Read(_buffer, 0, data.Length);
-		for (int i=0; i<r; ++i)
-		{
-			data [i] = _buffer [i] / 50.0f;
-		}
+        int r = _pipeStream.Read(_buffer, 0, data.Length);
+        for (int i=0; i<r; ++i)
+        {
+            data [i] = _buffer [i] / 50.0f;
+        }
+        gbAudio.WriteSamples = false;
     }
 
     GameBoyGraphic gbGraphic;
@@ -164,7 +165,7 @@ public class GameBoy : MonoBehaviour
     public string pathToBios = "/Users/slangev/Unity3D/gameboyunity/Assets/Roms/gbc_bios.bin";
     IEnumerator emu; 
     void InitalizeComponent() {
-        Application.targetFrameRate = 63;
+        //Application.targetFrameRate = 63;
         //Create display
         texture = new Texture2D(width,height);
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), Vector2.zero,1);
@@ -231,7 +232,7 @@ public class GameBoy : MonoBehaviour
     IEnumerator Run() {
         while(true) {
             uint cyclesThisUpdate = 0 ; 
-
+            gbJoyPad.HandleKeyEvents();
             while (cyclesThisUpdate < MAXCYCLES * gbMemory.GetSpeed()) {
                 gbJoyPad.HandleKeyEvents();
                 uint cycles = gbCPU.Tick();
@@ -241,7 +242,10 @@ public class GameBoy : MonoBehaviour
                 gbAudio.UpdateAudioTimer(cycles);
                 if(gbAudio.WriteSamples){
                     _pipeStream.Write(gbAudio.mainBuffer,0,gbAudio.mainBuffer.Length);
-                    gbAudio.WriteSamples = false;
+                    while(gbAudio.WriteSamples) {
+                        gbJoyPad.HandleKeyEvents();
+                        yield return new WaitForSeconds(0);
+                    }
                 }
             }
 

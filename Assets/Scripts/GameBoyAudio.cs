@@ -841,11 +841,6 @@ public class GameBoyAudio {
             squareTwo.step();
             waveChannel.step();
             noiseChannel.step();
-
-            if(APUBufferCount/Speed >= mainBuffer.Length) {
-                APUBufferCount = 0;
-                WriteSamples = true;
-            }
     
             if(APUBufferCount % Speed == 0) {
                 downSampleCount = (int)(CPUSpeed / AudioSampleRate);
@@ -904,6 +899,10 @@ public class GameBoyAudio {
 			    mainBuffer[(APUBufferCount + 1) / Speed] = buffer;
             } 
             APUBufferCount += 2;
+            if(APUBufferCount/Speed >= mainBuffer.Length) {
+                APUBufferCount = 0;
+                WriteSamples = true;
+            }
         }
     }
 }
