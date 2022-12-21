@@ -7,7 +7,12 @@ public class GameBoyJoyPad {
     public GameBoyJoyPad(GameBoyInterrupts interrupts, GameBoyMemory memory) {
         this.interrupts = interrupts;
         this.memory = memory;
-        this.UIPanel = GameObject.Find("UI");
+        GameObject[] onlyInactive = GameObject.FindObjectsOfType<GameObject>(true);
+        foreach(GameObject g in onlyInactive){
+            if(g.name == "UI"){
+                 UIPanel = g;
+            }
+        }
     }
 
     //https://datacrystal.romhacking.net/wiki/Pok%C3%A9mon_Red/Blue:RAM_map

@@ -112,21 +112,7 @@ public class GameBoy : MonoBehaviour
 			get { return 0; }
 			set { throw new NotImplementedException(); }
 		}
-	}
-    
-    void Awake() {
-        // Get Unity Buffer size
-		int bufferLength = 0, numBuffers = 0;
-		AudioSettings.GetDSPBufferSize(out bufferLength, out numBuffers);
-		_samplesAvailable = bufferLength;
-
-		// Prepare our buffer
-		_pipeStream = new PipeStream();
-		_pipeStream.MaxBufferLength = _samplesAvailable * 2 * 2;
-		_buffer = new byte[_samplesAvailable * 2];
-    }
-
-    
+	}    
     
     void OnAudioFilterRead(float[] data, int channels) {
         if(gbAudio == null) {
@@ -226,10 +212,6 @@ public class GameBoy : MonoBehaviour
         StartCoroutine(handleInputCoroutine);
     }
 
-    void Start() {
-        InitalizeComponent();
-    }
-
     IEnumerator HandleInput() {
         while(true) {
             gbJoyPad.HandleKeyEvents();
@@ -261,6 +243,20 @@ public class GameBoy : MonoBehaviour
 
     public void Submit() {
         gbJoyPad.Submit();
+    }
+
+    void Awake() {
+        // Get Unity Buffer size
+		int bufferLength = 0, numBuffers = 0;
+		AudioSettings.GetDSPBufferSize(out bufferLength, out numBuffers);
+		_samplesAvailable = bufferLength;
+
+		// Prepare our buffer
+		_pipeStream = new PipeStream();
+		_pipeStream.MaxBufferLength = _samplesAvailable * 2 * 2;
+		_buffer = new byte[_samplesAvailable * 2];
+
+        InitalizeComponent();
     }
 
     void OnDestroy() {
