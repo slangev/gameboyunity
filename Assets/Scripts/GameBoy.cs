@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class GameBoy : MonoBehaviour
 {
-
-    public float Gain = 0.05f;
 	private int _samplesAvailable;
 	private PipeStream _pipeStream;
 	private byte[] _buffer;
@@ -143,7 +141,7 @@ public class GameBoy : MonoBehaviour
         int r = _pipeStream.Read(_buffer, 0, data.Length);
         for (int i=0; i<r; ++i)
         {
-            data [i] = _buffer [i] / 50.0f;
+            data [i] = (_buffer [i] / 50.0f) * 0.2f;
         }
         gbAudio.WriteSamples = false;
     }
@@ -164,8 +162,9 @@ public class GameBoy : MonoBehaviour
     public string pathToRom = "/Users/slangev/Documents/Unreal_Projects/GBUnreal/Content/Data/Pokemon - Yellow Version - Special Pikachu Edition (USA, Europe) (GBC,SGB Enhanced).gb";
     public string pathToBios = "/Users/slangev/Unity3D/gameboyunity/Assets/Roms/gbc_bios.bin";
     IEnumerator emu; 
+    IEnumerator handleInputCoroutine;
+
     void InitalizeComponent() {
-        //Application.targetFrameRate = 63;
         //Create display
         texture = new Texture2D(width,height);
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), Vector2.zero,1);
@@ -222,19 +221,26 @@ public class GameBoy : MonoBehaviour
         Debug.Log(GameBoyCartiridge.IsGameBoyColor);
         Debug.Log(gbCart.CartiridgeType.ToString("X2"));
         emu = Run();
+        handleInputCoroutine = HandleInput();
         StartCoroutine(emu);
+        StartCoroutine(handleInputCoroutine);
     }
 
     void Start() {
         InitalizeComponent();
     }
 
+    IEnumerator HandleInput() {
+        while(true) {
+            gbJoyPad.HandleKeyEvents();
+            yield return null;
+        }
+    }
+
     IEnumerator Run() {
         while(true) {
             uint cyclesThisUpdate = 0 ; 
-            gbJoyPad.HandleKeyEvents();
             while (cyclesThisUpdate < MAXCYCLES * gbMemory.GetSpeed()) {
-                gbJoyPad.HandleKeyEvents();
                 uint cycles = gbCPU.Tick();
                 cyclesThisUpdate+=cycles ;
                 gbTimer.UpdateTimers(cycles);
@@ -243,7 +249,6 @@ public class GameBoy : MonoBehaviour
                 if(gbAudio.WriteSamples){
                     _pipeStream.Write(gbAudio.mainBuffer,0,gbAudio.mainBuffer.Length);
                     while(gbAudio.WriteSamples) {
-                        gbJoyPad.HandleKeyEvents();
                         yield return new WaitForSeconds(0);
                     }
                 }
@@ -260,5 +265,6 @@ public class GameBoy : MonoBehaviour
 
     void OnDestroy() {
         StopCoroutine(emu);
+        StopCoroutine(handleInputCoroutine);
     }
 }
