@@ -145,8 +145,8 @@ public class GameBoy : MonoBehaviour
     private readonly ushort width = 160;
     private readonly ushort height = 144;
     const uint MAXCYCLES = 69905;
-    public string pathToRom = "/Users/slangev/Documents/Unreal_Projects/GBUnreal/Content/Data/Pokemon - Yellow Version - Special Pikachu Edition (USA, Europe) (GBC,SGB Enhanced).gb";
-    public string pathToBios = "/Users/slangev/Unity3D/gameboyunity/Assets/Roms/gbc_bios.bin";
+    public string pathToRom = "";
+    public string pathToBios = "";
     IEnumerator emu; 
     IEnumerator handleInputCoroutine;
 
