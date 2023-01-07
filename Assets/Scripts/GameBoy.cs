@@ -9,9 +9,12 @@ public class GameBoy : MonoBehaviour
 	private int _samplesAvailable;
 	private PipeStream _pipeStream;
 	private byte[] _buffer;
+    private static float[] _volData;
     private class PipeStream : Stream
 	{
 		private readonly Queue<byte> _buffer = new Queue<byte>();
+
+        private readonly Queue<float> _volDataBuffer = new Queue<float>();
 		private long _maxBufferLength = 8192;
 		
 		public long MaxBufferLength
@@ -61,6 +64,7 @@ public class GameBoy : MonoBehaviour
 				for (; readLength < count && Length > 0; readLength++)
 				{
 					buffer [readLength] = _buffer.Dequeue();
+                    _volData [readLength] = _volDataBuffer.Dequeue();
 				}
 			}
 			
@@ -84,6 +88,10 @@ public class GameBoy : MonoBehaviour
 				{
 					_buffer.Enqueue(b);
 				}
+
+                foreach (float f in _volData) {
+                    _volDataBuffer.Enqueue(f);
+                }
 			}
 		}
 
@@ -127,7 +135,7 @@ public class GameBoy : MonoBehaviour
         int r = _pipeStream.Read(_buffer, 0, data.Length);
         for (int i=0; i<r; ++i)
         {
-            data [i] = (_buffer [i] / 50.0f) * 0.2f;
+            data [i] = (_buffer [i] / 50.0f) * _volData[i];
         }
         gbAudio.WriteSamples = false;
     }
@@ -229,6 +237,7 @@ public class GameBoy : MonoBehaviour
                 gbGraphic.UpdateGraphics(cycles);
                 gbAudio.UpdateAudioTimer(cycles);
                 if(gbAudio.WriteSamples){
+                    _volData = gbAudio.mainVolBuffer;
                     _pipeStream.Write(gbAudio.mainBuffer,0,gbAudio.mainBuffer.Length);
                     yield return new WaitUntil(() => !gbAudio.WriteSamples);
                 }
@@ -253,6 +262,7 @@ public class GameBoy : MonoBehaviour
 		_pipeStream = new PipeStream();
 		_pipeStream.MaxBufferLength = _samplesAvailable * 2 * 2;
 		_buffer = new byte[_samplesAvailable * 2];
+        _volData = new float[_samplesAvailable * 2];
 
         InitalizeComponent();
     }

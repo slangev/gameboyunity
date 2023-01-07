@@ -603,6 +603,7 @@ public class GameBoyAudio {
 	bool powerControl = false;
     int APUBufferCount = 0;
     public byte[] mainBuffer = new byte[sample*channels];
+    public float[] mainVolBuffer = new float[sample*channels];
     //Queue<float> mainBuffer = new();
     private int frameSequenceCountDown = 8192;
     private int frameSequencer = 8;
@@ -873,6 +874,7 @@ public class GameBoyAudio {
                 }
 			    //mainBuffer[APUBufferCount / Speed] = bufferin0;
                 mainBuffer[APUBufferCount / Speed] =  buffer;
+                mainVolBuffer[APUBufferCount / Speed] = volume;
                 buffer = 0;
                 bufferin0 = 0;
                 volume = rightVol/10.0f;
@@ -897,6 +899,7 @@ public class GameBoyAudio {
                     buffer = (byte)(buffer + noiseChannel.getOutputVol());
                 }
 			    mainBuffer[(APUBufferCount + 1) / Speed] = buffer;
+                mainVolBuffer[(APUBufferCount + 1) / Speed] = volume;
             } 
             APUBufferCount += 2;
             if(APUBufferCount/Speed >= mainBuffer.Length) {
