@@ -8,13 +8,11 @@ public class GameBoy : MonoBehaviour
 {
 	private int _samplesAvailable;
 	private PipeStream _pipeStream;
-	private byte[] _buffer;
+	private float[] _buffer;
     private static float[] _volData;
-    private class PipeStream : Stream
+    private class PipeStream
 	{
-		private readonly Queue<byte> _buffer = new Queue<byte>();
-
-        private readonly Queue<float> _volDataBuffer = new Queue<float>();
+		private readonly Queue<float> _buffer = new();
 		private long _maxBufferLength = 8192;
 		
 		public long MaxBufferLength
@@ -23,26 +21,12 @@ public class GameBoy : MonoBehaviour
 			set { _maxBufferLength = value; }
 		}
 		
-		public new void Dispose()
+		public void Dispose()
 		{
 			_buffer.Clear();
 		}
-
-		public override void Flush()
-		{
-		}
-
-		public override long Seek(long offset, SeekOrigin origin)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void SetLength(long value)
-		{
-			throw new NotImplementedException();
-		}
 	
-		public override int Read(byte[] buffer, int offset, int count)
+		public int Read(float[] buffer, int offset, int count)
 		{
 			if (offset != 0)
 				throw new NotImplementedException("Offsets with value of non-zero are not supported");
@@ -64,7 +48,6 @@ public class GameBoy : MonoBehaviour
 				for (; readLength < count && Length > 0; readLength++)
 				{
 					buffer [readLength] = _buffer.Dequeue();
-                    _volData [readLength] = _volDataBuffer.Dequeue();
 				}
 			}
 			
@@ -76,7 +59,7 @@ public class GameBoy : MonoBehaviour
 			return (Length >= count);
 		}
 
-		public override void Write(byte[] buffer, int offset, int count)
+		public void Write(float[] buffer, int offset, int count)
 		{
 			lock (_buffer)
 			{
@@ -84,38 +67,34 @@ public class GameBoy : MonoBehaviour
 					return;
 				
 				// queue up the buffer data
-				foreach (byte b in buffer)
+				foreach (float b in buffer)
 				{
 					_buffer.Enqueue(b);
 				}
-
-                foreach (float f in _volData) {
-                    _volDataBuffer.Enqueue(f);
-                }
 			}
 		}
 
-		public override bool CanRead
+		public bool CanRead
 		{
 			get { return true; }
 		}
 
-		public override bool CanSeek
+		public bool CanSeek
 		{
 			get { return false; }
 		}
 
-		public override bool CanWrite
+		public bool CanWrite
 		{
 			get { return true; }
 		}
 
-		public override long Length
+		public long Length
 		{
 			get { return _buffer.Count; }
 		}
 	
-		public override long Position
+		public long Position
 		{
 			get { return 0; }
 			set { throw new NotImplementedException(); }
@@ -135,7 +114,7 @@ public class GameBoy : MonoBehaviour
         int r = _pipeStream.Read(_buffer, 0, data.Length);
         for (int i=0; i<r; ++i)
         {
-            data [i] = (_buffer [i] / 50.0f) * _volData[i];
+            data [i] = _buffer [i];
         }
         gbAudio.WriteSamples = false;
     }
@@ -261,9 +240,8 @@ public class GameBoy : MonoBehaviour
 		// Prepare our buffer
 		_pipeStream = new PipeStream();
 		_pipeStream.MaxBufferLength = _samplesAvailable * 2 * 2;
-		_buffer = new byte[_samplesAvailable * 2];
-        _volData = new float[_samplesAvailable * 2];
-
+		_buffer = new float[_samplesAvailable * 2];
+        
         InitalizeComponent();
     }
 

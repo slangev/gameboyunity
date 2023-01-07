@@ -375,9 +375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab9c6f5b698546c79f78089183ee279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gain: 0.05
   pathToRom: /Users/slangev/Documents/Unreal_Projects/GBUnreal/Content/Data/Pokemon
-    - Yellow Version - Special Pikachu Edition (USA, Europe) (GBC,SGB Enhanced).gb
+    - Crystal Version.gbc
   pathToBios: Assets/Roms/gbc_bios.bin
 --- !u!81 &235805949
 AudioListener:
