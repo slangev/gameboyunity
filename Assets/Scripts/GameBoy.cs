@@ -233,14 +233,15 @@ public class GameBoy : MonoBehaviour
 
     void Awake() {
         // Get Unity Buffer size
-		int bufferLength = 0, numBuffers = 0;
-		AudioSettings.GetDSPBufferSize(out bufferLength, out numBuffers);
-		_samplesAvailable = bufferLength;
+        AudioSettings.GetDSPBufferSize(out int bufferLength, out int numBuffers);
+        _samplesAvailable = bufferLength;
 
-		// Prepare our buffer
-		_pipeStream = new PipeStream();
-		_pipeStream.MaxBufferLength = _samplesAvailable * 2 * 2;
-		_buffer = new float[_samplesAvailable * 2];
+        // Prepare our buffer
+        _pipeStream = new PipeStream
+        {
+            MaxBufferLength = _samplesAvailable * 2 * 2
+        };
+        _buffer = new float[_samplesAvailable * 2];
         
         InitalizeComponent();
     }

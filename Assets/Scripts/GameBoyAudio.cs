@@ -853,22 +853,22 @@ public class GameBoyAudio {
                 float volume = leftVol/10.0f;
                 float divider = 50.0f;
                 if (leftEnables[0]) {
-				    bufferin1 = ((float)squareOne.getOutputVol()) / divider;
+				    bufferin1 = squareOne.getOutputVol() / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                     buffer = (byte)(buffer + squareOne.getOutputVol());
 			    }
                 if (leftEnables[1]) {
-                    bufferin1 = ((float)squareTwo.getOutputVol()) / divider;
+                    bufferin1 = squareTwo.getOutputVol() / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                     buffer = (byte)(buffer + squareTwo.getOutputVol());
                 }
                 if (leftEnables[2]) {
-                    bufferin1 = ((float)waveChannel.getOutputVol()) / divider;
+                    bufferin1 = waveChannel.getOutputVol() / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                     buffer = (byte)(buffer + waveChannel.getOutputVol());
                 }
                 if (leftEnables[3]) {
-                    bufferin1 = ((float)noiseChannel.getOutputVol()) / divider;
+                    bufferin1 = noiseChannel.getOutputVol() / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                     buffer = (byte)(buffer + noiseChannel.getOutputVol());
                 }
@@ -877,22 +877,22 @@ public class GameBoyAudio {
                 bufferin0 = 0;
                 volume = rightVol/10.0f;
                 if (rightEnables[0]) {
-                    bufferin1 = ((float)squareOne.getOutputVol()) / divider;
+                    bufferin1 = squareOne.getOutputVol() / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                     buffer = (byte)(buffer + squareOne.getOutputVol());
                 }
                 if (rightEnables[1]) {
-                    bufferin1 = ((float)squareTwo.getOutputVol()) / divider;
+                    bufferin1 = squareTwo.getOutputVol() / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                     buffer = (byte)(buffer + squareTwo.getOutputVol());
                 }
                 if (rightEnables[2]) {
-                    bufferin1 = ((float)waveChannel.getOutputVol()) / divider;
+                    bufferin1 = waveChannel.getOutputVol() / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                     buffer = (byte)(buffer + waveChannel.getOutputVol());
                 }
                 if (rightEnables[3]) {
-                    bufferin1 = ((float)noiseChannel.getOutputVol()) / divider;
+                    bufferin1 = noiseChannel.getOutputVol() / divider;
                     bufferin0 = (bufferin0 + bufferin1) * volume;
                     buffer = (byte)(buffer + noiseChannel.getOutputVol());
                 }

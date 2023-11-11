@@ -131,7 +131,7 @@ public class GameBoyMBC3 : GameBoyMBC {
 
     private (uint,uint) rom_offsets(bool multicart) {
         uint lower_bank = 0x0;
-        uint upper_bank = (uint)(bank1);
+        uint upper_bank = bank1;
         return ((ROM_BANK_SIZE * lower_bank),(ROM_BANK_SIZE * upper_bank));
     }
 
@@ -374,10 +374,10 @@ public class GameBoyMBC3 : GameBoyMBC {
 
     private void loadTimeData(List<byte> dataForStart) {
         int year = 0;
-        year = (int)((year | dataForStart[3]) << 24);
-        year = (int)((year | dataForStart[2]) << 16);
-        year = (int)((year | dataForStart[1]) << 8);
-        year = (int)((year | dataForStart[0]));
+        year = (year | dataForStart[3]) << 24;
+        year = (year | dataForStart[2]) << 16;
+        year = (year | dataForStart[1]) << 8;
+        year = (year | dataForStart[0]);
         int month = dataForStart[4];
         int day = dataForStart[5];
         int hour = dataForStart[6];

@@ -33,7 +33,7 @@
 
     public void IncrementTIMACheck() {
         gbMemory.IncrementReg(TIMA);
-        byte result = (byte)(gbMemory.ReadFromMemory(TIMA));
+        byte result = gbMemory.ReadFromMemory(TIMA);
 
         if (result == 0) {
             //gbMemory.WriteToMemory(TIMA, 0);

@@ -3844,7 +3844,7 @@ namespace Tests
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(0x28, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
-            Assert.AreEqual(0x00,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x00,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
             Assert.AreEqual(16,cycle);
         }
@@ -3858,7 +3858,7 @@ namespace Tests
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(0x00, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
-            Assert.AreEqual(0x00,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x00,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
             Assert.AreEqual(16,cycle);
         }
@@ -3872,7 +3872,7 @@ namespace Tests
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(0x08, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
-            Assert.AreEqual(0x00,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x00,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
             Assert.AreEqual(16,cycle);
         }
@@ -3886,7 +3886,7 @@ namespace Tests
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(0x10, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
-            Assert.AreEqual(0x00,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x00,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
             Assert.AreEqual(16,cycle);
         }
@@ -3900,7 +3900,7 @@ namespace Tests
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(0x18, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
-            Assert.AreEqual(0x00,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x00,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
             Assert.AreEqual(16,cycle);
         }
@@ -3914,7 +3914,7 @@ namespace Tests
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(0x20, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
-            Assert.AreEqual(0x00,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x00,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
             Assert.AreEqual(16,cycle);
         }
@@ -3928,7 +3928,7 @@ namespace Tests
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(0x30, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
-            Assert.AreEqual(0x00,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x00,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
             Assert.AreEqual(16,cycle);
         }
@@ -3942,7 +3942,7 @@ namespace Tests
             uint cycle = gbCPU.Tick();
             Assert.AreEqual(0x38, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
-            Assert.AreEqual(0x00,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x00,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
             Assert.AreEqual(16,cycle);
         }
@@ -4607,7 +4607,7 @@ namespace Tests
             Assert.AreEqual(0x9000, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
             Assert.AreEqual(24, cycle);
-            Assert.AreEqual(0x03,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x03,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x80,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
         }
 
@@ -4626,7 +4626,7 @@ namespace Tests
             Assert.AreEqual(0x7000, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
             Assert.AreEqual(24, cycle);
-            Assert.AreEqual(0x03,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x03,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x60,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
         }
 
@@ -4645,7 +4645,7 @@ namespace Tests
             Assert.AreEqual(0x7000, gbCPU.PC);
             Assert.AreEqual(0xFFFC, gbCPU.SP);
             Assert.AreEqual(24, cycle);
-            Assert.AreEqual(0x03,gbMemory.ReadFromMemory((ushort)(gbCPU.SP)));
+            Assert.AreEqual(0x03,gbMemory.ReadFromMemory(gbCPU.SP));
             Assert.AreEqual(0x60,gbMemory.ReadFromMemory((ushort)(gbCPU.SP + 1)));
         }
 

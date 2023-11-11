@@ -163,7 +163,7 @@ public class GameBoyGraphic
         bool windowTileSelect = ((memory.ReadFromMemory(LCDCAddr) & 0x40) != 0) ? true : false;
         if(windowEnabled) {
             if(CGBmode) {
-                byte windowX = (byte)(memory.ReadFromMemory(WXAddr));
+                byte windowX = memory.ReadFromMemory(WXAddr);
                 if(windowX < 7) {
                     windowX = 7;
                 }
@@ -194,10 +194,10 @@ public class GameBoyGraphic
                     short tileNum;
                     ushort tileAddress = (ushort)(backgroundMemory + tileRow + tileCol);
                     if(!signed)
-                        tileNum = (byte)(VRAM[(tileAddress - 0x8000)]);
+                        tileNum = VRAM[(tileAddress - 0x8000)];
                     else
                         tileNum = (sbyte)(VRAM[(tileAddress - 0x8000)]);
-                    ushort tileLocation = (ushort)(tileData);
+                    ushort tileLocation = tileData;
                     if(!signed)
                         tileLocation += (ushort) (tileNum * 16);
                     else
@@ -206,7 +206,7 @@ public class GameBoyGraphic
                     ushort line = (ushort)((yPos % 8));
                     // Read two bytes of data. These bytes determine the color of the pixel
                     ushort bankOffSet = 0x8000;
-                    byte tileAttr = (byte)(VRAM[tileAddress-0x6000]);
+                    byte tileAttr = VRAM[tileAddress - 0x6000];
 		            if(GameBoyCartiridge.IsGameBoyColor && GameBoyCPU.getBit(3,tileAttr) == 1) {
                         bankOffSet = 0x6000;
                     }
@@ -219,8 +219,8 @@ public class GameBoyGraphic
                         line = (ushort)((yPos % 8) * 2);
                     }
 
-                    byte data1 = (byte)(VRAM[tileLocation + line - bankOffSet]);
-                    byte data2 = (byte)(VRAM[tileLocation + line + 1 - bankOffSet]);
+                    byte data1 = VRAM[tileLocation + line - bankOffSet];
+                    byte data2 = VRAM[tileLocation + line + 1 - bankOffSet];
 
                     //x-flip
                     if(GameBoyCPU.getBit(5,tileAttr) == 1) {
@@ -242,7 +242,7 @@ public class GameBoyGraphic
                     // Go through color template
                     byte cgbPalette = (byte)(tileAttr & 0x7);
                     int index =  (cgbPalette << 2) | 0x20;
-                    index = (int)(index | colorNum);
+                    index = index | colorNum;
                     index = index & 0x1F;
                     index = index << 1;
 		            int colorData = cgbBGPalette[index]|((cgbBGPalette[index|1]) << 8); // Combine two bytes into one int
@@ -254,7 +254,7 @@ public class GameBoyGraphic
                 }
 
             } else {
-                byte windowX = (byte)(memory.ReadFromMemory(WXAddr));
+                byte windowX = memory.ReadFromMemory(WXAddr);
                 if(windowX < 7) {
                     windowX = 7;
                 }
@@ -285,10 +285,10 @@ public class GameBoyGraphic
                     short tileNum;
                     ushort tileAddress = (ushort)(backgroundMemory + tileRow + tileCol);
                     if(!signed)
-                        tileNum = (byte)(VRAM[(tileAddress - 0x8000)]);
+                        tileNum = VRAM[(tileAddress - 0x8000)];
                     else
                         tileNum = (sbyte)(VRAM[(tileAddress - 0x8000)]);
-                    ushort tileLocation = (ushort)(tileData);
+                    ushort tileLocation = tileData;
                     if(!signed)
                         tileLocation += (ushort) (tileNum * 16);
                     else
@@ -299,8 +299,8 @@ public class GameBoyGraphic
                     // Read two bytes of data. These bytes determine the color of the pixel
                     ushort bankOffSet = 0x8000;
 
-                    byte data1 = (byte)(VRAM[tileLocation + line - bankOffSet]);
-                    byte data2 = (byte)(VRAM[tileLocation + line + 1 - bankOffSet]);
+                    byte data1 = VRAM[tileLocation + line - bankOffSet];
+                    byte data2 = VRAM[tileLocation + line + 1 - bankOffSet];
 
                     byte colorBit = (byte)(((xPos % 8) -7) * -1);
 
@@ -315,7 +315,7 @@ public class GameBoyGraphic
                     }
 
                     // Go through color template
-                    byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(BGPAddr));
+                    byte colorTemplate = memory.ReadFromMemory(BGPAddr);
                     var getColorResult = getColor(colorNum,colorTemplate);
                     Color c = getColorResult.Item1;
                     bgWinPriority[pixel] = colorNum;
@@ -350,11 +350,11 @@ public class GameBoyGraphic
                     ushort tileAddress = (ushort)(backgroundMemory + tileRow + tileCol); //index into VRAM
                     short tileNum;
                     if(!signed)
-                        tileNum = (byte)(VRAM[(tileAddress - 0x8000)]);
+                        tileNum = VRAM[(tileAddress - 0x8000)];
                     else
                         tileNum = (sbyte)(VRAM[(tileAddress - 0x8000)]);
                     
-                    ushort tileLocation = (ushort)(tileData);
+                    ushort tileLocation = tileData;
                     if(!signed)
                         tileLocation += (ushort) (tileNum * 16);
                     else
@@ -364,7 +364,7 @@ public class GameBoyGraphic
                     // Read two bytes of data. These bytes determine the color of the pixel
 
                     ushort bankOffSet = 0x8000;
-                    byte tileAttr = (byte)(VRAM[tileAddress-0x6000]);
+                    byte tileAttr = VRAM[tileAddress - 0x6000];
 		            if(GameBoyCartiridge.IsGameBoyColor && GameBoyCPU.getBit(3,tileAttr) == 1) {
                         bankOffSet = 0x6000;
                     }
@@ -376,8 +376,8 @@ public class GameBoyGraphic
                         line = (ushort)((yPos % 8) * 2);
                     }
                     
-                    byte data1 = (byte)(VRAM[tileLocation + line - bankOffSet]);
-                    byte data2 = (byte)(VRAM[tileLocation + line + 1 - bankOffSet]);
+                    byte data1 = VRAM[tileLocation + line - bankOffSet];
+                    byte data2 = VRAM[tileLocation + line + 1 - bankOffSet];
 
                     //x-flip
                     if(GameBoyCPU.getBit(5,tileAttr) == 1) {
@@ -398,7 +398,7 @@ public class GameBoyGraphic
                     // Go through color template
                     byte cgbPalette = (byte)(tileAttr & 0x7);
                     int index =  (cgbPalette << 2) | 0x20;
-                    index = (int)(index | colorNum);
+                    index = index | colorNum;
                     index = index & 0x1F;
                     index = index << 1;
 		            int colorData = cgbBGPalette[index]|((cgbBGPalette[index|1]) << 8); // Combine two bytes into one int
@@ -416,11 +416,11 @@ public class GameBoyGraphic
                     ushort tileAddress = (ushort)(backgroundMemory + tileRow + tileCol); //index into VRAM
                     short tileNum;
                     if(!signed)
-                        tileNum = (byte)(VRAM[(tileAddress - 0x8000)]);
+                        tileNum = VRAM[(tileAddress - 0x8000)];
                     else
                         tileNum = (sbyte)(VRAM[(tileAddress - 0x8000)]);
                     
-                    ushort tileLocation = (ushort)(tileData);
+                    ushort tileLocation = tileData;
                     if(!signed)
                         tileLocation += (ushort) (tileNum * 16);
                     else
@@ -432,8 +432,8 @@ public class GameBoyGraphic
 
                     ushort bankOffSet = 0x8000;
                     
-                    byte data1 = (byte)(VRAM[tileLocation + line - bankOffSet]);
-                    byte data2 = (byte)(VRAM[tileLocation + line + 1 - bankOffSet]);
+                    byte data1 = VRAM[tileLocation + line - bankOffSet];
+                    byte data2 = VRAM[tileLocation + line + 1 - bankOffSet];
 
                     byte colorBit = (byte)(((xPos % 8) -7) * -1);
 
@@ -448,7 +448,7 @@ public class GameBoyGraphic
                     }
 
                     // Go through color template
-                    byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(BGPAddr));
+                    byte colorTemplate = memory.ReadFromMemory(BGPAddr);
                     var getColorResult = getColor(colorNum,colorTemplate);
                     Color c = getColorResult.Item1;
                     bgWinPriority[pixel] = colorNum;
@@ -471,7 +471,7 @@ public class GameBoyGraphic
             }
             if(CGBmode) {
                 for(int i = 0; i < 40 && spritecount < 10; i++) {
-                    int PosY = (int)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4))) - 16);
+                    int PosY = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4))) - 16;
                     byte PosX = (byte)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 1)) - 8);
                     byte tileID = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 2));
                     byte attributes = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 3));
@@ -493,8 +493,8 @@ public class GameBoyGraphic
                         }
                         ushort tileLocation = (ushort)((ushort)(tileID * 16) + (ushort)(line*2) + (bankOffSet * 0x2000));
                         // Read two bytes of data. These bytes determine the color of the pixel
-                        byte data1 = (byte)(VRAM[tileLocation]);
-                        byte data2 = (byte)(VRAM[tileLocation + 1]);
+                        byte data1 = VRAM[tileLocation];
+                        byte data2 = VRAM[tileLocation + 1];
                         for (int tilePixel = 7; tilePixel >= 0; tilePixel--) {
                             int colorBit = tilePixel;
                             if (xFlipBit == 1) {
@@ -516,7 +516,7 @@ public class GameBoyGraphic
                             }
                             byte cgbPalette = (byte)(attributes & 0x7);
                             int index =  (cgbPalette << 2);
-                            index = (int)(index | colorNum);
+                            index = index | colorNum;
                             index = index & 0x1F;
                             index = index << 1;
                             int colorData = cgbSPRPalette[index]|((cgbSPRPalette[index|1]) << 8); // Combine two bytes into one int
@@ -550,7 +550,7 @@ public class GameBoyGraphic
                 }      
             } else {
                 for(int i = 0; i < 40 && spritecount < 10; i++) {
-                    int PosY = (int)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4))) - 16);
+                    int PosY = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4))) - 16;
                     byte PosX = (byte)(memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 1)) - 8);
                     byte tileID = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 2));
                     byte attributes = memory.ReadFromMemory((ushort)(OAMStartAdress + (i * 4) + 3));
@@ -570,8 +570,8 @@ public class GameBoyGraphic
                         ushort bank = 0;
                         ushort tileLocation = (ushort)((ushort)(tileID * 16) + (ushort)(line*2) + (bank * 0x2000));
                         // Read two bytes of data. These bytes determine the color of the pixel
-                        byte data1 = (byte)(VRAM[tileLocation]);
-                        byte data2 = (byte)(VRAM[tileLocation + 1]);
+                        byte data1 = VRAM[tileLocation];
+                        byte data2 = VRAM[tileLocation + 1];
                         
                         for (int tilePixel = 7; tilePixel >= 0; tilePixel--) {
                             int colorBit = tilePixel;
@@ -594,7 +594,7 @@ public class GameBoyGraphic
                             }
                             int pall = (paletteNumberBit == 1) ? 0xFF49 : 0xFF48;
                             // Go through color template
-                            byte colorTemplate = (byte)memory.ReadFromMemory((ushort)(pall));
+                            byte colorTemplate = memory.ReadFromMemory((ushort)(pall));
                             var getColorResult = getColor(colorNum,colorTemplate);
                             Color c = getColorResult.Item1;
                             byte colorResult = getColorResult.Item2;

@@ -189,7 +189,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
             case 0x08:
                 word = LDnNN();
                 separatedBytes = separateWordToBytes(SP);
-                m.WriteToMemory((ushort)(word),separatedBytes.Item2); //Low byte
+                m.WriteToMemory(word, separatedBytes.Item2); //Low byte
                 m.WriteToMemory((ushort)(word+1),separatedBytes.Item1); //High byte
                 break;
             case 0x10:
@@ -1922,7 +1922,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     private void PrintDebugLine(byte opcode) {
         string line = "";
-        line = LineNumber + " A: " +A.ToString("X2")+ " F: " +F.ToString("X2")+ " B: "+B.ToString("X2")+" C: "+C.ToString("X2")+" D: "+D.ToString("X2")+" E: "+E.ToString("X2")+" H: "+H.ToString("X2")+" L: "+L.ToString("X2")+" SP: "+SP.ToString("X4")+" PC: 00:" +PC.ToString("X4")+" ("+opcode.ToString("X2") + " " + m.ReadFromMemory((ushort)(PC)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+1)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+2)).ToString("X2") + ")";
+        line = LineNumber + " A: " +A.ToString("X2")+ " F: " +F.ToString("X2")+ " B: "+B.ToString("X2")+" C: "+C.ToString("X2")+" D: "+D.ToString("X2")+" E: "+E.ToString("X2")+" H: "+H.ToString("X2")+" L: "+L.ToString("X2")+" SP: "+SP.ToString("X4")+" PC: 00:" +PC.ToString("X4")+" ("+opcode.ToString("X2") + " " + m.ReadFromMemory(PC).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+1)).ToString("X2") + " " + m.ReadFromMemory((ushort)(PC+2)).ToString("X2") + ")";
         // using(StreamWriter writetext = File.AppendText(("Assets/write.txt")))
         // {
         //     writetext.WriteLine(line);
@@ -2175,8 +2175,8 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     // page 105
     private void JP(bool cc) {
-        byte lowByte = m.ReadFromMemory((ushort)(PC++));
-        byte highByte = m.ReadFromMemory((ushort)(PC++));
+        byte lowByte = m.ReadFromMemory(PC++);
+        byte highByte = m.ReadFromMemory(PC++);
         if(cc) {
             ushort word = combineBytesToWord(highByte,lowByte);
             PC = word;
@@ -2221,7 +2221,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     // page 91
     private ushort Pop() {
-        byte lowByte = m.ReadFromMemory((ushort)(SP));
+        byte lowByte = m.ReadFromMemory(SP);
         byte highByte = m.ReadFromMemory((ushort)(SP+1));
         SP = (ushort)(SP+2);
         ushort word = combineBytesToWord(highByte,lowByte);
@@ -2231,7 +2231,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     // page 108
     private void Ret(bool cc) {
         if(cc) {
-            byte lowByte = m.ReadFromMemory((ushort)(SP));
+            byte lowByte = m.ReadFromMemory(SP);
             byte highByte = m.ReadFromMemory((ushort)(SP+1));
             SP = (ushort)(SP+2);
             ushort word = combineBytesToWord(highByte,lowByte);
@@ -2242,7 +2242,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     // page 98-99
     private byte RL(byte reg) {
         byte bit = getBit(7,reg);
-        byte result = (byte)((reg << 1) | (byte)(getBit(CFlag,F)));
+        byte result = (byte)((reg << 1) | getBit(CFlag, F));
         F = (result == 0x00) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
         F = resetBit(NFlag,F);
         F = resetBit(HFlag,F);
@@ -2304,8 +2304,8 @@ private static readonly uint[] cycleCount_CB = new uint[] {
 
     // page 88
     private ushort LDNNA() {
-        byte lowByte = m.ReadFromMemory((ushort)(PC++));
-        byte highByte = m.ReadFromMemory((ushort)(PC++));
+        byte lowByte = m.ReadFromMemory(PC++);
+        byte highByte = m.ReadFromMemory(PC++);
         ushort word = combineBytesToWord(highByte,lowByte);
         return word;
     }
@@ -2357,7 +2357,7 @@ private static readonly uint[] cycleCount_CB = new uint[] {
     //page 100
     private byte RR(byte n) {
         byte bit = getBit(0,n);
-        byte result = (byte)((n >> 1) | (byte)(getBit(CFlag,F)) << 7);
+        byte result = (byte)((n >> 1) | getBit(CFlag, F) << 7);
         F = (result == 0x00) ? setBit(ZFlag,F) : resetBit(ZFlag,F);
         F = resetBit(NFlag,F);
         F = resetBit(HFlag,F);

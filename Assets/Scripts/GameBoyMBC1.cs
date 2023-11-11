@@ -112,7 +112,7 @@ public class GameBoyMBC1 : GameBoyMBC {
     }
 
     private uint ram_offset() {
-        uint bank = (mode) ? (uint)(bank2) : (uint)(0b00);
+        uint bank = (mode) ? bank2 : (uint)(0b00);
         return RAM_BANK_SIZE * bank;
     }
 
